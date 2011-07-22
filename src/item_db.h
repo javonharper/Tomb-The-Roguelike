@@ -3,17 +3,9 @@
  *  Summary:    all of the items
  *  Written by: Javon Harper
  */
-
- struct item_data_t
-{
-  std::string name;
-  int category;
-  int type;
-
-  int item_values[5];
-};
-
-const static int category_probabilities[] = {70, 30};
+#include "libtcod.hpp"
+#include "item.h"
+//const static int category_probabilities[] = {50, 40};
 
 enum ItemCategories
 {
@@ -38,13 +30,12 @@ enum BodyArmourTypes
 
 const static item_data_t weapon_db[] =
 {
-  {"wooden dagger", CATEGORY_WEAPON, TYPE_WOODEN_DAGGER, {2, 3, 0, 0, 0}},
-  {"metal sword", CATEGORY_WEAPON, TYPE_METAL_SWORD, {2, 5, 0, 0, 0}}
+  {"wooden dagger", CATEGORY_WEAPON, TYPE_WOODEN_DAGGER, TCODColor::orange, {2, 3, 0, 0, 0}},
+  {"metal sword", CATEGORY_WEAPON, TYPE_METAL_SWORD, TCODColor::grey, {2, 5, 0, 0, 0}}
 };
 
 const static item_data_t armour_db[] =
 {
-  {"leather armour", CATEGORY_BODY_ARMOUR, TYPE_LEATHER_ARMOUR, {5, 0, 0, 0, 0}},
-  {"metal armour", CATEGORY_BODY_ARMOUR, TYPE_METAL_ARMOUR, {10, 0, 0, 0, 0}}
+  {"leather armour", CATEGORY_BODY_ARMOUR, TYPE_LEATHER_ARMOUR, TCODColor::darkOrange, {5, 0, 0, 0, 0}},
+  {"metal armour", CATEGORY_BODY_ARMOUR, TYPE_METAL_ARMOUR, TCODColor::lightGrey, {10, 0, 0, 0, 0}}
 };
-

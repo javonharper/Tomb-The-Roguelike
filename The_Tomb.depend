@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1305435821 source:/home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/enemy.cpp
+1311302834 source:/home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/enemy.cpp
 	<cmath>
 	<iostream>
 	<string>
@@ -13,7 +13,7 @@
 	"actor.h"
 	"map.h"
 
-1308419825 /home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/actor.h
+1311302863 /home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/actor.h
 	<string>
 	"libtcod.hpp"
 	"enemy_db.h"
@@ -172,7 +172,7 @@
 
 1298258048 /home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/random.h
 
-1308420368 /home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/world.h
+1308440146 /home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/world.h
 	<vector>
 	"map.h"
 
@@ -193,11 +193,14 @@
 	<string>
 	"world.h"
 
-1308370560 source:/home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/item.cpp
+1311306786 source:/home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/item.cpp
 	"item.h"
+	"item_db.h"
+	"random.h"
 
-1308370490 /home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/item.h
+1311306743 /home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/item.h
 	<string>
+	"libtcod.hpp"
 
 1308366190 source:/home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/main.cpp
 	<iostream>
@@ -234,7 +237,7 @@
 
 1303611245 /home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/spell.h
 
-1308420679 source:/home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/world.cpp
+1311305249 source:/home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/world.cpp
 	<iostream>
 	"functions.h"
 	"item.h"
@@ -258,5 +261,7 @@
 1303669394 /home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/weapon.h
 	"item.h"
 
-1308370517 /home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/item_db.h
+1311305417 /home/javon/Development/TombTheRoguelike/tomb-the-roguelike/src/item_db.h
+	"libtcod.hpp"
+	"item.h"
 

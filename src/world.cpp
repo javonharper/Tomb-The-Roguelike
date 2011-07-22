@@ -47,7 +47,7 @@ Player* World::generatePlayer()
 }
 
 //Creates enemies for the map
-//for each level, it generates a random number of enemies that will be on that level.
+//for each level, it generates a  number of enemies that will be on that level.
 //Then if generate a random number corrosponding to an enemy type.
 //If that enemy's habiat lies at the level generated earlier,
 //the monster created, added to the enemy list, and given a spot on that level.
@@ -84,7 +84,7 @@ std::vector<Enemy*> World::generateEnemies()
 std::vector<Item*> World::generateItems()
 {
   int num_items = 5;
-  for (int i = 0; i < num_items ;i++ )
+  for (int i = 0; i < num_items; i++ )
   {
     int level = random(0, this->getLevels() - 1);
     position_t position = findPosition(level);
@@ -140,6 +140,7 @@ Enemy* World::getEnemyAt(int x, int y, int level)
 //Accessors and Mutators
 Player* World::getPlayer(){return player_;}
 std::vector<Enemy*>& World::getEnemyList(){return enemy_list_;}
+std::vector<Item*>& World::getItemList(){return item_list_;}
 tile_t World::getTile(int x, int y, int z){return level_list_[z]->getTile(x, y);}
 void World::setTile(int x, int y, int z, int tile_type){this->getMapLevel(z)->setTile(x,y, tile_type);}
 void World::setTileAsSeen(int x, int y, int z){this->getMapLevel(z)->setTileAsSeen(x, y);}

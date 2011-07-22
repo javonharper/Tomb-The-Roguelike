@@ -50,6 +50,7 @@ class World
     void incrementTimeStep();
     Player *getPlayer();
     std::vector<Enemy*> &getEnemyList();
+    std::vector<Item*> &getItemList();
     Map *getMapLevel(int level);
 };
 

@@ -1,6 +1,6 @@
 /*
  *  File:       enemy.cpp
- *  Summary:    things trying to  the player
+ *  Summary:    things trying to  kill the player
  *  Written by: Javon Harper
  */
 #include <cmath>
@@ -43,7 +43,7 @@ void Enemy::takeTurn()
     //if it was hostile, then make it go to where it last saw the monster
     if(state_ == STATE_HOSTILE)
     {
-          std::cout << this->getName() << "was hostile but now searching" << std::endl;
+          std::cout << this->getName() << " was hostile but now searching" << std::endl;
 
       this->state_ = STATE_SEARCHING;
       moveTowards(last_known_player_pos_.x,last_known_player_pos_.y);
@@ -53,13 +53,13 @@ void Enemy::takeTurn()
     {
       if (x_ != last_known_player_pos_.x && y_ !=last_known_player_pos_.y)
       {
-                  std::cout << this->getName() << "searching for player" << std::endl;
+                  std::cout << this->getName() << " searching for player" << std::endl;
 
         moveTowards(last_known_player_pos_.x,last_known_player_pos_.y);
       }
       else
       {
-                  std::cout << this->getName() << "was searching but now wandering" << std::endl;
+        std::cout << this->getName() << " was searching but now wandering" << std::endl;
 
         this->state_ = STATE_WANDERING;
         wander();

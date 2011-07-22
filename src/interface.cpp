@@ -70,6 +70,12 @@ void displayWorld(World *world, bool centered)
 
       }
 
+      std::vector<Item*> items = world->getItemList();
+      for (unsigned int i = 0; i < items.size(); i++)
+      {
+        ///TODO display the items that the player can see
+      }
+
       //draws the enemy if they are on the same level at the actor.
       std::vector<Enemy*> enemies = world->getEnemyList();
       for (unsigned int i = 0; i < enemies.size(); i++)

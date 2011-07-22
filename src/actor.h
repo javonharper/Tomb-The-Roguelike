@@ -1,5 +1,5 @@
 /*
- *  File:       actors.h
+ *  File:       actor.h
  *  Summary:    holds the general functionality of the player and his/her enemies.
  *  Written by: Javon Harper
  */
