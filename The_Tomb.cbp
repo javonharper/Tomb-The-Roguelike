@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="The_Tomb" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="./The_Tomb" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add option="-Wl,-rpath=lib" />
+					<Add library="lib/libtcod_debug.so" />
+					<Add library="lib/libtcodxx_debug.so" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="./The_Tomb" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-Wl,-rpath=lib" />
+					<Add library="lib/libtcod.so" />
+					<Add library="lib/libtcodxx.so" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add directory="../libtcod-1.5.1/include" />
+		</Compiler>
+		<Unit filename="COPYING" />
+		<Unit filename="README" />
+		<Unit filename="The_Tomb.depend" />
+		<Unit filename="The_Tomb.layout" />
+		<Unit filename="art/terminal.png" />
+		<Unit filename="doc/General Ideas" />
+		<Unit filename="lib/libtcod.so" />
+		<Unit filename="lib/libtcod_debug.so" />
+		<Unit filename="lib/libtcodxx.so" />
+		<Unit filename="lib/libtcodxx_debug.so" />
+		<Unit filename="libSDL.so" />
+		<Unit filename="src/actor.cpp" />
+		<Unit filename="src/actor.h" />
+		<Unit filename="src/enemy.cpp" />
+		<Unit filename="src/enemy.h" />
+		<Unit filename="src/enemy_db.h" />
+		<Unit filename="src/functions.cpp" />
+		<Unit filename="src/functions.h" />
+		<Unit filename="src/interface.cpp" />
+		<Unit filename="src/interface.h" />
+		<Unit filename="src/item.cpp" />
+		<Unit filename="src/item.h" />
+		<Unit filename="src/item_db.h" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/map.cpp" />
+		<Unit filename="src/map.h" />
+		<Unit filename="src/player.cpp" />
+		<Unit filename="src/player.h" />
+		<Unit filename="src/random.cpp" />
+		<Unit filename="src/random.h" />
+		<Unit filename="src/world.cpp" />
+		<Unit filename="src/world.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

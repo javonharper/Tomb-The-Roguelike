@@ -1,0 +1,5 @@
+Tomb: The Rogue-like
+Tomb is a roguelike written in C++ using the libtcod or doryen library.
+
+The game can be built from code::block by opening it as a project and building.
+There will be instructions on how to build it a command line eventually.
