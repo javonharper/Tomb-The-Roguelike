@@ -1,9 +1,0 @@
-K 10
-svn:ignore
-V 39
-bin
-obj
-app.config
-TestApp.csproj.user
-
-END

@@ -1,40 +1,0 @@
-10
-
-dir
-522
-http://doryen.eptalys.net/svn-libtcod/trunk/dependencies/zlib-1.2.3/lib
-http://doryen.eptalys.net/svn-libtcod
-
-
-
-2010-02-01T10:31:40.309098Z
-174
-jice
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-bcd56eb9-48f1-4f39-aea9-fe547a4d2130
-
-linux
-dir
-
-mingw
-dir
-
-msvc
-dir
-
-osx
-dir
-

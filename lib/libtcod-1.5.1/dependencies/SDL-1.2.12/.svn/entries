@@ -1,34 +1,0 @@
-10
-
-dir
-522
-http://doryen.eptalys.net/svn-libtcod/trunk/dependencies/SDL-1.2.12
-http://doryen.eptalys.net/svn-libtcod
-
-
-
-2010-04-15T20:38:04.824982Z
-383
-jice
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-bcd56eb9-48f1-4f39-aea9-fe547a4d2130
-
-include
-dir
-
-lib
-dir
-
