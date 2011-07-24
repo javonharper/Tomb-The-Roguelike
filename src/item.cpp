@@ -37,9 +37,9 @@ int Item::chooseType(int category)
 {
   switch (category)
   {
-    case CATEGORY_WEAPON: return random(0, TOTAL_WEAPON_TYPES - 1);
-    case CATEGORY_BODY_ARMOUR: return random(0, TOTAL_BODY_ARMOUR_TYPES - 1);
-    default: return -1;
+    case CATEGORY_WEAPON: return random(0, TOTAL_WEAPON_TYPES - 1); break;
+    case CATEGORY_BODY_ARMOUR: return random(0, TOTAL_BODY_ARMOUR_TYPES - 1); break;
+    default: return -1; break;
   }
 }
 
@@ -47,8 +47,9 @@ void Item::init(int category, int type)
 {
    switch (category)
   {
-    case CATEGORY_WEAPON: init(weapon_db[type]);
-    case CATEGORY_BODY_ARMOUR: init(armour_db[type]);
+    case CATEGORY_WEAPON: init(weapon_db[type]); break;
+    case CATEGORY_BODY_ARMOUR: init(armour_db[type]); break;
+    default: init(erroneous_item);
   }
 }
 
@@ -79,9 +80,9 @@ void Item::setFaceTile(int category)
 {
   switch(category)
   {
-    case CATEGORY_WEAPON: face_tile_ = '/';
-    case CATEGORY_BODY_ARMOUR: face_tile_ = ']';
-    default: face_tile_ = -1;
+    case CATEGORY_WEAPON: face_tile_ = '/'; break;
+    case CATEGORY_BODY_ARMOUR: face_tile_ = ']'; break;
+    default: face_tile_ = '~'; break;
   }
 }
 

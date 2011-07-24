@@ -28,6 +28,8 @@ enum BodyArmourTypes
   TOTAL_BODY_ARMOUR_TYPES
 };
 
+const static item_data_t erroneous_item = {"item error", -1, -1, TCODColor::red, {0, 0, 0, 0, 0}};
+
 const static item_data_t weapon_db[] =
 {
   {"wooden dagger", CATEGORY_WEAPON, TYPE_WOODEN_DAGGER, TCODColor::orange, {2, 3, 0, 0, 0}},

@@ -4,6 +4,8 @@
  *  Written by: Javon Harper
  */
 #include <vector>
+#include <string>
+#include <iostream>
 #include "libtcod.hpp"
 #include "map.h"
 #include "interface.h"
@@ -70,15 +72,15 @@ void displayWorld(World *world, bool centered)
         }
 
       }
-
       std::vector<Item*> items = world->getItemList();
       for (unsigned int i = 0; i < items.size(); i++)
       {
         Item *item = items[i];
+	//std::cout << "item info:" << item->getXPosition() <<std::endl;
         TCODConsole::root->putCharEx(item->getXPosition(), item->getYPosition(), item->getFaceTile(), item->getColor(), TCODColor::black);
       }
 
-      //draws the enemy if they are on the same level at the actor.
+      //draws the enemy if they are on the same level at the actor
       std::vector<Enemy*> enemies = world->getEnemyList();
       for (unsigned int i = 0; i < enemies.size(); i++)
       {
@@ -158,3 +160,4 @@ void displayWinScreen()
   TCODConsole::waitForKeypress(true);
   exit(0);
 }
+

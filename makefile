@@ -1,10 +1,9 @@
 SRCDIR=src
 OBJDIR=obj
 LIBDIR=lib
-LDIR=lib
-LIBTCODDIR=lib/libtcod-1.5.1
+LIBTCODDIR=lib
 INCDIR=${LIBTCODDIR}/include
-FLAGS=-Wall
+FLAGS=-Wall -g
 CFLAGS=$(FLAGS) -I$(INCDIR) -I$(SRCDIR)
 CPP=g++
 LIBS=-ltcod -ltcodxx
@@ -34,6 +33,8 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 
 run:
 	./The_Tomb
+
+rebuild: clean The_Tomb
 
 clean :
 	rm -f $(CPP_OBJS) The_Tomb
