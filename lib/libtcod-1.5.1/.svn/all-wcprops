@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 31
+/svn-libtcod/!svn/ver/522/trunk
+END
+libtcodpy.py
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn-libtcod/!svn/ver/520/trunk/libtcodpy.py
+END
+libtcodlua.lua
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn-libtcod/!svn/ver/414/trunk/libtcodlua.lua
+END
+libtcod-CHANGELOG.txt
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn-libtcod/!svn/ver/522/trunk/libtcod-CHANGELOG.txt
+END
+samples_py.py
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn-libtcod/!svn/ver/516/trunk/samples_py.py
+END
+samples_lua.lua
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn-libtcod/!svn/ver/521/trunk/samples_lua.lua
+END
+LIBTCOD-CREDITS.txt
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn-libtcod/!svn/ver/440/trunk/LIBTCOD-CREDITS.txt
+END
+libSDL.so
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn-libtcod/!svn/ver/98/trunk/libSDL.so
+END
+zlib1.dll
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn-libtcod/!svn/ver/98/trunk/zlib1.dll
+END
+README-SDL.txt
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn-libtcod/!svn/ver/98/trunk/README-SDL.txt
+END
+SDL.dll
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn-libtcod/!svn/ver/98/trunk/SDL.dll
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn-libtcod/!svn/ver/392/trunk/CMakeLists.txt
+END
+terminal.png
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn-libtcod/!svn/ver/98/trunk/terminal.png
+END
+libtcod.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn-libtcod/!svn/ver/298/trunk/libtcod.cfg
+END
+LIBTCOD-LICENSE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn-libtcod/!svn/ver/220/trunk/LIBTCOD-LICENSE.txt
+END

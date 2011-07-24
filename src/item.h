@@ -46,7 +46,11 @@ class Item
     void init(item_data_t item_data);
     int getNumTypesFromCategory(int category);
     void setPosition(int x, int y, int level);
-    char getItemFaceTile(int category);
+    void setFaceTile(int category);
+    int getXPosition();
+    int getYPosition();
+    char getFaceTile();
+    TCODColor getColor();
 };
 
 #endif

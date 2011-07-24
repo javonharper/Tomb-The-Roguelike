@@ -63,7 +63,7 @@ void Item::init(item_data_t item_data)
       item_values_[i] = item_data.item_values[i];
     }
 
-    face_tile_ = getItemFaceTile(item_data.category);
+    setFaceTile(item_data.category);
     color_ = item_data.color;
 }
 
@@ -75,13 +75,18 @@ void Item::setPosition(int x, int y, int level)
   this->map_level_ = level;
 }
 
-char Item::getItemFaceTile(int category)
+void Item::setFaceTile(int category)
 {
   switch(category)
   {
-    case CATEGORY_WEAPON: return '/';
-    case CATEGORY_BODY_ARMOUR: return ']';
-    default: return -1;
+    case CATEGORY_WEAPON: face_tile_ = '/';
+    case CATEGORY_BODY_ARMOUR: face_tile_ = ']';
+    default: face_tile_ = -1;
   }
 }
+
+int Item::getXPosition(){return x_;}
+int Item::getYPosition(){return y_;}
+char Item::getFaceTile(){return face_tile_;}
+TCODColor Item::getColor(){return color_;}
 

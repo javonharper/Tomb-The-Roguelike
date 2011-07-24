@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn-libtcod/!svn/ver/101/trunk/dependencies/zlib-1.2.3/lib/mingw
+END
+libz.a
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn-libtcod/!svn/ver/101/trunk/dependencies/zlib-1.2.3/lib/mingw/libz.a
+END

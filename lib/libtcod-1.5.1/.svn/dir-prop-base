@@ -1,0 +1,31 @@
+K 10
+svn:ignore
+V 229
+*.a
+*.egg-info/
+*.la
+*.lo
+*.o
+*.pyc
+*~
+.*.swp
+.deps
+.libs
+Makefile
+Makefile.in
+aclocal.m4
+autom4te.cache
+build/
+config.log
+config.status
+configure
+dist/
+*/config.h
+*/config.h.in
+libtcod.cfg
+libtool
+samples_c
+samples_cpp
+stamp-h1
+
+END

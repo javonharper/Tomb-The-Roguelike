@@ -1,5 +1,18 @@
 Tomb: The Rogue-like
-Tomb is a roguelike written in C++ using the libtcod or doryen library.
+Tomb is a roguelike written in C++ using the libtcod library.
 
-The game can be built from code::block by opening it as a project and building.
-There will be instructions on how to build it a command line eventually.
+Playing Tomb:
+Tomb should be build before it is ran. In the terminal, run the command
+
+make
+
+Afterwards, you can run the command ./The_Tomb or double click the executable file to start the game.
+
+Developing Tomb:
+This repository comes with the project file I'm using to develop Tomb.
+Alternatively, there is a makefile that cleans, builds, and runs the project.
+
+Third Party:
+libSDL.so, and files located in the lib directory are third party libraries and belong to their respective owners.
+doryen roguelike library (http://doryen.eptalys.net/)
+Simple DirectMedia Layer library (http://www.libsdl.org)

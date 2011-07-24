@@ -7,6 +7,7 @@
 #include "libtcod.hpp"
 #include "map.h"
 #include "interface.h"
+#include "item.h"
 #include "player.h"
 #include "enemy.h"
 
@@ -73,7 +74,8 @@ void displayWorld(World *world, bool centered)
       std::vector<Item*> items = world->getItemList();
       for (unsigned int i = 0; i < items.size(); i++)
       {
-        ///TODO display the items that the player can see
+        Item *item = items[i];
+        TCODConsole::root->putCharEx(item->getXPosition(), item->getYPosition(), item->getFaceTile(), item->getColor(), TCODColor::black);
       }
 
       //draws the enemy if they are on the same level at the actor.

@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn-libtcod/!svn/ver/98/trunk/dependencies/zlib-1.2.3/include
+END
+zconf.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn-libtcod/!svn/ver/98/trunk/dependencies/zlib-1.2.3/include/zconf.h
+END
+zlib.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn-libtcod/!svn/ver/98/trunk/dependencies/zlib-1.2.3/include/zlib.h
+END

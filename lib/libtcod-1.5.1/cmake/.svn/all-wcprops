@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn-libtcod/!svn/ver/472/trunk/cmake
+END
+generate-vc2008.bat
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn-libtcod/!svn/ver/423/trunk/cmake/generate-vc2008.bat
+END
+Documentation.txt
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn-libtcod/!svn/ver/472/trunk/cmake/Documentation.txt
+END
+QuickStart.txt
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn-libtcod/!svn/ver/272/trunk/cmake/QuickStart.txt
+END
+generate-vc2010.bat
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn-libtcod/!svn/ver/424/trunk/cmake/generate-vc2010.bat
+END
+generate-make.sh
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn-libtcod/!svn/ver/309/trunk/cmake/generate-make.sh
+END

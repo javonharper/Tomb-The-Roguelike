@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn-libtcod/!svn/ver/516/trunk/samples
+END
+samples_c.c
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn-libtcod/!svn/ver/516/trunk/samples/samples_c.c
+END
+samples_cpp.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn-libtcod/!svn/ver/516/trunk/samples/samples_cpp.cpp
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn-libtcod/!svn/ver/392/trunk/samples/CMakeLists.txt
+END
