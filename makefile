@@ -23,19 +23,19 @@ CPP_OBJS=\
 	$(OBJDIR)/random.o\
 	$(OBJDIR)/world.o\
 
-all : The_Tomb
+all: tomb 
 
-The_Tomb: $(CPP_OBJS)
+tomb: $(CPP_OBJS)
 	$(CPP) $(CPP_OBJS) -o $@ -L${LIBTCODDIR} $(LIBS) -Wl,-rpath=$(LIBDIR)
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 	$(CPP) $(CFLAGS) -o $@ -c $<
 
-run: The_Tomb
-	./The_Tomb
+run: tomb
+	./tomb
 
-rebuild: clean The_Tomb
+rebuild: clean tomb
 
 clean :
-	rm -f $(CPP_OBJS) The_Tomb
+	rm -f $(CPP_OBJS) tomb
 	rm -fr obj/*
