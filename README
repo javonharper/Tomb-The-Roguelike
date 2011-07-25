@@ -12,7 +12,7 @@ Developing Tomb:
 This repository comes with the project file I'm using to develop Tomb.
 Alternatively, there is a makefile that cleans, builds, and runs the project.
 
-Aknowlegements:
+Acknowlegements:
 libSDL.so, and files located in the lib directory are third party libraries and belong to their respective owners.
 doryen roguelike library (http://doryen.eptalys.net/)
 Simple DirectMedia Layer library (http://www.libsdl.org)
