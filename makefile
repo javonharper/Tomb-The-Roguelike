@@ -31,7 +31,7 @@ The_Tomb: $(CPP_OBJS)
 $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 	$(CPP) $(CFLAGS) -o $@ -c $<
 
-run:
+run: The_Tomb
 	./The_Tomb
 
 rebuild: clean The_Tomb

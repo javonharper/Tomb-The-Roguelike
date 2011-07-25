@@ -16,7 +16,7 @@ const static int ATT_MAX           = 20;
 const static int ATT_GOOD          = 15;
 const static int ATT_AVERAGE       = 10;
 const static int ATT_BAD           = 5;
-const static int ATT_MIN           = 0;
+const static int ATT_MIN           = 1;
 
 enum EnemyTypes
 {

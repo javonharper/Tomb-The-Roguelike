@@ -16,37 +16,37 @@ Actor::~Actor(){}
 
 void Actor::initProperties(enemy_data_t data, World *world)
 {
-  this->x_ = -1;
-  this->y_ = -1;
-  this->map_level_ = -1;
+  x_ = -1;
+  y_ = -1;
+  map_level_ = -1;
 
-  this->name_ = data.name;
-  this->face_tile_ = data.face_tile;
-  this->color_ = data.color;
+  name_ = data.name;
+  face_tile_ = data.face_tile;
+  color_ = data.color;
 
-  this->sight_range_ = data.sight_range;
-  this->smell_range_ = data.smell_range;
-  this->hear_range_ = data.hear_range;
+  sight_range_ = data.sight_range;
+  smell_range_ = data.smell_range;
+  hear_range_ = data.hear_range;
 
-  this->mod_speed_ = data.mod_speed;
-  this->mod_size_ = data.mod_size;
-  this->mod_base_ac_ = data.mod_base_ac;
+  mod_speed_ = data.mod_speed;
+  mod_size_ = data.mod_size;
+  mod_base_ac_ = data.mod_base_ac;
 
-  this->unarmed_damage_[0] = data.unarmed_damage[0];
-  this->unarmed_damage_[1] = data.unarmed_damage[1];
-  this->active_weapon_ = NULL;
-  this->active_body_armour_ = NULL;
+  unarmed_damage_[0] = data.unarmed_damage[0];
+  unarmed_damage_[1] = data.unarmed_damage[1];
+  active_weapon_ = NULL;
+  active_body_armour_ = NULL;
 
-  this->current_health_points_ = this->max_health_points_ = data.base_health;
-  this->current_mana_points_ = this->max_mana_points_ = data.base_health;
+  current_health_points_ = max_health_points_ = data.base_health;
+  current_mana_points_ = max_mana_points_ = data.base_health;
 
-  this->att_str_ = data.att_str;
-  this->att_dex_ = data.att_dex;
-  this->att_wis_ = data.att_wis;
+  att_str_ = data.att_str;
+  att_dex_ = data.att_dex;
+  att_wis_ = data.att_wis;
 
-  this->world_ = world;
-  this->turn_finished_ = true;
-  this->next_turn_ = this->calcSenseMod(mod_speed_);
+  world_ = world;
+  turn_finished_ = true;
+  next_turn_ = calcSpeed();
 }
 
 void Actor::move(int x, int y, int level)
@@ -189,27 +189,34 @@ void Actor::ascendStairs()
 //DND style melee attack.
 void Actor::meleeAttack(Actor *actor)
 {
-  std::cout << "== Starting melee attack sequence. ==" << std::endl;
-  int attack_roll = random(1, 20) + calcMod(att_str_);
+  std::cout << "== Melee Attack:"<< getName() << "-->"<< actor->getName() << " == "<< std::endl;
+  int attack_roll = random(1, 20) + calcAtt(att_str_);
   int opponent_ac = actor->calcArmourClass();
-  std::cout <<"ATK roll:" << attack_roll << ", actor ac:" << opponent_ac << std::endl;
+  std::cout <<"ATK roll:" << attack_roll << ",  AC:" << opponent_ac << std::endl;
 
   int damage_roll = 0;
   if(attack_roll >= opponent_ac || attack_roll >= 20)
   {
-    damage_roll = calcMeleeDamage() + calcMod(att_str_);
+    damage_roll = calcMeleeDamage() + calcAtt(att_str_);
     damage_roll = setBoundedValue(damage_roll, 1, damage_roll);
 
     //if critical hit, roll again to see if actor can hit again.
-    if(attack_roll >= 20 && random(1, 20) + calcMod(att_str_) >= opponent_ac)
+    bool critical_hit = false;
+    if(attack_roll >= 20 && random(1, 20) + calcAtt(att_str_) >= opponent_ac)
     {
-      damage_roll = damage_roll + calcMeleeDamage() + calcMod(att_str_);
+      critical_hit = true;
+      damage_roll = damage_roll + calcMeleeDamage() + calcAtt(att_str_);
     }
-    std::cout << actor->getName() << " hit for " <<  damage_roll << " damage." << std::endl;
+    std::cout << actor->getName() << " hit for " <<  damage_roll << " damage";
+    if (critical_hit)
+      {
+	std::cout << "critically";
+      }
+    std::cout << "." <<std::endl;
   }
   else
   {
-    std::cout << this->getName() << " misses." << std::endl;
+    std::cout << getName() << " misses." << std::endl;
   }
 
   //check if the actor is dead.
@@ -241,16 +248,16 @@ void Actor::readScroll(Item *item){}
 void Actor::startTurn()
 {
   this->turn_finished_ = false;
-  if(!this->isTurn()){turn_finished_ = true;}
+  if(!isTurn()){turn_finished_ = true;}
 }
 
 //Calculates the actors next turn.
 void Actor::endTurn()
 {
   //Calculate the actor's next turn.
-  if(this->isTurn())
+  if(isTurn())
   {
-    next_turn_ = this->getWorld()->getTimeStep() + this->calcSenseMod(mod_speed_);
+    next_turn_ = getWorld()->getTimeStep() + calcSpeed();
   }
 }
 
@@ -260,14 +267,41 @@ bool Actor::canSee(Map *map, int x, int y)
   return map->getTile(x, y).visible;
 }
 
-int Actor::calcMod(int att)
-{return att;
-  //return (att-10)/5;
+int Actor::calcSpeed()
+{
+  return ((mod_speed_ / 5) + 1);
 }
 
-int Actor::calcSenseMod(int sense)
+int Actor::calcSize()
 {
-  return ((sense/5) + 1) * 2;
+  return (mod_size_ - 10) * (1 - (1/5));
+}
+
+int Actor::calcAC()
+{
+  return mod_base_ac_;
+}
+
+int Actor::calcSight()
+{
+  return sight_range_;
+}
+
+int Actor::calcHear()
+{
+  //TODO implement hearing
+  return hear_range_;
+}
+
+int Actor::calcSmell()
+{
+  //TODO implement smelling
+  return smell_range_;
+}
+
+int Actor::calcAtt(int attribute)
+{
+  return (attribute - 10 )/5;
 }
 
 //Sets the players field of vision.
@@ -278,8 +312,8 @@ void Actor::FOV(Map *map)
   for(int i = 0; i < map->getWidth(); i++)
     for(int j = 0; j < map->getHeight(); j++)
     {
-      map->setTileVisibility(i, j, false);
-      //map->setTileVisibility(i, j, true); //View whole map by enabling this.
+      //map->setTileVisibility(i, j, false);
+      map->setTileVisibility(i, j, true); //View whole map by enabling this.
     }
 
   for (int i = 0; i < 360; i++)
@@ -300,7 +334,7 @@ void Actor::doFov(Map *map, float x, float y)
   ox = (float) this->getXPosition() + 0.5f;
   oy = (float) this->getYPosition() + 0.5f;
 
-  for(int i = 0; i <= calcSenseMod(sight_range_); i++)
+  for(int i = 0; i <= calcSight(); i++)
   {
     map->setTileVisibility((int) ox, (int) oy, true);
     map->setTileAsSeen((int) ox, (int) oy);
@@ -322,9 +356,10 @@ int Actor::calcArmourClass()
   {
     //TODO: Should get the armour bonus from the item of with type armour
     //armour_bonus = active_body_armour_->getArmourBonus();
+    //armour_bonus = active_shield_->getArmourBonus();
   }
 //std::cout << this->mod_base_ac_ <<":"<< armour_bonus <<":"<< this->calcMod(this->att_dex_) <<":"<< this->calcMod(-mod_size_) <<":"<<std::endl;
-  return this->mod_base_ac_ + armour_bonus + this->calcMod(att_dex_) + this->calcMod(-mod_size_);
+  return mod_base_ac_ + armour_bonus + calcAtt(att_dex_) + calcSize();
 //  return 100;
 }
 

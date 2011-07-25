@@ -21,34 +21,29 @@ World *world;
 Player *player;
 std::vector<Enemy*> enemies;
 
-
 int main(int argc, char* argv[])
 {
-  //int seed = init_rand();
-  int seed = init_rand(0);
+  int seed = init_rand();
+  //int seed = init_rand(2);
   std::cout << "seed:" << seed << std::endl;
 
   initScreen();
   //showMainMenu();
 
-  //Create the world and populate it with enemies and items.
-  world = new World(80, 50, 1);
+  world = new World(48, 37, 1);
   player = world->generatePlayer();
   enemies = world->generateEnemies();
   world->generateItems();
-  //create the items in the world
 
   //While the game is still going, iterate over all actors
   while (!isGameOver())
   {
     world->incrementTimeStep();
     std::cout<< "=WORLD STEP" << world->getTimeStep()<<"=" << std::endl;
-    displayWorld(world, false);
-    //displayUserInterface();
+    displayGame(world);
     player->FOV(world->getMapLevel(player->getMapLevel()));
     updateScreen();
 
-    //The player takes his turn.
     player->startTurn();
     while(!player->isTurnFinished() && player->isTurn() && !isGameOver())
     {
@@ -58,7 +53,7 @@ int main(int argc, char* argv[])
     player->endTurn();
 
     //make the actors take their turns
-    //NOTE only actors +- one level of the player can take turns.
+    //NOTE only actors +- one level of the player can take turns. 
     enemies = world->getEnemyList();
     for (unsigned int i = 0; i < enemies.size(); i++)
     {
@@ -82,7 +77,6 @@ int main(int argc, char* argv[])
   }
 }
 
-//The game is over when the pc dies or the window is closed.
 bool isGameOver()
 {
   return TCODConsole::isWindowClosed() || !player->isAlive();
