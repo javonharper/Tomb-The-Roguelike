@@ -86,7 +86,7 @@ void handleKeyPress()
 {
   TCOD_key_t key = TCODConsole::waitForKeypress(true);
   switch(key.c)
-  {
+    {
     case 'h': player->move(player->getXPosition() - 1, player->getYPosition(), player->getMapLevel()); break;
     case 'j': player->move(player->getXPosition(), player->getYPosition() + 1, player->getMapLevel()); break;
     case 'k': player->move(player->getXPosition(), player->getYPosition() - 1, player->getMapLevel()); break;
@@ -95,10 +95,12 @@ void handleKeyPress()
     case 'u': player->move(player->getXPosition() + 1, player->getYPosition() - 1, player->getMapLevel()); break;
     case 'b': player->move(player->getXPosition() - 1, player->getYPosition() + 1, player->getMapLevel()); break;
     case 'n': player->move(player->getXPosition() + 1, player->getYPosition() + 1, player->getMapLevel()); break;
-    case '.': player->rest();
+    case '.': player->rest(); break;
     case '>': player->descendStairs(); break;
     case '<': player->ascendStairs(); break;
+    case 'o': player->promptDoorAction(key.c); break;
+    case 'c': player->promptDoorAction(key.c); break;
     case 27: displayGameOverScreen("You have exited the game."); break;
-  }
+    }
 }
 

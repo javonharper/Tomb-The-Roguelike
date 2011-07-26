@@ -13,6 +13,7 @@ LIBS=-ltcod -ltcodxx
 
 CPP_OBJS=\
 	$(OBJDIR)/actor.o\
+	$(OBJDIR)/controller.o\
 	$(OBJDIR)/enemy.o\
 	$(OBJDIR)/functions.o\
 	$(OBJDIR)/interface.o\

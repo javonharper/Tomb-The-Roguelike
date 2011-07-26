@@ -19,6 +19,8 @@ class Player : public Actor
     bool isEnemyAtPosition(int x, int y, int level);
     void kill();
     bool isAlive();
+
+    void promptDoorAction(char key);
 };
 
 #endif

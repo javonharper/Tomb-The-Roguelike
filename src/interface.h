@@ -22,6 +22,9 @@ void initScreen();
 void showMainMenu();
 void updateScreen();
 
+char prompt(std::string message);
+void message(std::string message);
+
 void displayGame(World *world);
 void drawTitleBar();
 void drawWorldScreen(World *world);

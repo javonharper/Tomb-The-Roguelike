@@ -101,50 +101,49 @@ void Actor::moveTowards(int x, int y)
   }
 
   //small hack to make it turn corners and such. not perfect
-  int new_x = this->getXPosition() + d_x;
-  int new_y = this->getYPosition() + d_y;
-  if (this->getWorld()->getTile(new_x, new_y, map_level_).is_passable)
+  int new_x = getXPosition() + d_x;
+  int new_y = getYPosition() + d_y;
+  if (world_->getTile(new_x, new_y, map_level_).is_passable)
   {
-    this->move(new_x, new_y, this->getMapLevel());
+    move(new_x, new_y, map_level_);
   }
   else if(x - x_ > y - y_)
   {
-    this->move(new_x - d_x, new_y, this->getMapLevel());
+    move(new_x - d_x, new_y, map_level_);
   }
   else if(x - x_ > y - y_)
   {
-    this->move(new_x, new_y - d_y, this->getMapLevel());
+    move(new_x, new_y - d_y, map_level_);
   }
 }
 
 void Actor::wander()
 {
-  this->move(random(x_ - 1, x_ + 1), random(y_ - 1, y_ + 1), this->getMapLevel());
+  move(random(x_ - 1, x_ + 1), random(y_ - 1, y_ + 1), map_level_);
 }
 
 void Actor::rest()
 {
-  this->turn_finished_ = true;
+  turn_finished_ = true;
 }
 
 //If the door at the coordinates is a closed door, open.
 void Actor::openDoor(int x, int y, int z)
 {
-  if(this->getWorld()->getTile(x, y, z).tile_type == TILE_DOOR_CLOSED)
+  if(world_->getTile(x, y, z).tile_type == TILE_DOOR_CLOSED)
   {
-    this->getWorld()->setTile(x, y, z, TILE_DOOR_OPEN);
-    this->turn_finished_ = true;
+    world_->setTile(x, y, z, TILE_DOOR_OPEN);
+    turn_finished_ = true;
   }
 }
 
 //if the door at the coordinates is an open door, close it
-//UNTESTED
 void Actor::closeDoor(int x, int y, int z)
 {
-  if(this->getWorld()->getTile(x, y, z).tile_type == TILE_DOOR_OPEN)
+  if(world_->getTile(x, y, z).tile_type == TILE_DOOR_OPEN)
   {
-    this->getWorld()->setTile(x, y, z, TILE_DOOR_CLOSED);
-    this->turn_finished_ = true;
+    world_->setTile(x, y, z, TILE_DOOR_CLOSED);
+    turn_finished_ = true;
   }
 }
 

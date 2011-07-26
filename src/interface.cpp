@@ -41,6 +41,20 @@ void updateScreen()
   TCODConsole::flush();
 }
 
+char prompt(std::string message)
+{
+  TCODConsole::root->print(logScreenDims[X], logScreenDims[Y], message.c_str());
+  updateScreen();
+  TCOD_key_t input = TCODConsole::waitForKeypress(true);
+  return input.c;
+}
+
+void message(std::string message)
+{
+  TCODConsole::root->print(0, 49, message.c_str());
+  updateScreen();
+}
+
 void displayGame(World *world)
 {
   drawTitleBar();
