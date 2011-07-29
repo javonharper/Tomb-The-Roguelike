@@ -26,9 +26,12 @@ CPP_OBJS=\
 
 all: tomb 
 
-tomb: $(CPP_OBJS)
+tomb: make_obj $(CPP_OBJS)
 	$(CPP) $(CPP_OBJS) -o $@ -L${LIBTCODDIR} $(LIBS) -Wl,-rpath=$(LIBDIR)
 
+make_obj:
+	rm -fr obj
+	mkdir obj
 $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 	$(CPP) $(CFLAGS) -o $@ -c $<
 
@@ -39,4 +42,4 @@ rebuild: clean tomb
 
 clean :
 	rm -f $(CPP_OBJS) tomb
-	rm -fr obj/*
+	rm -fr obj
