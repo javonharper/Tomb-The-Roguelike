@@ -7,16 +7,17 @@
 #define INTERFACE_H
 #include <string>
 #include "libtcod.hpp"
+#include "player.h"
 #include "world.h"
 
 const static int SCREEN_WIDTH = 80; 
 const static int SCREEN_HEIGHT = 50;
 
 enum DimProperties {X = 0, Y, WIDTH, HEIGHT};
-const static int titleScreenDims[] = {0, 0, 50, 3};
-const static int worldScreenDims[] = {0, 3, 50, 39};
-const static int infoScreenDims[] = {50, 0, 30, 50};
-const static int logScreenDims[] = {0, 42, 50, 8};
+const static int titleScreenDims[] = {0, 0, 80, 3};
+const static int worldScreenDims[] = {0, 3, 51, 40};
+const static int infoScreenDims[] = {50, 3, 30, 50};
+const static int logScreenDims[] = {0, 42, 51, 8};
 
 void initScreen();
 void showMainMenu();
@@ -24,6 +25,7 @@ void updateScreen();
 
 char prompt(std::string message);
 void message(std::string message);
+void displayMessages(int msg_history);
 
 void displayGame(World *world);
 void drawTitleBar();
@@ -31,6 +33,9 @@ void drawWorldScreen(World *world);
 void drawWorld(World *world);
 void drawInfoScreen(World *world);
 void drawLogScreen(World *world);
+
+void displayInventoryScreen(World *world);
+void displayDropItemsScreen(World *world);
 
 void displayWinScreen();
 void displayGameOverScreen(std::string reason);

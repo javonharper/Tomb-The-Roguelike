@@ -12,6 +12,7 @@
 
 class World;
 class Item;
+class Inventory;
 class Weapon;
 class Armour;
 class Potion;
@@ -61,6 +62,7 @@ class Actor
   int next_turn_;
   
   //inventory attributes
+  Inventory *inventory_;
   Item* active_weapon_;
   Item* active_body_armour_;
   
@@ -125,6 +127,7 @@ class Actor
   void setCurrentHealth(int  health);
   bool hasBodyArmour();
   bool hasWeapon();
+  Inventory *getInventory();
   Item *getWeapon();
   Item *getBodyArmour();
 };

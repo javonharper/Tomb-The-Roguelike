@@ -21,6 +21,8 @@ class Player : public Actor
     bool isAlive();
 
     void promptDoorAction(char key);
+    void promptPickupAction();
+    void promptDropAction();
 };
 
 #endif

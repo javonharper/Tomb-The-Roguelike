@@ -90,6 +90,7 @@ std::vector<Item*> World::generateItems()
     position_t position = findPosition(level);
     Item *item = new Item();
     item->setPosition(position.x, position.y, level);
+    item->setOnGround(true);
     item_list_.push_back(item);
   }
   return item_list_;
@@ -135,6 +136,20 @@ Enemy* World::getEnemyAt(int x, int y, int level)
     }
   }
   return the_enemy;
+}
+
+std::vector<Item*> World::getItemsAt(int x, int y, int level)
+{
+  std::vector<Item*> items_at_pos;
+  for (unsigned int i = 0; i < item_list_.size(); i++)
+  {
+    Item *item = item_list_[i];
+    if (item->getXPosition() == x && item->getYPosition() == y && item->getMapLevel() == level)
+    {
+      items_at_pos.push_back(item);
+	  }
+  }
+  return items_at_pos;
 }
 
 //Accessors and Mutators

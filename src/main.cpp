@@ -24,7 +24,7 @@ std::vector<Enemy*> enemies;
 int main(int argc, char* argv[])
 {
   int seed = init_rand();
-  //int seed = init_rand(2);
+  //int seed = init_rand(3);
   std::cout << "seed:" << seed << std::endl;
 
   initScreen();
@@ -100,7 +100,11 @@ void handleKeyPress()
     case '<': player->ascendStairs(); break;
     case 'o': player->promptDoorAction(key.c); break;
     case 'c': player->promptDoorAction(key.c); break;
+    case 'g': player->promptPickupAction(); break;
+    case 'd': player->promptDropAction(); break;
+    case 'i': displayInventoryScreen(world); break;
     case 27: displayGameOverScreen("You have exited the game."); break;
     }
 }
+
 

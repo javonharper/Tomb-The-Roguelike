@@ -27,6 +27,7 @@ class Item
     int x_;
     int y_;
     int map_level_;
+    bool on_ground_;
 
     std::string name_;
     int category_;
@@ -49,8 +50,12 @@ class Item
     void setFaceTile(int category);
     int getXPosition();
     int getYPosition();
+    int getMapLevel();
     char getFaceTile();
     TCODColor getColor();
+    std::string getName();
+    bool isOnGround();
+    void setOnGround(bool on_ground);
 };
 
 #endif

@@ -13,6 +13,8 @@ Item::Item()
   int category = chooseCategory();
   int type = chooseType(category);
   init(category, type);
+  setPosition(-1, -1, -1);
+  setOnGround(true);
 }
 
 //Create an item within a given category
@@ -88,6 +90,10 @@ void Item::setFaceTile(int category)
 
 int Item::getXPosition(){return x_;}
 int Item::getYPosition(){return y_;}
+int Item::getMapLevel(){return map_level_;}
 char Item::getFaceTile(){return face_tile_;}
 TCODColor Item::getColor(){return color_;}
+std::string Item::getName(){return name_;}
+bool Item::isOnGround(){return on_ground_;}
+void Item::setOnGround(bool on_ground){on_ground_ = on_ground;}
 

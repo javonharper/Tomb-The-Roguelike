@@ -8,6 +8,8 @@
 #include "actor.h"
 #include "functions.h"
 #include "interface.h"
+#include "item.h"
+#include "inventory.h"
 #include "random.h"
 #include "world.h"
 
@@ -34,6 +36,8 @@ void Actor::initProperties(enemy_data_t data, World *world)
 
   unarmed_damage_[0] = data.unarmed_damage[0];
   unarmed_damage_[1] = data.unarmed_damage[1];
+
+  inventory_ = new Inventory();
   active_weapon_ = NULL;
   active_body_armour_ = NULL;
 
@@ -166,21 +170,20 @@ void Actor::descendStairs()
 //If the player is on top of an up stair, let him go to the previous level.
 void Actor::ascendStairs()
 {
-  World *world = this->getWorld();
-  tile_t tile = this->getWorld()->getTile(this->getXPosition(), this->getYPosition(), this->getMapLevel());
+  tile_t tile = world_->getTile(x_, y_, map_level_);
   if(tile.tile_type == TILE_UPSTAIR)
   {
-    if (this->getMapLevel() == 0)
+    if (map_level_ == 0)
     {
       std::cout << "Should be asking player if they want to end the game." << std::endl;
       displayGameOverScreen("You have gone back to the surface.");
     }
     else
     {
-      world->setCurrentLevel(world->getCurrentLevel() - 1);
-      position_t stair_pos = world->getMapLevel(world->getCurrentLevel())->getDownStairPos();
-      this->setPosition(stair_pos.x, stair_pos.y, world->getCurrentLevel());
-      this->turn_finished_ = true;
+      world_->setCurrentLevel(world_->getCurrentLevel() - 1);
+      position_t stair_pos = world_->getMapLevel(world_->getCurrentLevel())->getDownStairPos();
+      setPosition(stair_pos.x, stair_pos.y, world_->getCurrentLevel());
+      turn_finished_ = true;
     }
   }
 }
@@ -230,12 +233,28 @@ void Actor::meleeAttack(Actor *actor)
     std::cout << actor->getName() << " has " << actor->getCurrentHealth() << " life left" << std::endl;
   }
   std::cout << "== Ending melee attack sequence. ==" << std::endl;
+  turn_finished_ = true;
 }
 
 //void Actor::castSpell(Spell *spell){}
 void Actor::rangedAttack(Actor *actor){}
-void Actor::dropItem(Item *item){}
-void Actor::pickUpItem(Item *item){}
+
+void Actor::dropItem(Item *item)
+{
+  inventory_->remove(item);
+  item->setPosition(x_, y_, map_level_);
+  item->setOnGround(true);
+  turn_finished_ = true;
+}
+
+void Actor::pickUpItem(Item *item)
+{
+  inventory_->add(item);
+  item->setPosition(-1, -1, -1);
+  item->setOnGround(false);
+  turn_finished_ = true;
+}
+
 void Actor::useItem(Item *item){}
 void Actor::weildWeapon(Item *item){}
 void Actor::wearItem(Item *item){}
@@ -246,7 +265,7 @@ void Actor::readScroll(Item *item){}
 //including checking to see if it is actually the actor turn.
 void Actor::startTurn()
 {
-  this->turn_finished_ = false;
+  turn_finished_ = false;
   if(!isTurn()){turn_finished_ = true;}
 }
 
@@ -256,7 +275,7 @@ void Actor::endTurn()
   //Calculate the actor's next turn.
   if(isTurn())
   {
-    next_turn_ = getWorld()->getTimeStep() + calcSpeed();
+    next_turn_ = world_->getTimeStep() + calcSpeed();
   }
 }
 
@@ -404,5 +423,7 @@ int Actor::getCurrentHealth(){return current_health_points_;}
 void Actor::setCurrentHealth(int health){current_health_points_ = health;}
 bool Actor::hasWeapon(){return active_weapon_ != NULL;}
 bool Actor::hasBodyArmour(){return active_body_armour_ != NULL;}
+Inventory* Actor::getInventory(){return inventory_;}
 Item* Actor::getWeapon(){return active_weapon_;}
 Item* Actor::getBodyArmour(){return active_body_armour_;}
+

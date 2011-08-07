@@ -17,6 +17,7 @@ CPP_OBJS=\
 	$(OBJDIR)/enemy.o\
 	$(OBJDIR)/functions.o\
 	$(OBJDIR)/interface.o\
+	$(OBJDIR)/inventory.o\
 	$(OBJDIR)/item.o\
 	$(OBJDIR)/main.o\
 	$(OBJDIR)/map.o\
@@ -32,6 +33,7 @@ tomb: make_obj $(CPP_OBJS)
 make_obj:
 	rm -fr obj
 	mkdir obj
+
 $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 	$(CPP) $(CFLAGS) -o $@ -c $<
 
