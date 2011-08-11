@@ -90,8 +90,6 @@ struct enemy_data_t {
     int mod_base_ac;
 
     int sight_range;
-    int smell_range;
-    int hear_range;
 };
 
 const static enemy_data_t enemy_db[] = {
@@ -109,7 +107,7 @@ const static enemy_data_t enemy_db[] = {
         10,   5, {1, 3},
         ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
         ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE
+        ATT_AVERAGE
     },
     {
         {0, 10},
@@ -117,6 +115,6 @@ const static enemy_data_t enemy_db[] = {
         10,   5, {1, 3},
         ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
         ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE
+        ATT_AVERAGE
     }
 };

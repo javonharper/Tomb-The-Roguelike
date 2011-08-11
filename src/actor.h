@@ -36,8 +36,6 @@ class Actor
   
   //sense attributes
   int sight_range_;
-  int smell_range_;
-  int hear_range_;
   
   //combat attributes
   int unarmed_damage_[2];
@@ -87,7 +85,6 @@ class Actor
   void weildWeapon(Item *item);
   void wearItem(Item *item);
   void drinkPotion(Item *item);
-  void readScroll(Item *item);
 
   void startTurn();
   void endTurn();

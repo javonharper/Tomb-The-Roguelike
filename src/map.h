@@ -44,7 +44,7 @@ const static tile_t tile_db[] =
 {
 
   {TILE_UNKNOWN, '?', false, TCODColor::red, false, false},
-  {TILE_BLANK, ' ', false, TCODColor::black, false, false},
+  {TILE_BLANK, '!', false, TCODColor::yellow, false, false},
   {TILE_FLOOR, '.', true, TCODColor::grey, false, false},
   {TILE_WALL, '#', false, TCODColor::lightGrey, false, false},
   {TILE_DOWNSTAIR, '>', true, TCODColor::white, false, false},

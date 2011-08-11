@@ -37,7 +37,7 @@ bool Player::isEnemyAtPosition(int x, int y, int level)
 }
 
 void Player::kill()
-{is_alive_ = false;}
+{is_alive_ = false; setCurrentHealth(0);}
 
 bool Player::isAlive()
 {return is_alive_;}
@@ -118,10 +118,10 @@ void Player::promptDoorAction(char key)
       }
   }
 
-  void Player::promptDropAction()
-  {
-    displayDropItemsScreen(world_);
-  }
+void Player::promptDropAction()
+{
+  displayDropItemsScreen(world_);
+}
 
 
 

@@ -93,6 +93,7 @@ bool  Enemy::isEnemyAtPosition(int x, int y, int level)
 //removes this enemy from the enemylist stored in the world
 void Enemy::kill()
 {
+  setCurrentHealth(0);
   std::vector<Enemy*> &enemy_list = this->getWorld()->getEnemyList();
 
   for(unsigned int i = 0; i < enemy_list.size(); i++)

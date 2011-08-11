@@ -1,0 +1,38 @@
+Tomb v0.01
+MANUAL
+
+The tomb, items, and enemies are randomly generated so it guarantees no game is ever the same.
+
+ATTRIBUTES
+Strength: How much melee damage inflicts; How much one can withstand physical attacks
+Wisdom: How much magic damage inflicts; How successful magic spells are; How fast energy restores.
+Dexterity: Accuracy; How much ranged physical damage inflicts; Ability to dodge attacks
+Vitality: How often health restores
+
+STATUS
+Poisoned: Lose health every turn
+Confused: partially lose control of movement; vit roll to decide if can controll oneself
+Paralyzed: completely lose ability to moveTowards
+
+MONSTER BEHAVIOR
+Hostile: See pc and will actively try to attack it
+Searching: Was hostile, but no longer sees pc. Will move to last seen spot and give up.
+Wandering: Does not see pc, hanging out.
+Fleeing: Is overwhelmed by pc's power and is actively try to escape.
+
+ITEMS
+Armour:{silk tunic, cloth robe, leather vest, ring mail armour, splint mail armour, full plate armour}
+Shields:{wooden shield, buckler, small sheild, large shield, kit shield, tower shield}
+Melee Weapons:{dagger, battle-axe, short sword, warhammer, quarterstaff, spear}
+Bows:{short bow}
+Ammo:{arrow}
+Potions:{health, health restore,                    #increases health
+         energy, energy restore,                    #increases energy
+         poison, confusion, paralysis,              #inficts status
+         speed, sight, slow, blinding,              #changes alt-attributes
+         strength, wisdom, dexterity, consitution}  #changes main attributes
+MAGIC
+Arcane Spells:{magic dart, magic beam, magic ray}
+        
+        
+

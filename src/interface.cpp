@@ -12,6 +12,7 @@
 #include "item.h"
 #include "player.h"
 #include "enemy.h"
+#include "controller.h"
 
 std::vector<std::string> message_log;
 
@@ -20,25 +21,17 @@ void initScreen()
   TCODConsole::setCustomFont("art/Alloy_curses_12x12.png", TCOD_FONT_LAYOUT_ASCII_INROW);
   TCODConsole::initRoot(SCREEN_WIDTH, SCREEN_HEIGHT, "Tomb");
   TCODSystem::setFps(25);
-
-  for (int i = 0; i < SCREEN_WIDTH; i++)
-  {
-    for (int j = 0; j < SCREEN_HEIGHT; j++)
-    {
- //      TCODConsole::root->printCenter(i, j, TCOD_BKGND_NONE, " ");
-    }
-  }
 }
 
-void showMainMenu()
+void displayTitleScreen()
 {
-  //display the libtcod display
-  TCODConsole::credits();
-
-  //Show the Main Menu
   TCODConsole::root->clear();
-//  TCODConsole::root->printCenter(40, 25, TCOD_BKGND_NONE, "New Game");
-  TCODConsole::flush();
+  TCODConsole::root->print(0,1, "The Tomb, Copyright 2011");
+  TCODConsole::root->print(2,2, "By Javon Harper");
+  TCODConsole::root->print(2,3, "see LICENSE.txt for details");
+  TCODConsole::root->print(0,5, "Press a button to continue");
+  
+  updateScreen();
   TCODConsole::waitForKeypress(true);
 }
 
@@ -47,9 +40,46 @@ void updateScreen()
   TCODConsole::flush();
 }
 
+void displayGameScreen(World *world)
+{
+  TCODConsole::root->clear();
+  drawWorldPanel(world);
+  drawInfoPanel(world);
+  drawLogPanel(world);
+}
+
+void drawWorldPanel(World *world)
+{
+  drawWorld(world);
+}
+
+void drawInfoPanel(World *world)
+{
+  drawVerticalLine(infoScreenDims[X], infoScreenDims[Y], SCREEN_HEIGHT + 1, TCODColor::orange);
+  int y = infoScreenDims[Y];
+  int x = infoScreenDims[X] + 1;
+  
+  //TODO make this accurate
+  TCODConsole::root->print(x, y++, "Yalxo");
+  TCODConsole::root->print(x, y++, "Level 3");
+  drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange);
+  TCODConsole::root->putCharEx(x - 1, y++, TCOD_CHAR_TEEE, TCODColor::orange, TCODColor::black);
+  TCODConsole::root->print(x, y++, "Health 18/35");
+  TCODConsole::root->print(x, y++, "Energy 3/4");
+  TCODConsole::root->print(x, y++, "AC 10");
+  TCODConsole::root->print(x, y++, "STR: 10  INT: 10");
+  TCODConsole::root->print(x, y++, "WIS: 10  VIT: 10");
+  drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange);
+  TCODConsole::root->putCharEx(x - 1, y++, TCOD_CHAR_TEEE, TCODColor::orange, TCODColor::black);
+}
+
+void drawLogPanel(World *world)
+{
+  displayMessages();
+}
+
 char prompt(std::string message)
 {
-  drawDoubleLinedBorder(logScreenDims[X] + 1, logScreenDims[Y] - 3, message.length() + 2, 3, TCODColor::red);
   TCODConsole::root->print(logScreenDims[X] + 2, logScreenDims[Y] - 2, message.c_str());
   updateScreen();
   TCOD_key_t input = TCODConsole::waitForKeypress(true);
@@ -58,51 +88,27 @@ char prompt(std::string message)
 
 void message(std::string message)
 {
-  //TCODConsole::root->print(0, 49, message.c_str());
   message_log.push_back(message);
-  displayMessages(6);
-  updateScreen();
+  displayMessages();
 }
 
-void displayMessages(int msg_history)
+void displayMessages()
 {
   int log_size = message_log.size();
-  for (int i = 0; i < msg_history; i++)
+  for (int i = 0; i < NUM_MESSAGES_DISPLAYED; i++)
     {
       if (log_size - 1 - i >= 0)
 	{
-	  TCODConsole::root->print(logScreenDims[X] + 1, logScreenDims[Y] + 1 + i, ">");
-	  TCODConsole::root->print(logScreenDims[X] + 3, logScreenDims[Y] + 1 + i, message_log[message_log.size() - 1 - i].c_str());
+	  TCODConsole::root->print(logScreenDims[X], logScreenDims[Y] + i, ">");
+	  TCODConsole::root->print(logScreenDims[X] + 2, logScreenDims[Y] + i, message_log[message_log.size() - 1 - i].c_str());
 	}
     }
-}
-void displayGame(World *world)
-{
-  TCODConsole::root->clear();
-  drawTitleBar();
-  drawWorldScreen(world);
-  drawInfoScreen(world);
-  drawLogScreen(world);
-
-  //patch up corners
-  TCODConsole::root->putCharEx(infoScreenDims[X] , infoScreenDims[Y],TCOD_CHAR_TEES, TCODColor::orange, TCODColor::black);
-  TCODConsole::root->putCharEx(logScreenDims[X] , logScreenDims[Y], TCOD_CHAR_TEEE, TCODColor::yellow, TCODColor::black);
-TCODConsole::root->putCharEx(logScreenDims[X] + logScreenDims[WIDTH] - 1, logScreenDims[Y], TCOD_CHAR_TEEW, TCODColor::yellow, TCODColor::black);
-}
-
-void drawWorldScreen(World *world)
-{
-  drawLinedBorder(worldScreenDims[X], worldScreenDims[Y], worldScreenDims[WIDTH], worldScreenDims[HEIGHT], TCODColor::orange);
-  drawWorld(world);
-  //drawWorldCentered(world);
 }
 
 void drawWorld(World *world)
 {
-  int x_offset = worldScreenDims[X] + 1;
-  int y_offset = worldScreenDims[Y] + 1;
-//  int screen_width = worldScreenDims[WIDTH];
-//  int screen_height = worldScreenDims[HEIGHT];
+  int x_offset = worldScreenDims[X];
+  int y_offset = worldScreenDims[Y];
   Player *player = world->getPlayer();
   
   //draws the tiles
@@ -126,6 +132,7 @@ void drawWorld(World *world)
     }
   }
     
+  //draws the items if they are on the same level
   std::vector<Item*> items = world->getItemList();
   for (unsigned int i = 0; i < items.size(); i++)
   {
@@ -152,22 +159,6 @@ void drawWorld(World *world)
   
   //draws the player
   TCODConsole::root->putCharEx(player->getXPosition() + x_offset, player->getYPosition()+ y_offset, '@', TCODColor::white, TCODColor::black);
-}
-
-void drawInfoScreen(World *world)
-{
-  drawLinedBorder(infoScreenDims[X], infoScreenDims[Y], infoScreenDims[WIDTH], infoScreenDims[HEIGHT], TCODColor::orange);
-}
-
-void drawLogScreen(World *world)
-{
-  drawLinedBorder(logScreenDims[X], logScreenDims[Y], logScreenDims[WIDTH], logScreenDims[HEIGHT], TCODColor::yellow);
-  displayMessages(5);
-}
-
-void drawTitleBar()
-{
-  drawLinedBorder(titleScreenDims[X], titleScreenDims[Y], titleScreenDims[WIDTH], titleScreenDims[HEIGHT], TCODColor::darkOrange);
 }
 
 //void displayWorld(World *world, bool centered)
@@ -271,16 +262,18 @@ void displayInventoryScreen(World *world)
   std::string slots("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
   int offset = 5;
   for (unsigned int i = 0; i < slots.size(); i++)
-    {
+  {
       char slot = slots.at(i);
-      if (inventory->get(slot) != NULL)
-	{
-	  std::string str_slot;
-	  str_slot.push_back(slot);
-	  TCODConsole::root->print(3, i + offset, str_slot.c_str());
-	  TCODConsole::root->print(5, i + offset, inventory->get(slot)->getName().c_str());
-	}
-    }
+      Item* item = inventory->get(slot);
+      if (item != NULL)
+	    {
+	      std::string str_slot;
+	      str_slot.push_back(slot);
+	      TCODConsole::root->print(3, i + offset, str_slot.c_str());
+	      TCODConsole::setColorControl(TCOD_COLCTRL_1, item->getColor(), TCODColor::black);
+	      TCODConsole::root->print(5, i + offset, "%c%s%c", TCOD_COLCTRL_1, item->getName().c_str(), TCOD_COLCTRL_STOP);
+	     }
+  }
   
   updateScreen();
   
@@ -290,11 +283,10 @@ void displayInventoryScreen(World *world)
     TCOD_key_t key = TCODConsole::waitForKeypress(true);
     switch(key.c)
     {
-      case 27: displayGame(world); updateScreen(); exited_screen = true; break;
+      case ESC: displayGameScreen(world); exited_screen = true; break;
     }
   }
 }
-
 
 void displayDropItemsScreen(World *world)
 {
@@ -304,19 +296,20 @@ void displayDropItemsScreen(World *world)
   std::map<char, Item*> item_map = inventory->getMap();
   std::string slots("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
   int offset = 5;
+  
   for (unsigned int i = 0; i < slots.size(); i++)
-    {
+  {
       char slot = slots.at(i);
       Item* item = inventory->get(slot);
       if (item != NULL)
-	{
-	  std::string str_slot;
-	  str_slot.push_back(slot);
-	  TCODConsole::root->print(3, i + offset, str_slot.c_str());
-	  TCODConsole::setColorControl(TCOD_COLCTRL_1, item->getColor(), TCODColor::black);
-	  TCODConsole::root->print(5, i + offset, "%c%s%c", TCOD_COLCTRL_1, item->getName().c_str(), TCOD_COLCTRL_STOP);
-	}
-    }
+	    {
+	      std::string str_slot;
+	      str_slot.push_back(slot);
+	      TCODConsole::root->print(3, i + offset, str_slot.c_str());
+	      TCODConsole::setColorControl(TCOD_COLCTRL_1, item->getColor(), TCODColor::black);
+	      TCODConsole::root->print(5, i + offset, "%c%s%c", TCOD_COLCTRL_1, item->getName().c_str(), TCOD_COLCTRL_STOP);
+	    }
+  }
   
   updateScreen();
   
@@ -326,7 +319,7 @@ void displayDropItemsScreen(World *world)
     TCOD_key_t key = TCODConsole::waitForKeypress(true);
     switch(key.c)
     {
-      case 27: displayGame(world); updateScreen(); exited_screen = true; break;
+      case ESC: displayGameScreen(world); exited_screen = true; break;
     default:{ exited_screen = (inventory->get(key.c) != NULL); if (exited_screen){world->getPlayer()->dropItem(inventory->get(key.c));}}
     }
   }
@@ -351,50 +344,6 @@ void displayGameOverScreen(std::string reason)
   exit(0);
 }
 
-void drawLinedBorder(int x, int y, int width, int height, TCODColor color)
-{
-  width = width - 1;
-  height = height - 1;
-  for (int i = x; i <= x + width; i++)
-	{
-	  TCODConsole::root->putCharEx(i, y, TCOD_CHAR_HLINE, color, TCODColor::black);
-    TCODConsole::root->putCharEx(i, y + height, TCOD_CHAR_HLINE, color, TCODColor::black);
-	}
-	
-  for (int j = y; j <= y + height; j++)
-	{
-	  TCODConsole::root->putCharEx(x, j, TCOD_CHAR_VLINE, color, TCODColor::black);
-    TCODConsole::root->putCharEx(x + width, j, TCOD_CHAR_VLINE, color, TCODColor::black);
-	}
-	
-	TCODConsole::root->putCharEx(x, y, TCOD_CHAR_NW, color, TCODColor::black);
-  TCODConsole::root->putCharEx(x + width, y, TCOD_CHAR_NE, color, TCODColor::black);
-	TCODConsole::root->putCharEx(x, y + height, TCOD_CHAR_SW, color, TCODColor::black);
-	TCODConsole::root->putCharEx(x + width, y + height, TCOD_CHAR_SE, color, TCODColor::black);
-}
-
-void drawDoubleLinedBorder(int x, int y, int width, int height, TCODColor color)
-{
-  width = width - 1;
-  height = height - 1;
-  for (int i = x; i <= x + width; i++)
-	{
-	  TCODConsole::root->putCharEx(i, y, TCOD_CHAR_DHLINE, color, TCODColor::black);
-    TCODConsole::root->putCharEx(i, y + height, TCOD_CHAR_DHLINE, color, TCODColor::black);
-	}
-	
-  for (int j = y; j <= y + height; j++)
-	{
-	  TCODConsole::root->putCharEx(x, j, TCOD_CHAR_DVLINE, color, TCODColor::black);
-    TCODConsole::root->putCharEx(x + width, j, TCOD_CHAR_DVLINE, color, TCODColor::black);
-	}
-	
-	TCODConsole::root->putCharEx(x, y, TCOD_CHAR_DNW, color, TCODColor::black);
-  TCODConsole::root->putCharEx(x + width, y, TCOD_CHAR_DNE, color, TCODColor::black);
-	TCODConsole::root->putCharEx(x, y + height, TCOD_CHAR_DSW, color, TCODColor::black);
-	TCODConsole::root->putCharEx(x + width, y + height, TCOD_CHAR_DSE, color, TCODColor::black);
-}
-
 void drawVerticalLine(int x, int y, int height, TCODColor color)
 {
   for (int i = y; i < y + height - 1 ; i++)
@@ -403,16 +352,10 @@ void drawVerticalLine(int x, int y, int height, TCODColor color)
   }
 }
 
-void drawDoubleVerticalLine(int x, int y, int height, TCODColor color)
+void drawHorizontalLine(int x, int y, int width, TCODColor color)
 {
-  for (int i = y; i < y + height - 1 ; i++)
+  for (int i = x; i < x + width - 1 ; i++)
   {
-    TCODConsole::root->putCharEx(x, i, TCOD_CHAR_DVLINE, color, TCODColor::black);
+    TCODConsole::root->putCharEx(i, y, TCOD_CHAR_HLINE, color, TCODColor::black);
   }
 }
-
-void printChar(int x, int y, char character, TCODColor foreground, TCODColor background)
-{
-    TCODConsole::root->putCharEx(x, y, character, foreground, background);
-}
-

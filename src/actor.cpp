@@ -5,6 +5,7 @@
  */
 #include <cmath>
 #include <iostream>
+#include <sstream>
 #include "actor.h"
 #include "functions.h"
 #include "interface.h"
@@ -27,8 +28,6 @@ void Actor::initProperties(enemy_data_t data, World *world)
   color_ = data.color;
 
   sight_range_ = data.sight_range;
-  smell_range_ = data.smell_range;
-  hear_range_ = data.hear_range;
 
   mod_speed_ = data.mod_speed;
   mod_size_ = data.mod_size;
@@ -191,6 +190,7 @@ void Actor::ascendStairs()
 //DND style melee attack.
 void Actor::meleeAttack(Actor *actor)
 {
+  std::stringstream message_stream;
   std::cout << "== Melee Attack:"<< getName() << "-->"<< actor->getName() << " == "<< std::endl;
   int attack_roll = random(1, 20) + calcAtt(att_str_);
   int opponent_ac = actor->calcArmourClass();
@@ -209,23 +209,25 @@ void Actor::meleeAttack(Actor *actor)
       critical_hit = true;
       damage_roll = damage_roll + calcMeleeDamage() + calcAtt(att_str_);
     }
-    std::cout << actor->getName() << " hit for " <<  damage_roll << " damage";
+    message_stream << actor->getName() << " hit for " <<  damage_roll << " damage";
     if (critical_hit)
       {
-	std::cout << "critically";
+	      message_stream << " critically";
       }
-    std::cout << "." <<std::endl;
+    message_stream << "." <<std::endl;
   }
   else
   {
-    std::cout << getName() << " misses." << std::endl;
+    message_stream << getName() << " misses.";
   }
+  
+  std::cout << message_stream.str() << std::endl;
 
   //check if the actor is dead.
   if(damage_roll >= actor->getCurrentHealth())
   {
     std::cout << actor->getName() << " killed." << std::endl;
-    actor->setCurrentHealth(0);
+    message_stream << getName() << actor->getName() << " killed.";
     actor->kill();
   } else
   {
@@ -233,10 +235,11 @@ void Actor::meleeAttack(Actor *actor)
     std::cout << actor->getName() << " has " << actor->getCurrentHealth() << " life left" << std::endl;
   }
   std::cout << "== Ending melee attack sequence. ==" << std::endl;
+  
+  message(message_stream.str());
   turn_finished_ = true;
 }
 
-//void Actor::castSpell(Spell *spell){}
 void Actor::rangedAttack(Actor *actor){}
 
 void Actor::dropItem(Item *item)
@@ -259,7 +262,6 @@ void Actor::useItem(Item *item){}
 void Actor::weildWeapon(Item *item){}
 void Actor::wearItem(Item *item){}
 void Actor::drinkPotion(Item *item){}
-void Actor::readScroll(Item *item){}
 
 //Handles anything that needs to happen before taking a turn,
 //including checking to see if it is actually the actor turn.
@@ -295,26 +297,9 @@ int Actor::calcSize()
   return (mod_size_ - 10) * (1 - (1/5));
 }
 
-int Actor::calcAC()
-{
-  return mod_base_ac_;
-}
-
 int Actor::calcSight()
 {
   return sight_range_;
-}
-
-int Actor::calcHear()
-{
-  //TODO implement hearing
-  return hear_range_;
-}
-
-int Actor::calcSmell()
-{
-  //TODO implement smelling
-  return smell_range_;
 }
 
 int Actor::calcAtt(int attribute)
@@ -322,7 +307,7 @@ int Actor::calcAtt(int attribute)
   return (attribute - 10 )/5;
 }
 
-//Sets the players field of vision.
+//Sets the actors field of vision.
 //Adapted from elig's los psuedocode on rogueebasin
 //http://roguebasin.roguelikedevelopment.org/index.php?title=Eligloscode
 void Actor::FOV(Map *map)
@@ -342,7 +327,7 @@ void Actor::FOV(Map *map)
   }
 }
 
-//Calculates if the player can see in a direction
+//Calculates if the actor can see in a direction
 //Adapted from elig's los psuedocode on rogueebasin
 //http://roguebasin.roguelikedevelopment.org/index.php?title=Eligloscode
 //TODO: Fix sight for att values that are not 10
@@ -412,7 +397,7 @@ int Actor::getXPosition(){return x_;}
 int Actor::getYPosition(){return y_;}
 int Actor::getMapLevel(){return map_level_;}
 int Actor::getFaceTile(){return face_tile_;}
-TCODColor Actor::getColor(){return color_;}
+TCODColor Actor::getColor(){return color_;}//XXX should not explicity get TCODColor type, struct rather
 void Actor::setXPosition(int x){this->x_ = x;}
 void Actor::setYPosition(int y){this->y_ = y;}
 void Actor::setMapLevel(int z){this->map_level_ = z;}

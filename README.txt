@@ -7,7 +7,7 @@ In the terminal, run the command
 
 make run
 
-Afterwards, you can run the command ./The_Tomb or double click the executable file to start the game.
+Afterwards, you can run the command ./tomb or double click the executable file to start the game.
 
 Developing Tomb:
 This repository comes with the code::blocks project files I'm using to write Tomb.

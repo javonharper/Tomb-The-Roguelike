@@ -12,6 +12,7 @@
 #include "player.h"
 #include "random.h"
 #include "world.h"
+#include "controller.h"
 
 void initScreen();
 bool isGameOver();
@@ -28,9 +29,9 @@ int main(int argc, char* argv[])
   std::cout << "seed:" << seed << std::endl;
 
   initScreen();
-  //showMainMenu();
+  displayTitleScreen();
 
-  world = new World(48, 37, 1);
+  world = new World(worldScreenDims[WIDTH], worldScreenDims[HEIGHT], 1);
   player = world->generatePlayer();
   enemies = world->generateEnemies();
   world->generateItems();
@@ -40,8 +41,9 @@ int main(int argc, char* argv[])
   {
     world->incrementTimeStep();
     std::cout<< "=WORLD STEP" << world->getTimeStep()<<"=" << std::endl;
-    displayGame(world);
+    
     player->FOV(world->getMapLevel(player->getMapLevel()));
+    displayGameScreen(world);
     updateScreen();
 
     player->startTurn();
@@ -87,23 +89,23 @@ void handleKeyPress()
   TCOD_key_t key = TCODConsole::waitForKeypress(true);
   switch(key.c)
     {
-    case 'h': player->move(player->getXPosition() - 1, player->getYPosition(), player->getMapLevel()); break;
-    case 'j': player->move(player->getXPosition(), player->getYPosition() + 1, player->getMapLevel()); break;
-    case 'k': player->move(player->getXPosition(), player->getYPosition() - 1, player->getMapLevel()); break;
-    case 'l': player->move(player->getXPosition() + 1, player->getYPosition(), player->getMapLevel()); break;
-    case 'y': player->move(player->getXPosition() - 1, player->getYPosition() - 1, player->getMapLevel()); break;
-    case 'u': player->move(player->getXPosition() + 1, player->getYPosition() - 1, player->getMapLevel()); break;
-    case 'b': player->move(player->getXPosition() - 1, player->getYPosition() + 1, player->getMapLevel()); break;
-    case 'n': player->move(player->getXPosition() + 1, player->getYPosition() + 1, player->getMapLevel()); break;
-    case '.': player->rest(); break;
-    case '>': player->descendStairs(); break;
-    case '<': player->ascendStairs(); break;
-    case 'o': player->promptDoorAction(key.c); break;
-    case 'c': player->promptDoorAction(key.c); break;
-    case 'g': player->promptPickupAction(); break;
-    case 'd': player->promptDropAction(); break;
-    case 'i': displayInventoryScreen(world); break;
-    case 27: displayGameOverScreen("You have exited the game."); break;
+    case MOVE_WEST: player->move(player->getXPosition() - 1, player->getYPosition(), player->getMapLevel()); break;
+    case MOVE_SOUTH: player->move(player->getXPosition(), player->getYPosition() + 1, player->getMapLevel()); break;
+    case MOVE_NORTH: player->move(player->getXPosition(), player->getYPosition() - 1, player->getMapLevel()); break;
+    case MOVE_EAST: player->move(player->getXPosition() + 1, player->getYPosition(), player->getMapLevel()); break;
+    case MOVE_NORTHWEST: player->move(player->getXPosition() - 1, player->getYPosition() - 1, player->getMapLevel()); break;
+    case MOVE_NORTHEAST: player->move(player->getXPosition() + 1, player->getYPosition() - 1, player->getMapLevel()); break;
+    case MOVE_SOUTHWEST: player->move(player->getXPosition() - 1, player->getYPosition() + 1, player->getMapLevel()); break;
+    case MOVE_SOUTHEAST: player->move(player->getXPosition() + 1, player->getYPosition() + 1, player->getMapLevel()); break;
+    case REST: player->rest(); break;
+    case MOVE_DOWNSTAIRS: player->descendStairs(); break;
+    case MOVE_UPSTAIRS: player->ascendStairs(); break;
+    case OPEN_DOOR: player->promptDoorAction(key.c); break;
+    case CLOSE_DOOR: player->promptDoorAction(key.c); break;
+    case PICKUP: player->promptPickupAction(); break;
+    case DROP: player->promptDropAction(); break;
+    case SHOW_INVENTORY: displayInventoryScreen(world); break;
+    case ESC: displayGameOverScreen("You have exited the game."); break;
     }
 }
 
