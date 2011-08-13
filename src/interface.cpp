@@ -15,6 +15,10 @@
 #include "controller.h"
 
 std::vector<std::string> message_log;
+void setWorld(World *world)
+{
+  _world_ = world;
+}
 
 void initScreen()
 {
@@ -40,33 +44,37 @@ void updateScreen()
   TCODConsole::flush();
 }
 
-void displayGameScreen(World *world)
+void displayGameScreen()
 {
   TCODConsole::root->clear();
-  drawWorldPanel(world);
-  drawInfoPanel(world);
-  drawLogPanel(world);
+  drawWorldPanel();
+  drawInfoPanel();
+  drawLogPanel();
 }
 
-void drawWorldPanel(World *world)
+void drawWorldPanel()
 {
-  drawWorld(world);
+  drawWorld();
 }
 
-void drawInfoPanel(World *world)
+void drawInfoPanel()
 {
   drawVerticalLine(infoScreenDims[X], infoScreenDims[Y], SCREEN_HEIGHT + 1, TCODColor::orange);
   int y = infoScreenDims[Y];
   int x = infoScreenDims[X] + 1;
   
   //TODO make this accurate
-  Player *player = world->getPlayer();
+  Player *player = _world_->getPlayer();
   
   TCODConsole::root->print(x, y++, player->getName().c_str());
   
   std::stringstream player_level;
   player_level << "Level " << player->getLevel();
   TCODConsole::root->print(x, y++,  player_level.str().c_str());
+  
+  std::stringstream d_level;
+  d_level << "Dungeon Level " << player->getMapLevel() + 1;
+  TCODConsole::root->print(x, y++,  d_level.str().c_str());
   
   drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange); 
   TCODConsole::root->putCharEx(x - 1, y++, TCOD_CHAR_TEEE, TCODColor::orange, TCODColor::black);
@@ -82,7 +90,7 @@ void drawInfoPanel(World *world)
   std::stringstream ac_info;
   ac_info << "AC " << player->calcArmourClass();
   TCODConsole::root->print(x, y++, ac_info.str().c_str());
-  //!!!
+
   std::stringstream str_info;
   str_info << "STR " << player->getAttribute(ATT_STR);
   TCODConsole::root->print(x, y++, str_info.str().c_str());
@@ -103,14 +111,15 @@ void drawInfoPanel(World *world)
   TCODConsole::root->putCharEx(x - 1, y++, TCOD_CHAR_TEEE, TCODColor::orange, TCODColor::black);
 }
 
-void drawLogPanel(World *world)
+void drawLogPanel()
 {
   displayMessages();
 }
 
 char prompt(std::string message)
 {
-  TCODConsole::root->print(logScreenDims[X] + 2, logScreenDims[Y] - 2, message.c_str());
+  message_log.push_back(message);
+  displayGameScreen();
   updateScreen();
   TCOD_key_t input = TCODConsole::waitForKeypress(true);
   return input.c;
@@ -119,7 +128,7 @@ char prompt(std::string message)
 void message(std::string message)
 {
   message_log.push_back(message);
-  displayMessages();
+  displayGameScreen();
   updateScreen();
 }
 
@@ -127,27 +136,27 @@ void displayMessages()
 {
   int log_size = message_log.size();
   for (int i = 0; i < NUM_MESSAGES_DISPLAYED; i++)
-    {
-      if (log_size - 1 - i >= 0)
-	{
-	  TCODConsole::root->print(logScreenDims[X], logScreenDims[Y] + i, ">");
-	  TCODConsole::root->print(logScreenDims[X] + 2, logScreenDims[Y] + i, message_log[message_log.size() - 1 - i].c_str());
-	}
-    }
+  {
+    if (log_size - 1 - i >= 0)
+	  {
+	    TCODConsole::root->print(logScreenDims[X], logScreenDims[Y] + i, ">");
+	    TCODConsole::root->print(logScreenDims[X] + 2, logScreenDims[Y] + i, message_log[message_log.size() - 1 - i].c_str());
+	  }
+  }
 }
 
-void drawWorld(World *world)
+void drawWorld()
 {
   int x_offset = worldScreenDims[X];
   int y_offset = worldScreenDims[Y];
-  Player *player = world->getPlayer();
+  Player *player = _world_->getPlayer();
   
   //draws the tiles
-  for (int i = 0; i < world->getWidth(); i++)
+  for (int i = 0; i < _world_->getWidth(); i++)
   {
-    for (int j = 0; j < world->getHeight(); j++)
+    for (int j = 0; j < _world_->getHeight(); j++)
     {
-      tile_t this_tile = world->getTile(i, j, world->getCurrentLevel());
+      tile_t this_tile = _world_->getTile(i, j, _world_->getCurrentLevel());
       if(this_tile.visible)
       {
         TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, this_tile.color, TCODColor::black);
@@ -164,13 +173,13 @@ void drawWorld(World *world)
   }
     
   //draws the items if they are on the same level
-  std::vector<Item*> items = world->getItemList();
+  std::vector<Item*> items = _world_->getItemList();
   for (unsigned int i = 0; i < items.size(); i++)
   {
     Item *item = items[i];
     if (item->isOnGround())
     {
-      if (player->canSee(world->getMapLevel(item->getMapLevel()), item->getXPosition(), item->getYPosition()))
+      if (player->canSee(_world_->getMapLevel(item->getMapLevel()), item->getXPosition(), item->getYPosition()))
       {
         TCODConsole::root->putCharEx(item->getXPosition() + x_offset, item->getYPosition() + y_offset, item->getFaceTile(), item->getColor(), TCODColor::black);
       }
@@ -178,11 +187,11 @@ void drawWorld(World *world)
   }
     
   //draws the enemy if they are on the same level at the actor
-  std::vector<Enemy*> enemies = world->getEnemyList();
+  std::vector<Enemy*> enemies = _world_->getEnemyList();
   for (unsigned int i = 0; i < enemies.size(); i++)
   {
     Enemy* en = enemies[i];
-    if(en->getMapLevel() == world->getCurrentLevel() && player->canSee(world->getMapLevel(en->getMapLevel()), en->getXPosition(), en->getYPosition()))
+    if(en->getMapLevel() == _world_->getCurrentLevel() && player->canSee(_world_->getMapLevel(en->getMapLevel()), en->getXPosition(), en->getYPosition()))
     {
       TCODConsole::root->putCharEx(en->getXPosition() + x_offset, en->getYPosition() + y_offset, en->getFaceTile(), en->getColor(), TCODColor::black);
     }
@@ -284,11 +293,11 @@ void drawWorld(World *world)
 //  }
 //}
 
-void displayInventoryScreen(World *world)
+void displayInventoryScreen()
 {
   TCODConsole::root->clear();
   TCODConsole::root->print(2, 2, "Inventory");
-  Inventory *inventory = world->getPlayer()->getInventory();
+  Inventory *inventory = _world_->getPlayer()->getInventory();
   std::map<char, Item*> item_map = inventory->getMap();
   std::string slots("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
   int offset = 5;
@@ -314,16 +323,16 @@ void displayInventoryScreen(World *world)
     TCOD_key_t key = TCODConsole::waitForKeypress(true);
     switch(key.c)
     {
-      case ESC: displayGameScreen(world); exited_screen = true; updateScreen(); break;
+      case ESC: displayGameScreen(); exited_screen = true; updateScreen(); break;
     }
   }
 }
 
-void displayDropItemsScreen(World *world)
+void displayDropItemsScreen()
 {
   TCODConsole::root->clear();
   TCODConsole::root->print(2, 2, "Which item do you want to drop?");
-  Inventory *inventory = world->getPlayer()->getInventory();
+  Inventory *inventory = _world_->getPlayer()->getInventory();
   std::map<char, Item*> item_map = inventory->getMap();
   std::string slots("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
   int offset = 5;
@@ -350,10 +359,48 @@ void displayDropItemsScreen(World *world)
     TCOD_key_t key = TCODConsole::waitForKeypress(true);
     switch(key.c)
     {
-      case ESC: displayGameScreen(world); exited_screen = true; updateScreen(); break;
-    default:{ exited_screen = (inventory->get(key.c) != NULL); if (exited_screen){world->getPlayer()->dropItem(inventory->get(key.c));}}
+      case ESC: displayGameScreen(); exited_screen = true; updateScreen(); break;
+      default:{ exited_screen = (inventory->get(key.c) != NULL); if (exited_screen){_world_->getPlayer()->dropItem(inventory->get(key.c));}}
     }
   }
+}
+
+Item* displayUseItemScreen()
+{
+  TCODConsole::root->clear();
+  TCODConsole::root->print(2, 2, "Which item do you want to use");
+  Inventory *inventory = _world_->getPlayer()->getInventory();
+  std::map<char, Item*> item_map = inventory->getMap();
+  std::string slots("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+  int offset = 5;
+  
+  for (unsigned int i = 0; i < slots.size(); i++)
+  {
+      char slot = slots.at(i);
+      Item* item = inventory->get(slot);
+      if (item != NULL)
+	    {
+	      std::string str_slot;
+	      str_slot.push_back(slot);
+	      TCODConsole::root->print(3, i + offset, str_slot.c_str());
+	      TCODConsole::setColorControl(TCOD_COLCTRL_1, item->getColor(), TCODColor::black);
+	      TCODConsole::root->print(5, i + offset, "%c%s%c", TCOD_COLCTRL_1, item->getName().c_str(), TCOD_COLCTRL_STOP);
+	    }
+  }
+  
+  updateScreen();
+  
+  bool exited_screen = false;
+  while (!exited_screen)
+  {
+    TCOD_key_t key = TCODConsole::waitForKeypress(true);
+    switch(key.c)
+    {
+      case ESC: displayGameScreen(); exited_screen = true; updateScreen(); return NULL; break;
+      default:{ exited_screen = (inventory->get(key.c) != NULL); if (exited_screen){return inventory->get(key.c);}}
+    }
+  }
+  return NULL;
 }
 
 void displayWinScreen()

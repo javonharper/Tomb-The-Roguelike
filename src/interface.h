@@ -18,20 +18,25 @@ const static int infoScreenDims[] = {worldScreenDims[WIDTH], 0, SCREEN_WIDTH - w
 const static int logScreenDims[] = {0, worldScreenDims[HEIGHT], SCREEN_WIDTH - infoScreenDims[WIDTH], worldScreenDims[HEIGHT] - SCREEN_HEIGHT};
 const static int NUM_MESSAGES_DISPLAYED = 4;
 
+static World *_world_;
+void setWorld(World *world);
+
 void initScreen();
 void updateScreen();
 
 void displayTitleScreen();
-void displayGameScreen(World *world);
-void displayInventoryScreen(World *world);
-void displayDropItemsScreen(World *world);
+void displayGameScreen();
+void displayInventoryScreen();
+void displayDropItemsScreen();
+Item *displayUseItemScreen();
+
 void displayWinScreen();
 void displayGameOverScreen(std::string reason);
 
-void drawWorldPanel(World *world);
-void drawWorld(World *world);
-void drawInfoPanel(World *world);
-void drawLogPanel(World *world);
+void drawWorldPanel();
+void drawWorld();
+void drawInfoPanel();
+void drawLogPanel();
 
 char prompt(std::string message);
 void message(std::string message);

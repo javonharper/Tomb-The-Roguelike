@@ -96,4 +96,6 @@ TCODColor Item::getColor(){return color_;}
 std::string Item::getName(){return name_;}
 bool Item::isOnGround(){return on_ground_;}
 void Item::setOnGround(bool on_ground){on_ground_ = on_ground;}
+int Item::getCategory(){return category_;}
+int Item::getValue(int i){return item_values_[i];}
 

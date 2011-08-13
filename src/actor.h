@@ -82,7 +82,7 @@ class Actor
   void dropItem(Item *item);
   void pickUpItem(Item *item);
   void useItem(Item *item);
-  void weildWeapon(Item *item);
+  void wieldWeapon(Item *item);
   void wearItem(Item *item);
   void drinkPotion(Item *item);
 

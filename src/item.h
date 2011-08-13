@@ -56,6 +56,8 @@ class Item
     std::string getName();
     bool isOnGround();
     void setOnGround(bool on_ground);
+    int getCategory();
+    int getValue(int i);
 };
 
 #endif

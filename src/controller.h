@@ -22,6 +22,7 @@
 #define DROP            'd'
 #define PICKUP          'g'
 #define SHOW_INVENTORY  'i'
+#define USE_ITEM        'U'
 
 #define ESC 27
 

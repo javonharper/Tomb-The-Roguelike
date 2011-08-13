@@ -10,6 +10,7 @@
 #include "functions.h"
 #include "interface.h"
 #include "item.h"
+#include "item_db.h"
 #include "inventory.h"
 #include "random.h"
 #include "world.h"
@@ -258,9 +259,33 @@ void Actor::pickUpItem(Item *item)
   turn_finished_ = true;
 }
 
-void Actor::useItem(Item *item){}
-void Actor::weildWeapon(Item *item){}
-void Actor::wearItem(Item *item){}
+void Actor::useItem(Item *item)
+{
+  switch(item->getCategory())
+  {
+    case CATEGORY_WEAPON: wieldWeapon(item); break;
+    case CATEGORY_BODY_ARMOUR:wearItem(item); break;
+    default: message("ERROR: Malformed item category"); break;
+  }
+  turn_finished_ = true;
+}
+
+void Actor::wieldWeapon(Item *item)
+{
+  active_weapon_ = item;
+  turn_finished_ = true;
+}
+
+void Actor::wearItem(Item *item)
+{
+
+  switch(item->getCategory())
+  {
+    case CATEGORY_BODY_ARMOUR: active_body_armour_ = item; turn_finished_ = true; break;
+    default: message("ERROR: Something went wrong trying to wear an item");
+  }
+}
+
 void Actor::drinkPotion(Item *item){}
 
 //Handles anything that needs to happen before taking a turn,
@@ -357,9 +382,8 @@ int Actor::calcArmourClass()
 
   if (this->hasBodyArmour())
   {
-    //TODO: Should get the armour bonus from the item of with type armour
-    //armour_bonus = active_body_armour_->getArmourBonus();
-    //armour_bonus = active_shield_->getArmourBonus();
+    armour_bonus = active_body_armour_->getValue(0);
+    //armour_bonus += active_shield_->getArmourBonus();
   }
 //std::cout << this->mod_base_ac_ <<":"<< armour_bonus <<":"<< this->calcMod(this->att_dex_) <<":"<< this->calcMod(-mod_size_) <<":"<<std::endl;
   return mod_base_ac_ + armour_bonus + calcAtt(att_dex_) + calcSize();
@@ -375,9 +399,8 @@ int Actor::calcMeleeDamage()
 
   if(this->hasWeapon())
   {
-//    int* weapon_damage = this->getWeapon()->getDamage();
-//    rolls = weapon_damage[0];
-//    die_sides = weapon_damage[1];
+    rolls = active_weapon_->getValue(0);
+    die_sides = active_weapon_->getValue(1);
   } else
   {
     rolls = unarmed_damage_[0];
@@ -399,7 +422,7 @@ int Actor::getAttribute(int att_type)
     case ATT_DEX: return att_dex_;
     case ATT_WIS: return att_wis_;
     case ATT_VIT: return att_vit_;
-    default: return -1;
+    default: message("ERROR: malformed att_type"); return -1;
   }
 }
 

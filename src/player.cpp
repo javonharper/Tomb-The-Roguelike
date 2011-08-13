@@ -10,6 +10,7 @@
 #include "enemy.h"
 #include "functions.h"
 #include "interface.h"
+#include "item_db.h"
 #include "map.h"
 #include "random.h"
 #include "world.h"
@@ -132,7 +133,46 @@ void Player::promptDoorAction(char key)
 
 void Player::promptDropAction()
 {
-  displayDropItemsScreen(world_);
+  displayDropItemsScreen();
+}
+
+void Player::promptUseItemAction()
+{
+  Item *item = displayUseItemScreen();
+  std::stringstream use_stream;
+  use_stream << "you ";
+  
+  switch(item->getCategory())
+  {
+    case CATEGORY_WEAPON: use_stream << "wield"; break;
+    case CATEGORY_BODY_ARMOUR: use_stream << "put on"; break;
+    default: use_stream << "ERROR: malformed item category on use"; break;
+  }
+  
+  use_stream << " the " << item->getName() << ".";
+  
+  displayGameScreen();
+  message(use_stream.str());
+}
+
+void Player::moveAction(int x, int y, int z)
+{
+  move(x,y,z);
+  if(x_ == x && y_ == y && map_level_ == z)//if they actually moved there
+  {
+  std::vector<Item*> items = world_->getItemsAt(x_, y_, map_level_);
+    if(items.size() == 1)
+    {
+      std::stringstream ground_stream;
+      ground_stream << "You see a " << items[0]->getName() << " here.";
+	    message(ground_stream.str());
+	    updateScreen();
+    }
+    else if (items.size() > 1)
+    {
+	    message("You see many items here"); 
+    }
+  }
 }
 
 int Player::getLevel()

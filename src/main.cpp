@@ -32,6 +32,8 @@ int main(int argc, char* argv[])
   displayTitleScreen();
 
   world = new World(worldScreenDims[WIDTH], worldScreenDims[HEIGHT], 1);
+  setWorld(world);//interface.h, just to keep a pointer to the world so It doesn't have to get passed with every message, prompt, etc.
+  
   player = world->generatePlayer();
   enemies = world->generateEnemies();
   world->generateItems();
@@ -43,7 +45,7 @@ int main(int argc, char* argv[])
     std::cout<< "=WORLD STEP" << world->getTimeStep()<<"=" << std::endl;
     
     player->FOV(world->getMapLevel(player->getMapLevel()));
-    displayGameScreen(world);
+    displayGameScreen();
     updateScreen();
 
     player->startTurn();
@@ -89,14 +91,14 @@ void handleKeyPress()
   TCOD_key_t key = TCODConsole::waitForKeypress(true);
   switch(key.c)
     {
-    case MOVE_WEST: player->move(player->getXPosition() - 1, player->getYPosition(), player->getMapLevel()); break;
-    case MOVE_SOUTH: player->move(player->getXPosition(), player->getYPosition() + 1, player->getMapLevel()); break;
-    case MOVE_NORTH: player->move(player->getXPosition(), player->getYPosition() - 1, player->getMapLevel()); break;
-    case MOVE_EAST: player->move(player->getXPosition() + 1, player->getYPosition(), player->getMapLevel()); break;
-    case MOVE_NORTHWEST: player->move(player->getXPosition() - 1, player->getYPosition() - 1, player->getMapLevel()); break;
-    case MOVE_NORTHEAST: player->move(player->getXPosition() + 1, player->getYPosition() - 1, player->getMapLevel()); break;
-    case MOVE_SOUTHWEST: player->move(player->getXPosition() - 1, player->getYPosition() + 1, player->getMapLevel()); break;
-    case MOVE_SOUTHEAST: player->move(player->getXPosition() + 1, player->getYPosition() + 1, player->getMapLevel()); break;
+    case MOVE_WEST: player->moveAction(player->getXPosition() - 1, player->getYPosition(), player->getMapLevel()); break;
+    case MOVE_SOUTH: player->moveAction(player->getXPosition(), player->getYPosition() + 1, player->getMapLevel()); break;
+    case MOVE_NORTH: player->moveAction(player->getXPosition(), player->getYPosition() - 1, player->getMapLevel()); break;
+    case MOVE_EAST: player->moveAction(player->getXPosition() + 1, player->getYPosition(), player->getMapLevel()); break;
+    case MOVE_NORTHWEST: player->moveAction(player->getXPosition() - 1, player->getYPosition() - 1, player->getMapLevel()); break;
+    case MOVE_NORTHEAST: player->moveAction(player->getXPosition() + 1, player->getYPosition() - 1, player->getMapLevel()); break;
+    case MOVE_SOUTHWEST: player->moveAction(player->getXPosition() - 1, player->getYPosition() + 1, player->getMapLevel()); break;
+    case MOVE_SOUTHEAST: player->moveAction(player->getXPosition() + 1, player->getYPosition() + 1, player->getMapLevel()); break;
     case REST: player->rest(); break;
     case MOVE_DOWNSTAIRS: player->descendStairs(); break;
     case MOVE_UPSTAIRS: player->ascendStairs(); break;
@@ -104,7 +106,8 @@ void handleKeyPress()
     case CLOSE_DOOR: player->promptDoorAction(key.c); break;
     case PICKUP: player->promptPickupAction(); break;
     case DROP: player->promptDropAction(); break;
-    case SHOW_INVENTORY: displayInventoryScreen(world); break;
+    case USE_ITEM: player->promptUseItemAction(); break;
+    case SHOW_INVENTORY: displayInventoryScreen(); break;
     case ESC: displayGameOverScreen("You have exited the game."); break;
     }
 }

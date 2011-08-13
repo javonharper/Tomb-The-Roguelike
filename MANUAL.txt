@@ -3,6 +3,25 @@ MANUAL
 
 The tomb, items, and enemies are randomly generated so it guarantees no game is ever the same.
 
+KEY COMMANDS
+h   go west
+j   go south
+k   go north
+l   go east
+y   go northwest
+u   go northeast
+b   go southwest
+n   go southeast
+.   rest for a turn
+o   open a door
+c   close a door
+>   go down a set of stairs
+<   go up a set of stairs
+d   drop an item
+g   get an item off the ground
+i   open inventory
+ESC quit game
+
 ATTRIBUTES
 Strength: How much melee damage inflicts; How much one can withstand physical attacks
 Wisdom: How much magic damage inflicts; How successful magic spells are; How fast energy restores.
@@ -10,7 +29,7 @@ Dexterity: Accuracy; How much ranged physical damage inflicts; Ability to dodge 
 Vitality: How often health restores
 
 STATUS
-Poisoned: Lose health every turn
+Poisoned: Lose health every turn, do not get vitality health roll
 Confused: partially lose control of movement; vit roll to decide if can controll oneself
 Paralyzed: completely lose ability to moveTowards
 

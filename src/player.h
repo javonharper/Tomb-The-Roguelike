@@ -25,6 +25,8 @@ class Player : public Actor
     void promptDoorAction(char key);
     void promptPickupAction();
     void promptDropAction();
+    void promptUseItemAction();
+    void moveAction(int x, int y, int z);
     
     int getLevel();
 };
