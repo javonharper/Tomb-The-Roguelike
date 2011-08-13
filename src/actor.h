@@ -46,8 +46,8 @@ class Actor
   //status attributes
   int current_health_points_;
   int max_health_points_;
-  int current_mana_points_;
-  int max_mana_points_;
+  int current_energy_points_;
+  int max_energy_points_;
   
   //RPG attributes
   int att_str_;
@@ -122,11 +122,16 @@ class Actor
   World *getWorld();
   int getCurrentHealth();
   void setCurrentHealth(int  health);
+  int getMaxHealth();
+  int getCurrentEnergy();
+  void setCurrentEnergy(int  energy);
+  int getMaxEnergy();
   bool hasBodyArmour();
   bool hasWeapon();
   Inventory *getInventory();
   Item *getWeapon();
   Item *getBodyArmour();
+  int getAttribute(int att_type);
 };
 
 #endif

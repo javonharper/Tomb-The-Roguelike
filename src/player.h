@@ -12,6 +12,8 @@ class Enemy;
 class Player : public Actor
 {
   private:
+    int level_;
+    int experience_;
     bool is_alive_;
   public:
     Player(World *world);
@@ -23,6 +25,8 @@ class Player : public Actor
     void promptDoorAction(char key);
     void promptPickupAction();
     void promptDropAction();
+    
+    int getLevel();
 };
 
 #endif

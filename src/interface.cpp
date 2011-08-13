@@ -60,15 +60,45 @@ void drawInfoPanel(World *world)
   int x = infoScreenDims[X] + 1;
   
   //TODO make this accurate
-  TCODConsole::root->print(x, y++, "Yalxo");
-  TCODConsole::root->print(x, y++, "Level 3");
-  drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange);
+  Player *player = world->getPlayer();
+  
+  TCODConsole::root->print(x, y++, player->getName().c_str());
+  
+  std::stringstream player_level;
+  player_level << "Level " << player->getLevel();
+  TCODConsole::root->print(x, y++,  player_level.str().c_str());
+  
+  drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange); 
   TCODConsole::root->putCharEx(x - 1, y++, TCOD_CHAR_TEEE, TCODColor::orange, TCODColor::black);
-  TCODConsole::root->print(x, y++, "Health 18/35");
-  TCODConsole::root->print(x, y++, "Energy 3/4");
-  TCODConsole::root->print(x, y++, "AC 10");
-  TCODConsole::root->print(x, y++, "STR: 10  INT: 10");
-  TCODConsole::root->print(x, y++, "WIS: 10  VIT: 10");
+  
+  std::stringstream health_info;
+  health_info << "Health " << player->getCurrentHealth()<<"/"<<player->getMaxHealth();
+  TCODConsole::root->print(x, y++, health_info.str().c_str());
+  
+  std::stringstream energy_info;
+  energy_info << "Energy " << player->getCurrentEnergy()<<"/"<<player->getMaxEnergy();
+  TCODConsole::root->print(x, y++, energy_info.str().c_str());
+  
+  std::stringstream ac_info;
+  ac_info << "AC " << player->calcArmourClass();
+  TCODConsole::root->print(x, y++, ac_info.str().c_str());
+  //!!!
+  std::stringstream str_info;
+  str_info << "STR " << player->getAttribute(ATT_STR);
+  TCODConsole::root->print(x, y++, str_info.str().c_str());
+  
+  std::stringstream wis_info;
+  wis_info << "WIS " << player->getAttribute(ATT_WIS);
+  TCODConsole::root->print(x, y++, wis_info.str().c_str());
+  
+  std::stringstream dex_info;
+  dex_info << "DEX " << player->getAttribute(ATT_DEX);
+  TCODConsole::root->print(x, y++, dex_info.str().c_str());
+  
+  std::stringstream vit_info;
+  vit_info << "VIT " << player->getAttribute(ATT_VIT);
+  TCODConsole::root->print(x, y++, vit_info.str().c_str());
+  
   drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange);
   TCODConsole::root->putCharEx(x - 1, y++, TCOD_CHAR_TEEE, TCODColor::orange, TCODColor::black);
 }

@@ -41,7 +41,7 @@ void Actor::initProperties(enemy_data_t data, World *world)
   active_body_armour_ = NULL;
 
   current_health_points_ = max_health_points_ = data.base_health;
-  current_mana_points_ = max_mana_points_ = data.base_health;
+  current_energy_points_ = max_energy_points_ = data.base_energy;
 
   att_str_ = data.att_str;
   att_dex_ = data.att_dex;
@@ -390,6 +390,19 @@ int Actor::calcMeleeDamage()
   }
   return total_damage;
 }
+
+int Actor::getAttribute(int att_type)
+{
+  switch(att_type)
+  {
+    case ATT_STR: return att_str_;
+    case ATT_DEX: return att_dex_;
+    case ATT_WIS: return att_wis_;
+    case ATT_VIT: return att_vit_;
+    default: return -1;
+  }
+}
+
 //Accessors and Mutators
 bool Actor::isTurnFinished(){return turn_finished_;}
 bool Actor::isTurn(){return next_turn_ == this->getWorld()->getTimeStep();}
@@ -406,9 +419,14 @@ std::string Actor::getName(){return name_;}
 World* Actor::getWorld(){return world_;}
 int Actor::getCurrentHealth(){return current_health_points_;}
 void Actor::setCurrentHealth(int health){current_health_points_ = health;}
+int Actor::getMaxHealth(){return max_health_points_;}
+int Actor::getCurrentEnergy(){return current_energy_points_;}
+void Actor::setCurrentEnergy(int energy){current_energy_points_ = energy;}
+int Actor::getMaxEnergy(){return max_energy_points_;}
 bool Actor::hasWeapon(){return active_weapon_ != NULL;}
 bool Actor::hasBodyArmour(){return active_body_armour_ != NULL;}
 Inventory* Actor::getInventory(){return inventory_;}
 Item* Actor::getWeapon(){return active_weapon_;}
 Item* Actor::getBodyArmour(){return active_body_armour_;}
+
 

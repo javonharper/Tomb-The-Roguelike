@@ -12,6 +12,14 @@ enum EnemyStates
   TOTAL_ENEMY_STATES
 };
 
+enum AttributeTypes
+{
+  ATT_STR = 0,
+  ATT_DEX,
+  ATT_WIS,
+  ATT_VIT
+};
+
 const static int ATT_MAX           = 20;
 const static int ATT_GOOD          = 15;
 const static int ATT_AVERAGE       = 10;
@@ -76,7 +84,7 @@ struct enemy_data_t {
     TCODColor color;
 
     int base_health;
-    int base_mana;
+    int base_energy;
 
     int unarmed_damage[2];
 

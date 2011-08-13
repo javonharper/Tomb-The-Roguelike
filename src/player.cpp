@@ -17,7 +17,14 @@
 Player::Player(World *world)
 {
   initProperties(enemy_db[PLAYER], world);
+  level_ = 1;
+  experience_ = 0;
   is_alive_ = true;
+  
+  att_str_ = random(ATT_BAD, ATT_GOOD);
+  att_wis_ = random(ATT_BAD, ATT_GOOD);
+  att_dex_ = random(ATT_BAD, ATT_GOOD);
+  att_vit_ = random(ATT_BAD, ATT_GOOD);
 }
 
 Player::~Player()
@@ -122,6 +129,9 @@ void Player::promptDropAction()
 {
   displayDropItemsScreen(world_);
 }
+
+int Player::getLevel()
+{return level_;}
 
 
 
