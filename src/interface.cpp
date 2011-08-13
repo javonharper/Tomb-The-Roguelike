@@ -120,6 +120,7 @@ void message(std::string message)
 {
   message_log.push_back(message);
   displayMessages();
+  updateScreen();
 }
 
 void displayMessages()
@@ -313,7 +314,7 @@ void displayInventoryScreen(World *world)
     TCOD_key_t key = TCODConsole::waitForKeypress(true);
     switch(key.c)
     {
-      case ESC: displayGameScreen(world); exited_screen = true; break;
+      case ESC: displayGameScreen(world); exited_screen = true; updateScreen(); break;
     }
   }
 }
@@ -349,7 +350,7 @@ void displayDropItemsScreen(World *world)
     TCOD_key_t key = TCODConsole::waitForKeypress(true);
     switch(key.c)
     {
-      case ESC: displayGameScreen(world); exited_screen = true; break;
+      case ESC: displayGameScreen(world); exited_screen = true; updateScreen(); break;
     default:{ exited_screen = (inventory->get(key.c) != NULL); if (exited_screen){world->getPlayer()->dropItem(inventory->get(key.c));}}
     }
   }

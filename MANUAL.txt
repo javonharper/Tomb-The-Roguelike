@@ -23,7 +23,7 @@ Fleeing: Is overwhelmed by pc's power and is actively try to escape.
 ITEMS
 Armour:{silk tunic, cloth robe, leather vest, ring mail armour, splint mail armour, full plate armour}
 Shields:{wooden shield, buckler, small sheild, large shield, kit shield, tower shield}
-Melee Weapons:{dagger, battle-axe, short sword, warhammer, quarterstaff, spear}
+Melee Weapons:{wooden club, dagger, battle-axe, long sword, warhammer, quarterstaff, spear}
 Bows:{short bow}
 Ammo:{arrow}
 Potions:{health, health restore,                    #increases health

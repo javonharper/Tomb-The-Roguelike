@@ -1,0 +1,7 @@
+name "player" 
+{
+        syllablesStart = "As, Igo, Le, Pha, Pho, Ugo, Zag, El, Ep, Ku, La, Mi, Sha, Ysc"
+        syllablesMiddle = "har, art, ar, pho, eny, sa"
+        syllablesEnd = "arn, sh, on, tha, yub, oma, bo, thei, tho, cha, gn, sa, ugo"
+        rules = "$s$30m$e"
+}
