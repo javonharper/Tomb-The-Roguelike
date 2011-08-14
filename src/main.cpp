@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
     world->incrementTimeStep();
     std::cout<< "=WORLD STEP" << world->getTimeStep()<<"=" << std::endl;
 
-    player->FOV(world->getMapLevel(player->getMapLevel()));
+    player->FOV(player->getMapLevel());
     displayGameScreen();
     updateScreen();
 
@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
       if(en->isTurn() && withinRange(en->getMapLevel(), player->getMapLevel() - 0, player->getMapLevel() + 0))
       {
         //std::cout << en->getName() << &enemies[i] <<" taking turn at world step " << world->getTimeStep() << std::endl;
-        en->FOV(en->getVisibilityMap());
+        en->FOV(en->getMapLevel());
         en->takeTurn();
       }
       en->endTurn();

@@ -35,7 +35,6 @@ struct tile_t
   int face_tile;
   bool is_passable;
   TCODColor color;
-  bool visible;
   bool has_been_seen;
 };
 
@@ -43,14 +42,14 @@ struct tile_t
 const static tile_t tile_db[] =
 {
 
-  {TILE_UNKNOWN, '?', false, TCODColor::red, false, false},
-  {TILE_BLANK, '!', false, TCODColor::yellow, false, false},
-  {TILE_FLOOR, '.', true, TCODColor::grey, false, false},
-  {TILE_WALL, '#', false, TCODColor::lightGrey, false, false},
-  {TILE_DOWNSTAIR, '>', true, TCODColor::white, false, false},
-  {TILE_UPSTAIR, '<', true, TCODColor::white, false, false},
-  {TILE_DOOR_CLOSED, '+', false, TCODColor::yellow, false, false},
-  {TILE_DOOR_OPEN, '/', true, TCODColor::yellow, false, false}
+  {TILE_UNKNOWN,      '?', false, TCODColor::red ,        false},
+  {TILE_BLANK,        '~', false, TCODColor::yellow ,    false},
+  {TILE_FLOOR,        '.', true,  TCODColor::grey  ,      false},
+  {TILE_WALL,         '#', false, TCODColor::white ,  false},
+  {TILE_DOWNSTAIR,    '>', true,  TCODColor::white    ,  false  },
+  {TILE_UPSTAIR,      '<', true,  TCODColor::white    ,  false  },
+  {TILE_DOOR_CLOSED,  '+', false, TCODColor::darkYellow  ,  false},
+  {TILE_DOOR_OPEN,    '/', true,  TCODColor::darkYellow,  false}
   //BROKEN DOORS?
   //TRAP DOORS?
 };
@@ -82,8 +81,6 @@ class Map
     tile_t getTile(int x, int y);
     void setTile(int x, int y, int tile_type);
     void setTileAsSeen(int x, int y);
-    void setTileVisibility(int x, int y, bool visible);
-    void setTileMap(tile_t** new_tile_map);
     int getWidth();
     int getHeight();
     position_t getDownStairPos();

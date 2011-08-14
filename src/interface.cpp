@@ -6,6 +6,7 @@
 #include <map>
 #include <sstream>
 #include <vector>
+#include <iostream>
 #include "map.h"
 #include "interface.h"
 #include "inventory.h"
@@ -73,7 +74,7 @@ void drawInfoPanel()
   TCODConsole::root->print(x, y++,  player_level.str().c_str());
 
   std::stringstream d_level;
-  d_level << "Dungeon Level " << player->getMapLevel() + 1;
+  d_level << "Tomb Level " << player->getMapLevel() + 1;
   TCODConsole::root->print(x, y++,  d_level.str().c_str());
 
   drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange);
@@ -156,19 +157,20 @@ void drawWorld()
   {
     for (int j = 0; j < _world_->getHeight(); j++)
     {
-      tile_t this_tile = _world_->getTile(i, j, _world_->getCurrentLevel());
-      if(this_tile.visible)
+      tile_t this_tile = _world_->getTile(i, j, player->getMapLevel());
+      if(player->canSee(player->getMapLevel(), i, j))
       {
         TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, this_tile.color, TCODColor::black);
+        _world_->setTileAsSeen(i,j, player->getMapLevel());
       }
       else if(this_tile.has_been_seen)//has seen before
-      {
+     {
         TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, TCODColor::darkGrey, TCODColor::black);
-      }
-      else if(!this_tile.has_been_seen)//never seen
-      {
-        TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, TCODColor::black, TCODColor::black);
-      }
+     }
+//      else if(!this_tile.has_been_seen)//never seen
+//      {
+//        TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, TCODColor::black, TCODColor::black);
+//      }
     }
   }
 
@@ -179,7 +181,7 @@ void drawWorld()
     Item *item = items[i];
     if (item->isOnGround())
     {
-      if (player->canSee(_world_->getMapLevel(item->getMapLevel()), item->getXPosition(), item->getYPosition()))
+      if (player->canSee(item->getMapLevel(), item->getXPosition(), item->getYPosition()))
       {
         TCODConsole::root->putCharEx(item->getXPosition() + x_offset, item->getYPosition() + y_offset, item->getFaceTile(), item->getColor(), TCODColor::black);
       }
@@ -191,7 +193,7 @@ void drawWorld()
   for (unsigned int i = 0; i < enemies.size(); i++)
   {
     Enemy* en = enemies[i];
-    if(en->getMapLevel() == _world_->getCurrentLevel() && player->canSee(_world_->getMapLevel(en->getMapLevel()), en->getXPosition(), en->getYPosition()))
+    if(en->getMapLevel() == _world_->getCurrentLevel() && player->canSee(en->getMapLevel(), en->getXPosition(), en->getYPosition()))
     {
       TCODConsole::root->putCharEx(en->getXPosition() + x_offset, en->getYPosition() + y_offset, en->getFaceTile(), en->getColor(), TCODColor::black);
     }

@@ -20,6 +20,7 @@ c   close a door
 d   drop an item
 g   get an item off the ground
 i   open inventory
+a   activate (use) an item.
 ESC quit game
 
 ATTRIBUTES
@@ -52,6 +53,6 @@ Potions:{health, health restore,                    #increases health
          strength, wisdom, dexterity, consitution}  #changes main attributes
 MAGIC
 Arcane Spells:{magic dart, magic beam, magic ray}
-        
-        
+
+
 

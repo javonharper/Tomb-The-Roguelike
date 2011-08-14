@@ -7,6 +7,7 @@
 #define ACTOR_H
 
 #include <string>
+#include <vector>
 #include "libtcod.hpp"
 #include "enemy_db.h"
 
@@ -25,45 +26,47 @@ class Actor
  protected:
   //location attributes
   World *world_;
+  std::vector<TCODMap*> vision_map_;
+
   int x_;
   int y_;
   int map_level_;
-  
+
   //personal attributes
   std::string name_;
   int face_tile_;
   TCODColor color_;
-  
+
   //sense attributes
   int sight_range_;
-  
+
   //combat attributes
   int unarmed_damage_[2];
   int mod_speed_;
   int mod_size_;
   int mod_base_ac_;
-  
+
   //status attributes
   int current_health_points_;
   int max_health_points_;
   int current_energy_points_;
   int max_energy_points_;
-  
+
   //RPG attributes
   int att_str_;
   int att_dex_;
   int att_wis_;
   int att_vit_;
-  
+
   //time keeping attributes
   bool turn_finished_;
   int next_turn_;
-  
+
   //inventory attributes
   Inventory *inventory_;
   Item* active_weapon_;
   Item* active_body_armour_;
-  
+
  public:
   Actor();
   ~Actor();
@@ -92,11 +95,11 @@ class Actor
   void regenerateEnergy();
   virtual void kill()=0;
 
-  void FOV(Map *map);
+  void FOV(int level);
   void doFov(Map *map, float x, float y);
-  bool canSee(Map *map, int x, int y);
+  bool canSee(int level, int x, int y);
   virtual bool isEnemyAtPosition(int x, int y, int level)=0;
-  
+
   //Calculators
   int calcArmourClass();
   int calcMeleeDamage();
@@ -122,7 +125,6 @@ class Actor
   void setMapLevel(int z);
   void setPosition(int x, int y, int z);
   std::string getName();
-  World *getWorld();
   int getCurrentHealth();
   void setCurrentHealth(int  health);
   int getMaxHealth();
@@ -135,6 +137,7 @@ class Actor
   Item *getWeapon();
   Item *getBodyArmour();
   int getAttribute(int att_type);
+  void setVisionProperties(int x, int y, int z, int transparent, int walkable);
 };
 
 #endif

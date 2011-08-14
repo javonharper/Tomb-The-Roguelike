@@ -34,6 +34,8 @@ World::World(int world_width, int world_height, int world_levels)
 World::~World()
 {
   level_list_.clear();
+  enemy_list_.clear();
+  item_list_.clear();
   delete player_;
 }
 
@@ -70,7 +72,6 @@ std::vector<Enemy*> World::generateEnemies()
           Enemy *enemy = new Enemy(enemy_db[type], this);
           position_t new_pos = this->findPosition(i);
           enemy->setPosition(new_pos.x, new_pos.y, i);
-          enemy->setVisibilityMap(this->getMapLevel(i));
           enemy_list_.push_back(enemy);
           found_enemy_type = true;
         }
@@ -151,12 +152,23 @@ std::vector<Item*> World::getItemsAt(int x, int y, int level)
   return items_at_pos;
 }
 
+void World::setTile(int x, int y, int z, int tile_type)
+{
+  level_list_[z]->setTile(x,y, tile_type);
+  tile_t tile = tile_db[tile_type];
+
+  player_->setVisionProperties(x, y, z, tile.is_passable, tile.is_passable);
+  for (unsigned int i = 0; i < enemy_list_.size(); i++)
+  {
+    enemy_list_[i]->setVisionProperties(x, y, z, tile.is_passable, tile.is_passable);
+  }
+}
+
 //Accessors and Mutators
 Player* World::getPlayer(){return player_;}
 std::vector<Enemy*>& World::getEnemyList(){return enemy_list_;}
 std::vector<Item*>& World::getItemList(){return item_list_;}
 tile_t World::getTile(int x, int y, int z){return level_list_[z]->getTile(x, y);}
-void World::setTile(int x, int y, int z, int tile_type){this->getMapLevel(z)->setTile(x,y, tile_type);}
 void World::setTileAsSeen(int x, int y, int z){this->getMapLevel(z)->setTileAsSeen(x, y);}
 int World::getWidth(){return width_;}
 int World::getHeight(){return height_;}

@@ -49,6 +49,23 @@ void Actor::initProperties(enemy_data_t data, World *world)
   att_wis_ = data.att_wis;
 
   world_ = world;
+
+  for (int z = 0; z < world->getLevels(); z++)
+  {
+    TCODMap *map = new TCODMap(world->getWidth(), world->getHeight());
+
+    for (int y = 0; y < world->getHeight(); y++)
+    {
+        for (int x = 0; x < world->getWidth(); x++)
+        {
+          tile_t tile = world->getTile(x,y,z);
+          map->setProperties(x, y, tile.is_passable, tile.is_passable);
+        }
+    }
+
+    vision_map_.push_back(map);
+  }
+
   turn_finished_ = true;
   next_turn_ = calcSpeed();
 }
@@ -63,14 +80,14 @@ void Actor::move(int x, int y, int level)
     this->turn_finished_ = true;
   }
   //if nothing is there, go there and end the turn.
-  else if(this->getWorld()->getTile(x, y, level).is_passable
+  else if(world_->getTile(x, y, level).is_passable
     && world_->getEnemyAt(x, y, level) == NULL)
   {
     this->setPosition(x, y, level);
     this->turn_finished_ = true;
   }
   //If a closed door is there, automatically open it and end the turn.
-  else if(this->getWorld()->getTile(x, y, level).tile_type == TILE_DOOR_CLOSED)//
+  else if(world_->getTile(x, y, level).tile_type == TILE_DOOR_CLOSED)//
   {
     this->openDoor(x, y, level);
   }
@@ -154,14 +171,13 @@ void Actor::closeDoor(int x, int y, int z)
 //If the player is on top of a down stair, let him go to the next level and place him on the upward stair there.
 void Actor::descendStairs()
 {
-  World *world = this->getWorld();
-  tile_t tile = world->getTile(this->getXPosition(), this->getYPosition(), this->getMapLevel());
+  tile_t tile = world_->getTile(this->getXPosition(), this->getYPosition(), this->getMapLevel());
 
   if(tile.tile_type == TILE_DOWNSTAIR)
   {
-    world->setCurrentLevel(world->getCurrentLevel() + 1);
-    position_t stair_pos = world->getMapLevel(world->getCurrentLevel())->getUpStairPos();
-    int level = world->getCurrentLevel();
+    world_->setCurrentLevel(world_->getCurrentLevel() + 1);
+    position_t stair_pos = world_->getMapLevel(world_->getCurrentLevel())->getUpStairPos();
+    int level = world_->getCurrentLevel();
     this->setPosition(stair_pos.x, stair_pos.y, level);
     this->turn_finished_ = true;
   }
@@ -213,7 +229,7 @@ void Actor::meleeAttack(Actor *actor)
     message_stream << actor->getName() << " hit for " <<  damage_roll << " damage";
     if (critical_hit)
       {
-	      message_stream << " critically";
+        message_stream << " critically";
       }
     message_stream << "." <<std::endl;
   }
@@ -221,7 +237,7 @@ void Actor::meleeAttack(Actor *actor)
   {
     message_stream << getName() << " misses.";
   }
-  
+
   std::cout << message_stream.str() << std::endl;
 
   //check if the actor is dead.
@@ -230,14 +246,14 @@ void Actor::meleeAttack(Actor *actor)
     std::cout << actor->getName() << " killed." << std::endl;
     message_stream << getName() << actor->getName() << " killed.";
     actor->kill();
-  } 
+  }
   else
   {
     actor->setCurrentHealth(actor->getCurrentHealth() - damage_roll);
     std::cout << actor->getName() << " has " << actor->getCurrentHealth() << " life left" << std::endl;
   }
   std::cout << "== Ending melee attack sequence. ==" << std::endl;
-  
+
   message(message_stream.str());
   turn_finished_ = true;
 }
@@ -356,12 +372,6 @@ void Actor::regenerateEnergy()
   }
 }
 
-//returns true if the actor can see the position with a given map.
-bool Actor::canSee(Map *map, int x, int y)
-{
-  return map->getTile(x, y).visible;
-}
-
 int Actor::calcSpeed()
 {
   return ((mod_speed_ / 5) + 1);
@@ -382,24 +392,32 @@ int Actor::calcAtt(int attribute)
   return (attribute - 10 )/5;
 }
 
+//returns true if the actor can see the position with a given map.
+bool Actor::canSee(int level, int x, int y)
+{
+  //return map->getTile(x, y).visible;
+  return vision_map_[level]->isInFov(x,y);
+}
+
 //Sets the actors field of vision.
 //Adapted from elig's los psuedocode on rogueebasin
 //http://roguebasin.roguelikedevelopment.org/index.php?title=Eligloscode
-void Actor::FOV(Map *map)
+void Actor::FOV(int level)
 {
-  for(int i = 0; i < map->getWidth(); i++)
-    for(int j = 0; j < map->getHeight(); j++)
-    {
-      //map->setTileVisibility(i, j, false);
-      map->setTileVisibility(i, j, true); //View whole map by enabling this.
-    }
+  vision_map_[level]->computeFov(x_, y_, calcSight());//FOV_DIAMOND
+  //for(int i = 0; i < map->getWidth(); i++)
+    //for(int j = 0; j < map->getHeight(); j++)
+    //{
+      ////map->setTileVisibility(i, j, false);
+      //map->setTileVisibility(i, j, true); //View whole map by enabling this.
+    //}
 
-  for (int i = 0; i < 360; i++)
-  {
-    float x = cos((float)i*0.01745f);
-    float y = sin((float)i*0.01745f);
-    doFov(map, x, y);
-  }
+  //for (int i = 0; i < 360; i++)
+  //{
+    //float x = cos((float)i*0.01745f);
+    //float y = sin((float)i*0.01745f);
+    //doFov(map, x, y);
+  //}
 }
 
 //Calculates if the actor can see in a direction
@@ -408,22 +426,28 @@ void Actor::FOV(Map *map)
 //TODO: Fix sight for att values that are not 10
 void Actor::doFov(Map *map, float x, float y)
 {
-  float ox = 0, oy = 0;
-  ox = (float) this->getXPosition() + 0.5f;
-  oy = (float) this->getYPosition() + 0.5f;
+  //float ox = 0, oy = 0;
+  //ox = (float) this->getXPosition() + 0.5f;
+  //oy = (float) this->getYPosition() + 0.5f;
 
-  for(int i = 0; i <= calcSight(); i++)
-  {
-    map->setTileVisibility((int) ox, (int) oy, true);
-    map->setTileAsSeen((int) ox, (int) oy);
-    if(!map->getTile((int) ox, (int) oy).is_passable)
-    {
-      return;
-    }
-    ox+=x;
-    oy+=y;
-  }
+  //for(int i = 0; i <= calcSight(); i++)
+  //{
+    //map->setTileVisibility((int) ox, (int) oy, true);
+    //map->setTileAsSeen((int) ox, (int) oy);
+    //if(!map->getTile((int) ox, (int) oy).is_passable)
+    //{
+      //return;
+    //}
+    //ox+=x;
+    //oy+=y;
+  //}
 }
+
+void Actor::setVisionProperties(int x, int y, int z, int transparent, int walkable)
+{
+  vision_map_[z]->setProperties(x, y, transparent, walkable);
+}
+
 
 //returns the sum of the base sc, armour(if any), dex modifier and size modifier
 int Actor::calcArmourClass()
@@ -450,7 +474,7 @@ int Actor::calcMeleeDamage()
   {
     rolls = active_weapon_->getValue(0);
     die_sides = active_weapon_->getValue(1);
-  } 
+  }
   else
   {
     rolls = unarmed_damage_[0];
@@ -483,7 +507,7 @@ int Actor::getAttribute(int att_type)
 
 //Accessors and Mutators
 bool Actor::isTurnFinished(){return turn_finished_;}
-bool Actor::isTurn(){return next_turn_ == this->getWorld()->getTimeStep();}
+bool Actor::isTurn(){return next_turn_ == world_->getTimeStep();}
 int Actor::getXPosition(){return x_;}
 int Actor::getYPosition(){return y_;}
 int Actor::getMapLevel(){return map_level_;}
@@ -494,7 +518,6 @@ void Actor::setYPosition(int y){this->y_ = y;}
 void Actor::setMapLevel(int z){this->map_level_ = z;}
 void Actor::setPosition(int x, int y, int z){this->x_ = x; this->y_ = y; this->map_level_ = z;}
 std::string Actor::getName(){return name_;}
-World* Actor::getWorld(){return world_;}
 int Actor::getCurrentHealth(){return current_health_points_;}
 void Actor::setCurrentHealth(int health){current_health_points_ = health;}
 int Actor::getMaxHealth(){return max_health_points_;}

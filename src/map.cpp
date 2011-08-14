@@ -255,10 +255,8 @@ void Map::cleanWalls()
 
 void Map::setTile(int x, int y, int tile_type){tile_map_[x][y] = tile_db[tile_type];}
 void Map::setTileAsSeen(int x, int y){tile_map_[x][y].has_been_seen = true;}
-void Map::setTileVisibility(int x, int y, bool visible){tile_map_[x][y].visible = visible;};
 tile_t Map::getTile(int x, int y) {return tile_map_[x][y];}
 int Map::getWidth(){return width_;}
 int Map::getHeight(){return height_;}
 position_t Map::getDownStairPos(){return stair_positions_[DOWNSTAIR_INDEX];}
 position_t Map::getUpStairPos(){return stair_positions_[UPSTAIR_INDEX];}
-void Map::setTileMap(tile_t** new_tile_map){tile_map_ = new_tile_map;}
