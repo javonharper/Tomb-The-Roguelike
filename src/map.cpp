@@ -26,9 +26,9 @@ Map::Map(int map_width, int map_height)
   this->stair_positions_[UPSTAIR_INDEX] = up_stair;
 
   //Build the doors.
-  for (int i = 0; i < random(5,10);i++)
+  for (int i = 0; i < random(0,3);i++)
     this->placeFeature(TILE_DOOR_CLOSED);
-  for (int i = 0; i < random(5,10);i++)
+  for (int i = 0; i < random(0,3);i++)
     placeFeature(TILE_DOOR_OPEN);
 
 

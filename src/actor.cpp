@@ -246,6 +246,17 @@ void Actor::rangedAttack(Actor *actor){}
 void Actor::dropItem(Item *item)
 {
   inventory_->remove(item);
+
+  //unequip if it is being worn
+  if (item == active_body_armour_)
+  {
+    active_body_armour_ = NULL;
+  }
+  else if(item == active_weapon_)
+  {
+    active_weapon_ = NULL;
+  }
+
   item->setPosition(x_, y_, map_level_);
   item->setOnGround(true);
   turn_finished_ = true;
@@ -264,10 +275,10 @@ void Actor::useItem(Item *item)
   switch(item->getCategory())
   {
     case CATEGORY_WEAPON: wieldWeapon(item); break;
-    case CATEGORY_BODY_ARMOUR:wearItem(item); break;
+    case CATEGORY_BODY_ARMOUR: wearItem(item); break;
+    case CATEGORY_POTION: drinkPotion(item); inventory_->remove(item); item->destroy(); break;
     default: message("ERROR: Malformed item category"); break;
   }
-  turn_finished_ = true;
 }
 
 void Actor::wieldWeapon(Item *item)
@@ -284,9 +295,21 @@ void Actor::wearItem(Item *item)
     case CATEGORY_BODY_ARMOUR: active_body_armour_ = item; turn_finished_ = true; break;
     default: message("ERROR: Something went wrong trying to wear an item");
   }
+  turn_finished_ = true;
 }
 
-void Actor::drinkPotion(Item *item){}
+void Actor::drinkPotion(Item *item)
+{
+  switch(item->getType())
+  {
+    case TYPE_CURE_LIGHT_WOUNDS: current_health_points_ = setBoundedValue(current_health_points_ + calcDieRoll(item->getValue(0), item->getValue(1)), 0, max_health_points_); break;
+    case TYPE_CURE_MODERATE_WOUNDS: current_health_points_ = setBoundedValue(current_health_points_ + calcDieRoll(item->getValue(0), item->getValue(1)), 0, max_health_points_); break;
+    case TYPE_LIGHT_ENERGY_RESTORE: current_energy_points_ = setBoundedValue(current_energy_points_ + calcDieRoll(item->getValue(0), item->getValue(1)), 0, max_energy_points_); break;
+    case TYPE_MODERATE_ENERGY_RESTORE:current_energy_points_ = setBoundedValue(current_energy_points_ + calcDieRoll(item->getValue(0), item->getValue(1)), 0, max_energy_points_); break;
+    default: message("ERROR actor tried to quaff potion with bad type");break;
+  }
+  turn_finished_ = true;
+}
 
 //Handles anything that needs to happen before taking a turn,
 //including checking to see if it is actually the actor turn.
@@ -419,7 +442,6 @@ int Actor::calcArmourClass()
 //Does a DnD-style die roll.
 int Actor::calcMeleeDamage()
 {
-  int total_damage = 0;
   int rolls;
   int die_sides;
 
@@ -427,17 +449,23 @@ int Actor::calcMeleeDamage()
   {
     rolls = active_weapon_->getValue(0);
     die_sides = active_weapon_->getValue(1);
-  } else
+  } 
+  else
   {
     rolls = unarmed_damage_[0];
     die_sides = unarmed_damage_[1];
   }
+  return calcDieRoll(rolls, die_sides);
+}
 
+int Actor::calcDieRoll(int rolls, int die_sides)
+{
+  int total = 0;
   for (int i = 0; i < rolls; i++)
   {
-    total_damage = total_damage + random(1, die_sides);
+    total = total + random(1, die_sides);
   }
-  return total_damage;
+  return total;
 }
 
 int Actor::getAttribute(int att_type)

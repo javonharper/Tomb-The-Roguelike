@@ -5,11 +5,13 @@
  */
 #include "item.h"
 #include "item_db.h"
+#include "world.h"
 #include "random.h"
 
 //Create an item
-Item::Item()
+Item::Item(World *world)
 {
+  world_ = world;
   int category = chooseCategory();
   int type = chooseType(category);
   init(category, type);
@@ -18,8 +20,9 @@ Item::Item()
 }
 
 //Create an item within a given category
-Item::Item(int category)
+Item::Item(int category, World *world)
 {
+  world_ = world;
   int type = chooseType(category);
   init(category, type);
 }
@@ -41,6 +44,7 @@ int Item::chooseType(int category)
   {
     case CATEGORY_WEAPON: return random(0, TOTAL_WEAPON_TYPES - 1); break;
     case CATEGORY_BODY_ARMOUR: return random(0, TOTAL_BODY_ARMOUR_TYPES - 1); break;
+    case CATEGORY_POTION: return random(0, TOTAL_POTION_TYPES - 1); break;
     default: return -1; break;
   }
 }
@@ -51,6 +55,7 @@ void Item::init(int category, int type)
   {
     case CATEGORY_WEAPON: init(weapon_db[type]); break;
     case CATEGORY_BODY_ARMOUR: init(armour_db[type]); break;
+    case CATEGORY_POTION: init(potion_db[type]); break;
     default: init(erroneous_item);
   }
 }
@@ -84,8 +89,22 @@ void Item::setFaceTile(int category)
   {
     case CATEGORY_WEAPON: face_tile_ = '/'; break;
     case CATEGORY_BODY_ARMOUR: face_tile_ = ']'; break;
+    case CATEGORY_POTION: face_tile_ = '!'; break;
     default: face_tile_ = '~'; break;
   }
+}
+
+void Item::destroy()
+{
+  std::vector<Item*> &item_list = world_->getItemList();
+
+  for(unsigned int i = 0; i < item_list.size(); i++)
+    {
+      if (this == item_list[i])
+	{
+	  item_list.erase(item_list.begin() + i);
+	}
+    }
 }
 
 int Item::getXPosition(){return x_;}
@@ -98,4 +117,5 @@ bool Item::isOnGround(){return on_ground_;}
 void Item::setOnGround(bool on_ground){on_ground_ = on_ground;}
 int Item::getCategory(){return category_;}
 int Item::getValue(int i){return item_values_[i];}
+int Item::getType(){return type_;}
 

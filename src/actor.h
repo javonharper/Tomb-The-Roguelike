@@ -100,6 +100,7 @@ class Actor
   //Calculators
   int calcArmourClass();
   int calcMeleeDamage();
+  int calcDieRoll(int rolls, int die_sides);
   int calcAtt(int attribute);
   int calcSight();
   int calcSmell();

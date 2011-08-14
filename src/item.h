@@ -20,10 +20,12 @@ struct item_data_t
   int item_values[NUM_ITEM_VALUES];
 };
 
+class World;
 class Item
 {
 
   private:
+    World *world_;
     int x_;
     int y_;
     int map_level_;
@@ -38,8 +40,8 @@ class Item
     TCODColor color_;
 
   public:
-    Item();
-    Item(int category);
+    Item(World *world);
+    Item(int category, World *world);
     ~Item();
     int chooseCategory();
     int chooseType(int category);
@@ -56,7 +58,9 @@ class Item
     std::string getName();
     bool isOnGround();
     void setOnGround(bool on_ground);
+    void destroy();
     int getCategory();
+    int getType();
     int getValue(int i);
 };
 

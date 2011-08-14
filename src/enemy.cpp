@@ -29,7 +29,7 @@ void Enemy::takeTurn()
 {
   //std::cout << this->getName() << " taking turn." << std::endl;
 
-  Player *player = this->getWorld()->getPlayer();
+  Player *player = world_->getPlayer();
   if(canSee(visibility_map_, player->getXPosition(), player->getYPosition()))
     {
       //std::cout << this->getName() << " can see player" << std::endl;
@@ -81,7 +81,7 @@ void Enemy::takeTurn()
 bool  Enemy::isEnemyAtPosition(int x, int y, int level)
 {
   bool found_player = false;
-  Player* player = this->getWorld()->getPlayer();
+  Player* player = world_->getPlayer();
   if(player->getXPosition() == x && player->getYPosition() == y && player->getMapLevel() == level)
     {
       found_player = true;
@@ -94,15 +94,15 @@ bool  Enemy::isEnemyAtPosition(int x, int y, int level)
 void Enemy::kill()
 {
   setCurrentHealth(0);
-  std::vector<Enemy*> &enemy_list = this->getWorld()->getEnemyList();
+  std::vector<Enemy*> &enemy_list = world_->getEnemyList();
 
   for(unsigned int i = 0; i < enemy_list.size(); i++)
-    {
+  {
       if(this == enemy_list[i])
-	{
-	  enemy_list.erase(enemy_list.begin() + i);
-	}
-    }
+	    {
+	      enemy_list.erase(enemy_list.begin() + i);
+	    }
+  }
 }
 
 //Makes a copy of the map level that the enemy is on, but

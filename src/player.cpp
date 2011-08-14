@@ -23,6 +23,8 @@ Player::Player(World *world)
   experience_ = 0;
   is_alive_ = true;
 
+max_health_points_ = 1000;
+max_energy_points_ = 1000;
   //make the player character unique
   TCODNamegen::parse("data/names.txt", NULL);
   name_ = std::string((char*)TCOD_namegen_generate("player", false));
@@ -139,20 +141,25 @@ void Player::promptDropAction()
 void Player::promptUseItemAction()
 {
   Item *item = displayUseItemScreen();
-  std::stringstream use_stream;
-  use_stream << "you ";
-  
-  switch(item->getCategory())
+  if (item != NULL)
   {
-    case CATEGORY_WEAPON: use_stream << "wield"; break;
-    case CATEGORY_BODY_ARMOUR: use_stream << "put on"; break;
-    default: use_stream << "ERROR: malformed item category on use"; break;
+    std::stringstream use_stream;
+    use_stream << "you ";
+    
+    switch(item->getCategory())
+    {
+      case CATEGORY_WEAPON: use_stream << "wield"; break;
+      case CATEGORY_BODY_ARMOUR: use_stream << "put on"; break;
+      case CATEGORY_POTION: use_stream << "drink the"; break;
+      default: use_stream << "ERROR: malformed item category on use"; break;
+    }
+    
+    use_stream << " the " << item->getName() << ".";
+    
+    displayGameScreen();
+    message(use_stream.str());
+    useItem(item);
   }
-  
-  use_stream << " the " << item->getName() << ".";
-  
-  displayGameScreen();
-  message(use_stream.str());
 }
 
 void Player::moveAction(int x, int y, int z)

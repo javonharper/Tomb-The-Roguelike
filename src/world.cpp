@@ -83,12 +83,12 @@ std::vector<Enemy*> World::generateEnemies()
 
 std::vector<Item*> World::generateItems()
 {
-  int num_items = 5;
+  int num_items = 15;
   for (int i = 0; i < num_items; i++ )
   {
     int level = random(0, this->getLevels() - 1);
     position_t position = findPosition(level);
-    Item *item = new Item();
+    Item *item = new Item(this);
     item->setPosition(position.x, position.y, level);
     item->setOnGround(true);
     item_list_.push_back(item);
