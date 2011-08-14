@@ -230,7 +230,8 @@ void Actor::meleeAttack(Actor *actor)
     std::cout << actor->getName() << " killed." << std::endl;
     message_stream << getName() << actor->getName() << " killed.";
     actor->kill();
-  } else
+  } 
+  else
   {
     actor->setCurrentHealth(actor->getCurrentHealth() - damage_roll);
     std::cout << actor->getName() << " has " << actor->getCurrentHealth() << " life left" << std::endl;

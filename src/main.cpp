@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 
   world = new World(worldScreenDims[WIDTH], worldScreenDims[HEIGHT], 1);
   setWorld(world);//interface.h, just to keep a pointer to the world so It doesn't have to get passed with every message, prompt, etc.
-  
+
   player = world->generatePlayer();
   enemies = world->generateEnemies();
   world->generateItems();
@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
   {
     world->incrementTimeStep();
     std::cout<< "=WORLD STEP" << world->getTimeStep()<<"=" << std::endl;
-    
+
     player->FOV(world->getMapLevel(player->getMapLevel()));
     displayGameScreen();
     updateScreen();
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
     player->endTurn();
 
     //make the actors take their turns
-    //NOTE only actors +- one level of the player can take turns. 
+    //NOTE only actors +- one level of the player can take turns.
     enemies = world->getEnemyList();
     for (unsigned int i = 0; i < enemies.size(); i++)
     {
@@ -77,7 +77,10 @@ int main(int argc, char* argv[])
 
   if (isGameOver())
   {
-    displayGameOverScreen("You have died.");
+    if (!player->isAlive())
+    {
+      displayGameOverScreen("You have been struck down");
+    }
   }
 }
 
