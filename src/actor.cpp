@@ -46,7 +46,7 @@ void Actor::initProperties(enemy_data_t data, World *world)
 
   att_str_ = data.att_str;
   att_dex_ = data.att_dex;
-  att_wis_ = data.att_wis;
+  att_int_ = data.att_int;
 
   world_ = world;
 
@@ -330,7 +330,7 @@ void Actor::regenerateHealth()
 void Actor::regenerateEnergy()
 {
   int roll = random(1, 20);
-  if(att_wis_ >= roll)
+  if(att_int_ >= roll)
   {
     if(current_energy_points_ < max_energy_points_)
     {
@@ -466,7 +466,7 @@ int Actor::getAttribute(int att_type)
   {
     case ATT_STR: return att_str_;
     case ATT_DEX: return att_dex_;
-    case ATT_WIS: return att_wis_;
+    case ATT_INT: return att_int_;
     case ATT_VIT: return att_vit_;
     default: message("ERROR: malformed att_type"); return -1;
   }

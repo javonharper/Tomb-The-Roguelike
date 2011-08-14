@@ -28,7 +28,7 @@ Player::Player(World *world)
     name_ = std::string((char*)TCOD_namegen_generate("player", false));
     TCODNamegen::destroy();
     att_str_ = random(ATT_BAD, ATT_GOOD);
-    att_wis_ = random(ATT_BAD, ATT_GOOD);
+    att_int_ = random(ATT_BAD, ATT_GOOD);
     att_dex_ = random(ATT_BAD, ATT_GOOD);
     att_vit_ = random(ATT_BAD, ATT_GOOD);
 }

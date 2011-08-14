@@ -25,7 +25,7 @@ ESC quit game
 
 ATTRIBUTES
 Strength: How much melee damage inflicts; How much one can withstand physical attacks
-Wisdom: How much magic damage inflicts; How successful magic spells are; How fast energy restores.
+Intelligence: How much magic damage inflicts; How successful magic spells are; How fast energy restores.
 Dexterity: Accuracy; How much ranged physical damage inflicts; Ability to dodge attacks
 Vitality: How often health restores
 
@@ -46,8 +46,8 @@ Shields:{wooden shield, buckler, small sheild, large shield, kit shield, tower s
 Melee Weapons:{wooden club, dagger, battle-axe, long sword, warhammer, quarterstaff, spear}
 Bows:{short bow}
 Ammo:{arrow}
-Potions:{health, health restore,                    #increases health
-         energy, energy restore,                    #increases energy
+Potions:{heal light wounds, heal moderate wounds                    #increases health
+         restore light energy, restore moderate energy,                    #increases energy
          poison, confusion, paralysis,              #inficts status
          speed, sight, slow, blinding,              #changes alt-attributes
          strength, wisdom, dexterity, consitution}  #changes main attributes

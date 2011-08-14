@@ -96,9 +96,9 @@ void drawInfoPanel()
   str_info << "STR " << player->getAttribute(ATT_STR);
   TCODConsole::root->print(x, y++, str_info.str().c_str());
 
-  std::stringstream wis_info;
-  wis_info << "WIS " << player->getAttribute(ATT_WIS);
-  TCODConsole::root->print(x, y++, wis_info.str().c_str());
+  std::stringstream int_info;
+  int_info << "INT " << player->getAttribute(ATT_INT);
+  TCODConsole::root->print(x, y++, int_info.str().c_str());
 
   std::stringstream dex_info;
   dex_info << "DEX " << player->getAttribute(ATT_DEX);

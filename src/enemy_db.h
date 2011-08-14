@@ -16,7 +16,7 @@ enum AttributeTypes
 {
   ATT_STR = 0,
   ATT_DEX,
-  ATT_WIS,
+  ATT_INT,
   ATT_VIT
 };
 
@@ -29,14 +29,14 @@ const static int ATT_MIN           = 1;
 enum EnemyTypes
 {
   PLAYER = 0,
-  EN_TEST_ENEMY,
-//  EN_DIRE_RAT,
-//  EN_FERAL_HOUND,
-//  EN_CRYPT_WORM,
-//  EN_BARBED_BOAR,
-//  EN_GIANT_LEECH,
-//  EN_DIRE_BAT,
-//  EN_GOBLIN_MASTIFF,
+  EN_BAT,
+  EN_RAT,
+  EN_DIRE_RAT,
+  EN_FERAL_HOUND,
+  EN_CRYPT_WORM,
+  EN_BARBED_BOAR,
+  EN_DIRE_BAT,
+  EN_GOBLIN_MASTIFF,
 //  EN_REGAL_EYE,
 //  EN_REACHER,
 //  EN_CHUUL,
@@ -90,7 +90,7 @@ struct enemy_data_t {
 
     int att_str;
     int att_dex;
-    int att_wis;
+    int att_int;
     int att_vit;
 
     int mod_speed;
@@ -119,7 +119,63 @@ const static enemy_data_t enemy_db[] = {
     },
     {
         {0, 10},
-        "test enemy", 't', TCODColor::green,
+        "rat", 'r', TCODColor::grey,
+        10,   5, {1, 3},
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE
+    },
+    {
+        {0, 10},
+        "bat", 'b', TCODColor::grey,
+        10,   5, {1, 3},
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE
+    },
+    {
+        {0, 10},
+        "dire rat", 'r', TCODColor::darkGrey,
+        10,   5, {1, 3},
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE
+    },
+    {
+        {0, 10},
+        "feral hound", 'd', TCODColor::desaturatedOrange,
+        10,   5, {1, 3},
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE
+    },
+    {
+        {0, 10},
+        "crypt worm", 'w', TCODColor::lightRed,
+        10,   5, {1, 3},
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE
+    },
+    {
+        {0, 10},
+        "barbed boar", 't', TCODColor::darkerOrange,
+        10,   5, {1, 3},
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE
+    },
+    {
+        {0, 10},
+        "dire bat", 'b', TCODColor::grey,
+        10,   5, {1, 3},
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE
+    },
+    {
+        {0, 10},
+        "goblin mastiff", 'd', TCODColor::desaturatedYellow,
         10,   5, {1, 3},
         ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
         ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
