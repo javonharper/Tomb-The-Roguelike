@@ -32,8 +32,8 @@ class World
     World(int world_width, int world_height, int world_levels);
     ~World();
     Player* generatePlayer();
-    std::vector<Enemy*> generateEnemies();
-    std::vector<Item*> generateItems();
+    std::vector<Enemy*> generateEnemies(int enemies);
+    std::vector<Item*> generateItems(int items);
     position_t findPosition(int level);
     Enemy *getEnemyAt(int x, int y, int level);
       std::vector<Item*> getItemsAt(int x, int y, int level);

@@ -95,46 +95,13 @@ void Actor::move(int x, int y, int level)
 
 void Actor::moveTowards(int x, int y)
 {
-  int src_x = this->getXPosition();
-  int src_y = this->getYPosition();
-  int dest_x = x;
-  int dest_y = y;
-  int d_x = 0;
-  int d_y = 0;
-
-  //very basic and primitive pathfinding, move in the direction, no matter what.
-  if(src_x < dest_x)
+  TCODPath *path = new TCODPath(vision_map_[map_level_]);
+  path->compute(x_, y_, x, y);
+  if (! path->isEmpty())
   {
-    d_x = 1;
-  }
-  else if(src_x > dest_x)
-  {
-    d_x = -1;
-  }
-
-  if(src_y < dest_y)
-  {
-    d_y = 1;
-  }
-  else if(src_y > dest_y)
-  {
-    d_y = -1;
-  }
-
-  //small hack to make it turn corners and such. not perfect. actually, it barely even works
-  int new_x = getXPosition() + d_x;
-  int new_y = getYPosition() + d_y;
-  if (world_->getTile(new_x, new_y, map_level_).is_passable)
-  {
-    move(new_x, new_y, map_level_);
-  }
-  else if(x - x_ > y - y_)
-  {
-    move(new_x - d_x, new_y, map_level_);
-  }
-  else if(x - x_ > y - y_)
-  {
-    move(new_x, new_y - d_y, map_level_);
+    int x,y;
+    path->get(0, &x, &y);
+    move(x, y, map_level_);
   }
 }
 

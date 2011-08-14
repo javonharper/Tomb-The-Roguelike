@@ -25,7 +25,7 @@ std::vector<Enemy*> enemies;
 int main(int argc, char* argv[])
 {
   int seed = init_rand();
-  //int seed = init_rand(3);
+  //int seed = init_rand(2);
   std::cout << "seed:" << seed << std::endl;
 
   initScreen();
@@ -35,8 +35,8 @@ int main(int argc, char* argv[])
   setWorld(world);//interface.h, just to keep a pointer to the world so It doesn't have to get passed with every message, prompt, etc.
 
   player = world->generatePlayer();
-  enemies = world->generateEnemies();
-  world->generateItems();
+  enemies = world->generateEnemies(random(1,3));
+  world->generateItems(random(5, 10));
 
   //While the game is still going, iterate over all actors
   while (!isGameOver())
