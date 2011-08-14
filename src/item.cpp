@@ -8,7 +8,13 @@
 #include "world.h"
 #include "random.h"
 
-//Create an item
+Item::Item(item_data_t item_data, World *world)
+{
+  world_ = world;
+  init(item_data);
+  setOnGround(true);
+}
+
 Item::Item(World *world)
 {
   world_ = world;
@@ -25,6 +31,8 @@ Item::Item(int category, World *world)
   world_ = world;
   int type = chooseType(category);
   init(category, type);
+  setPosition(-1, -1, -1);
+  setOnGround(true);
 }
 
 Item::~Item()
@@ -90,7 +98,8 @@ void Item::setFaceTile(int category)
     case CATEGORY_WEAPON: face_tile_ = '/'; break;
     case CATEGORY_BODY_ARMOUR: face_tile_ = ']'; break;
     case CATEGORY_POTION: face_tile_ = '!'; break;
-    default: face_tile_ = '~'; break;
+    case CATEGORY_VICTORY_ITEM: face_tile_ = '~'; break;
+    default: face_tile_ = '|'; break;
   }
 }
 
@@ -101,9 +110,9 @@ void Item::destroy()
   for(unsigned int i = 0; i < item_list.size(); i++)
     {
       if (this == item_list[i])
-	{
-	  item_list.erase(item_list.begin() + i);
-	}
+  {
+    item_list.erase(item_list.begin() + i);
+  }
     }
 }
 

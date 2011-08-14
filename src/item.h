@@ -41,6 +41,7 @@ class Item
 
   public:
     Item(World *world);
+    Item(item_data_t item_data, World *world);
     Item(int category, World *world);
     ~Item();
     int chooseCategory();

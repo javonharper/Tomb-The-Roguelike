@@ -32,7 +32,7 @@ enum BodyArmourTypes
   TYPE_SILK_TUNIC = 0,
   TYPE_CLOTH_ROBE,
   TYPE_HARDLEATHER_ARMOUR,
-  TYPE_RING_MAIL_ARMOUR,  
+  TYPE_RING_MAIL_ARMOUR,
   TYPE_SPLINT_MAIL_ARMOUR,
   TYPE_FULL_PLATE_ARMOUR,
   TOTAL_BODY_ARMOUR_TYPES
@@ -71,10 +71,15 @@ const static item_data_t armour_db[] =
   {"full plate armour",   CATEGORY_BODY_ARMOUR, TYPE_FULL_PLATE_ARMOUR,   TCODColor::white,       {8, 0, 0, 0, 0}}
 };
 
-const static item_data_t potion_db[] = 
+const static item_data_t potion_db[] =
 {
   {"potion of cure light wounds",       CATEGORY_POTION, TYPE_CURE_LIGHT_WOUNDS,    TCODColor::red,  {1, 8, 0, 0, 0}},
   {"potion of cure moderate wounds",    CATEGORY_POTION, TYPE_CURE_MODERATE_WOUNDS, TCODColor::red,  {2, 8, 0, 0, 0}},
   {"potion of light energy restore",    CATEGORY_POTION, TYPE_LIGHT_ENERGY_RESTORE, TCODColor::blue, {1, 8, 0, 0, 0}},
   {"potion of moderate energy restore", CATEGORY_POTION, TYPE_MODERATE_ENERGY_RESTORE,TCODColor::blue, {2, 8, 0, 0, 0}}
-};  
+};
+
+const static int CATEGORY_VICTORY_ITEM = -100;
+const static int TYPE_VICTORY_ITEM = -100;
+const static item_data_t victory_item = {"icon of the weedaula", CATEGORY_VICTORY_ITEM, TYPE_VICTORY_ITEM, TCODColor::red,  {0, 0, 0, 0, 0}};
+

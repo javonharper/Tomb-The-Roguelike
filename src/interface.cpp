@@ -408,10 +408,11 @@ Item* displayUseItemScreen()
   return NULL;
 }
 
-void displayWinScreen()
+void displayWinScreen(std::string reason)
 {
   TCODConsole::root->clear();
   TCODConsole::root->print(10, 10, "You Win!");
+  TCODConsole::root->print(12, 11, reason.c_str());
   updateScreen();
   TCODConsole::waitForKeypress(true);
   exit(0);

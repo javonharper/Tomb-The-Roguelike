@@ -10,7 +10,7 @@
 #include "player.h"
 #include "world.h"
 
-const static int SCREEN_WIDTH = 80; 
+const static int SCREEN_WIDTH = 80;
 const static int SCREEN_HEIGHT = 24;
 enum DimProperties {X = 0, Y, WIDTH, HEIGHT};
 const static int worldScreenDims[] = {0, 0, 60, 20};
@@ -30,7 +30,7 @@ void displayInventoryScreen();
 void displayDropItemsScreen();
 Item *displayUseItemScreen();
 
-void displayWinScreen();
+void displayWinScreen(std::string reason);
 void displayGameOverScreen(std::string reason);
 
 void drawWorldPanel();

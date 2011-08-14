@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include "actor.h"
+#include "controller.h"
 #include "functions.h"
 #include "interface.h"
 #include "item.h"
@@ -158,8 +159,22 @@ void Actor::ascendStairs()
   {
     if (map_level_ == 0)
     {
-      std::cout << "Should be asking player if they want to end the game." << std::endl;
-      displayGameOverScreen("You have gone back to the surface.");
+      if(!hasVictoryItem())
+      {
+        char result = prompt("Are you sure you want to go to the surface? (y)es/(n)o");
+        if (result == YES)
+        {
+          displayGameOverScreen("You arrive at the surface embarrased and without the icon");
+        }
+        else
+        {
+          message("Okay, then.");
+        }
+      }
+      else
+      {
+        displayWinScreen("Congratulations! You have braved the tomb!");
+      }
     }
     else
     {
@@ -169,6 +184,25 @@ void Actor::ascendStairs()
       turn_finished_ = true;
     }
   }
+}
+
+bool Actor::hasVictoryItem()
+{
+  std::map<char, Item*> item_map = inventory_->getMap();
+  std::string slots("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+  for (unsigned int i = 0; i < slots.size(); i++)
+  {
+      char slot = slots.at(i);
+      Item* item = inventory_->get(slot);
+      if (item != NULL)
+      {
+        if (item->getCategory() == CATEGORY_VICTORY_ITEM)
+        {
+          return true;
+        }
+      }
+  }
+  return false;
 }
 
 //DND style melee attack.
@@ -261,6 +295,7 @@ void Actor::useItem(Item *item)
     case CATEGORY_WEAPON: wieldWeapon(item); break;
     case CATEGORY_BODY_ARMOUR: wearItem(item); break;
     case CATEGORY_POTION: drinkPotion(item); inventory_->remove(item); item->destroy(); break;
+    case CATEGORY_VICTORY_ITEM: message("Bring this to the surface to win the game!"); break;
     default: message("ERROR: Malformed item category"); break;
   }
 }

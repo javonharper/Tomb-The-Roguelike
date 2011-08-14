@@ -1,6 +1,11 @@
 Tomb v0.01
 MANUAL
 
+Welcome to the Tomb.
+Tomb is a roguelike game with a setting in the ancient burial ground of a long lost ruler.
+Your goal as the adventurer is to brave the depths of the labyrinths and corridors and retrieve 
+the icon of the weedaula so that peace can be restored in your nearby village.
+
 The tomb, items, and enemies are randomly generated so it guarantees no game is ever the same.
 
 KEY COMMANDS

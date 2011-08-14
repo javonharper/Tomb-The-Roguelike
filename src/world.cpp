@@ -15,11 +15,11 @@
 //Creates a world with a given width, height, and depth
 World::World(int world_width, int world_height, int world_levels)
 {
-  this->width_ = world_width;
-  this->height_ = world_height;
-  this->levels_ = world_levels;
-  this->current_level_ = START_LEVEL;
-  this->time_step_ = 0;
+  width_ = world_width;
+  height_ = world_height;
+  levels_ = world_levels;
+  current_level_ = START_LEVEL;
+  time_step_ = 0;
 
   //Create a Map for each level
   for (int i = START_LEVEL; i < world_levels; i++)
@@ -27,8 +27,15 @@ World::World(int world_width, int world_height, int world_levels)
     level_list_.push_back(new Map(world_width, world_height));
   }
 
-  position_t pos = this->getMapLevel(world_levels - 1)->getDownStairPos();
-  this->getMapLevel(world_levels - 1)->setTile(pos.x, pos.y, TILE_WALL);
+  //remove the stairs from the last level of the tomb
+  position_t pos = getMapLevel(world_levels - 1)->getDownStairPos();
+  getMapLevel(world_levels - 1)->setTile(pos.x, pos.y, TILE_WALL);
+
+  //places the victory item at the last level of the tomb
+  Item *item = new Item(victory_item, this);
+  position_t position = findPosition(levels_ - 1);
+  item->setPosition(position.x, position.y, levels_ - 1);
+  item_list_.push_back(item);
 }
 
 World::~World()
@@ -104,7 +111,8 @@ position_t World::findPosition(int level)
   new_position.x = -1;
   new_position.y = -1;
 
-  for (int trials = 0; trials < 1000 && !found_spot; trials++)
+  //for (int trials = 0; trials < 1000 && !found_spot; trials++)
+  while(!found_spot)
   {
     int x = random(0, this->getWidth() - 1);
     int y = random(0, this->getHeight() - 1);

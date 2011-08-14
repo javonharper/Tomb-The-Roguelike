@@ -24,6 +24,9 @@
 #define SHOW_INVENTORY  'i'
 #define USE_ITEM        'a'
 
+#define YES 'y'
+#define NO  'n'
+
 #define ESC 27
 
 struct direction_t
