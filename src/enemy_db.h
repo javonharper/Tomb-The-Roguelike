@@ -21,11 +21,32 @@ enum AttributeTypes
 };
 
 const static int ATT_MAX           = 20;
+const static int ATT_VERY_GOOD     = 17;
 const static int ATT_GOOD          = 15;
+const static int ATT_ABOVE_AVERAGE = 13;
 const static int ATT_AVERAGE       = 10;
+const static int ATT_BELOW_AVERAGE = 7;
 const static int ATT_BAD           = 5;
+const static int ATT_VERY_BAD      = 3;
 const static int ATT_MIN           = 1;
 
+const static int SIZE_COLOSSAL    = -8;
+const static int SIZE_GARGANTUAN  = -4;
+const static int SIZE_HUGE        = -2;
+const static int SIZE_LARGE       = -1;
+const static int SIZE_MEDIUM      =  0;
+const static int SIZE_SMALL       =  1;
+const static int SIZE_TINY        =  2;
+const static int SIZE_DIMINUTIVE  =  4;
+const static int SIZE_FINE        =  8;
+
+const static int SPEED_VERY_SLOW  = 5;
+const static int SPEED_SLOW       = 4;
+const static int SPEED_NORMAL     = 3;
+const static int SPEED_FAST       = 2;
+const static int SPEED_VERY_FAST  = 1;
+
+const static int BASE_AC = 10;
 enum EnemyTypes
 {
   PLAYER = 0,
@@ -104,80 +125,80 @@ const static enemy_data_t enemy_db[] = {
 //  {
 //    {habmin, habmax},
 //    "name", 'char', TCODColor::color,
-//    health,   mana, damage
-//    str,   dex,  wis, vit,
+//    health,   energy, damage
+//    str,   dex,  int, vit,
 //    speed  size, base armour,
-//    sight,   smell,  hearing
+//    sight
 //  },
     {
         {-1, -1},
         "player", '@', TCODColor::white,
         10,   5, {1, 3},
         ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        SPEED_NORMAL, SIZE_MEDIUM, BASE_AC,
         ATT_AVERAGE
     },
     {
         {0, 10},
         "rat", 'r', TCODColor::grey,
-        10,   5, {1, 3},
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        2,   1, {1, 2},
+        ATT_BAD, ATT_GOOD, ATT_BAD, ATT_AVERAGE,
+        ATT_AVERAGE, SIZE_TINY, BASE_AC,
         ATT_AVERAGE
     },
     {
         {0, 10},
         "bat", 'b', TCODColor::grey,
-        10,   5, {1, 3},
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        2,   1, {1, 2},
+        ATT_MIN, ATT_GOOD, ATT_MIN, ATT_AVERAGE,
+        SPEED_VERY_FAST, SIZE_DIMINUTIVE, BASE_AC,
         ATT_AVERAGE
     },
     {
         {0, 10},
         "dire rat", 'r', TCODColor::darkGrey,
-        10,   5, {1, 3},
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        5,   1, {1, 4},
+        ATT_AVERAGE, ATT_GOOD, ATT_MIN, ATT_AVERAGE,
+        SPEED_VERY_FAST, SIZE_SMALL, BASE_AC + 1,
         ATT_AVERAGE
     },
     {
         {0, 10},
         "feral hound", 'd', TCODColor::desaturatedOrange,
-        10,   5, {1, 3},
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        6,   1, {1, 4},
+        ATT_ABOVE_AVERAGE, ATT_VERY_GOOD, ATT_VERY_BAD, ATT_GOOD,
+        SPEED_FAST, SIZE_SMALL, BASE_AC + 2,
         ATT_AVERAGE
     },
     {
         {0, 10},
         "crypt worm", 'w', TCODColor::lightRed,
-        10,   5, {1, 3},
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        34,   5, {2, 6},
+        ATT_AVERAGE, ATT_GOOD, ATT_MIN, ATT_MAX,
+        SPEED_VERY_SLOW, SIZE_MEDIUM, BASE_AC + 5,
         ATT_AVERAGE
     },
     {
         {0, 10},
-        "barbed boar", 't', TCODColor::darkerOrange,
-        10,   5, {1, 3},
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        "barbed boar", 'B', TCODColor::darkerOrange,
+        52,   0, {1, 8},
+        ATT_MAX, ATT_AVERAGE, ATT_VERY_BAD, ATT_VERY_GOOD,
+        SPEED_FAST, SIZE_MEDIUM, BASE_AC + 6,
         ATT_AVERAGE
     },
     {
         {0, 10},
         "dire bat", 'b', TCODColor::grey,
-        10,   5, {1, 3},
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        30,   1, {1, 8},
+        ATT_VERY_GOOD, ATT_MAX, ATT_MIN, ATT_ABOVE_AVERAGE,
+        SPEED_VERY_FAST, SIZE_LARGE, BASE_AC + 5,
         ATT_AVERAGE
     },
     {
         {0, 10},
         "goblin mastiff", 'd', TCODColor::desaturatedYellow,
-        10,   5, {1, 3},
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        30,   0, {1, 6},
+        ATT_VERY_GOOD, ATT_ABOVE_AVERAGE, ATT_VERY_BAD, ATT_ABOVE_AVERAGE,
         ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
         ATT_AVERAGE
     }

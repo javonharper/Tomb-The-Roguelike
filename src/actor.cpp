@@ -341,12 +341,12 @@ void Actor::regenerateEnergy()
 
 int Actor::calcSpeed()
 {
-  return ((mod_speed_ / 5) + 1);
+  return mod_speed_;
 }
 
 int Actor::calcSize()
 {
-  return (mod_size_ - 10) * (1 - (1/5));
+  return mod_size_;
 }
 
 int Actor::calcSight()
