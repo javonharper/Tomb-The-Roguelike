@@ -22,7 +22,7 @@ Player::Player(World *world)
   level_ = 1;
   experience_ = 0;
   is_alive_ = true;
-  
+
   //make the player character unique
   TCODNamegen::parse("data/names.txt", NULL);
   name_ = std::string((char*)TCOD_namegen_generate("player", false));

@@ -104,7 +104,7 @@ void Actor::moveTowards(int x, int y)
     d_y = -1;
   }
 
-  //small hack to make it turn corners and such. not perfect
+  //small hack to make it turn corners and such. not perfect. actually, it barely even works
   int new_x = getXPosition() + d_x;
   int new_y = getYPosition() + d_y;
   if (world_->getTile(new_x, new_y, map_level_).is_passable)
@@ -302,7 +302,33 @@ void Actor::endTurn()
   //Calculate the actor's next turn.
   if(isTurn())
   {
+    regenerateHealth();
+    regenerateEnergy();
     next_turn_ = world_->getTimeStep() + calcSpeed();
+  }
+}
+
+void Actor::regenerateHealth()
+{
+  int roll = random(1, 20);
+  if(att_vit_ >= roll)
+  {
+    if(current_health_points_ < max_health_points_)
+    {
+      current_health_points_ = current_health_points_ + 1;
+    }
+  }
+}
+
+void Actor::regenerateEnergy()
+{
+  int roll = random(1, 20);
+  if(att_wis_ >= roll)
+  {
+    if(current_energy_points_ < max_energy_points_)
+    {
+      current_energy_points_ = current_energy_points_ + 1;
+    }
   }
 }
 

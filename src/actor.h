@@ -88,6 +88,8 @@ class Actor
 
   void startTurn();
   void endTurn();
+  void regenerateHealth();
+  void regenerateEnergy();
   virtual void kill()=0;
 
   void FOV(Map *map);
