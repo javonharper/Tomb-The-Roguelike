@@ -56,8 +56,7 @@ std::vector<Enemy*> World::generateEnemies()
   //For each level generate enemeis
   for(int i = START_LEVEL; i < this->getLevels(); i++)
   {
-    //int num_enemies = random(5, 10);
-    int num_enemies = 1;
+    int num_enemies = 0;
 
     //for each enemy, assign a type that will be on that level.
     for (int j = 0; j < num_enemies; j++)
@@ -147,7 +146,7 @@ std::vector<Item*> World::getItemsAt(int x, int y, int level)
     if (item->getXPosition() == x && item->getYPosition() == y && item->getMapLevel() == level)
     {
       items_at_pos.push_back(item);
-	  }
+    }
   }
   return items_at_pos;
 }
