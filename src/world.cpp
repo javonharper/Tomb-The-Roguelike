@@ -178,6 +178,7 @@ std::vector<Enemy*>& World::getEnemyList(){return enemy_list_;}
 std::vector<Item*>& World::getItemList(){return item_list_;}
 tile_t World::getTile(int x, int y, int z){return level_list_[z]->getTile(x, y);}
 void World::setTileAsSeen(int x, int y, int z){this->getMapLevel(z)->setTileAsSeen(x, y);}
+void World::setTileColor(int x, int y, int z, TCODColor color){level_list_[z]->setTileColor(x,y,color);}
 int World::getWidth(){return width_;}
 int World::getHeight(){return height_;}
 int World::getLevels(){return levels_;}

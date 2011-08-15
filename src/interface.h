@@ -28,6 +28,7 @@ void displayTitleScreen();
 void displayGameScreen();
 void displayInventoryScreen();
 void displayDropItemsScreen();
+void showInventoryContents();
 Item *displayUseItemScreen();
 
 void displayWinScreen(std::string reason);

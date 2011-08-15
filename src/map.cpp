@@ -255,6 +255,7 @@ void Map::cleanWalls()
 
 void Map::setTile(int x, int y, int tile_type){tile_map_[x][y] = tile_db[tile_type];}
 void Map::setTileAsSeen(int x, int y){tile_map_[x][y].has_been_seen = true;}
+void Map::setTileColor(int x, int y, TCODColor color){tile_map_[x][y].color = color;}
 tile_t Map::getTile(int x, int y) {return tile_map_[x][y];}
 int Map::getWidth(){return width_;}
 int Map::getHeight(){return height_;}

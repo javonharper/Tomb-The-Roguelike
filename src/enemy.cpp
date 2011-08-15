@@ -103,6 +103,7 @@ void Enemy::kill()
         enemy_list.erase(enemy_list.begin() + i);
       }
   }
+  world_->setTileColor(x_, y_, map_level_, TCODColor::red);
 }
 
 void Enemy::setLastKnownPlayerPosition(int x, int y)

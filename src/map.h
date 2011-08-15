@@ -81,6 +81,7 @@ class Map
     tile_t getTile(int x, int y);
     void setTile(int x, int y, int tile_type);
     void setTileAsSeen(int x, int y);
+    void setTileColor(int x, int y, TCODColor color);
     int getWidth();
     int getHeight();
     position_t getDownStairPos();

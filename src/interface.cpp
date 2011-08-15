@@ -299,6 +299,20 @@ void displayInventoryScreen()
 {
   TCODConsole::root->clear();
   TCODConsole::root->print(2, 2, "Inventory");
+  showInventoryContents();
+  bool exited_screen = false;
+  while (!exited_screen)
+  {
+    TCOD_key_t key = TCODConsole::waitForKeypress(true);
+    switch(key.c)
+    {
+      case ESC: displayGameScreen(); exited_screen = true; updateScreen(); break;
+    }
+  }
+}
+
+void showInventoryContents()
+{
   Inventory *inventory = _world_->getPlayer()->getInventory();
   std::map<char, Item*> item_map = inventory->getMap();
   std::string slots("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -317,44 +331,14 @@ void displayInventoryScreen()
         TCODConsole::root->print(5, count++ + offset, "%c%s%c", TCOD_COLCTRL_1, item->getName().c_str(), TCOD_COLCTRL_STOP);
        }
   }
-
   updateScreen();
-
-  bool exited_screen = false;
-  while (!exited_screen)
-  {
-    TCOD_key_t key = TCODConsole::waitForKeypress(true);
-    switch(key.c)
-    {
-      case ESC: displayGameScreen(); exited_screen = true; updateScreen(); break;
-    }
-  }
 }
 
 void displayDropItemsScreen()
 {
   TCODConsole::root->clear();
-  TCODConsole::root->print(2, 2, "Which item do you want to drop?");
-  Inventory *inventory = _world_->getPlayer()->getInventory();
-  std::map<char, Item*> item_map = inventory->getMap();
-  std::string slots("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-  int offset = 5;
-  int count = 0;
-
-  for (unsigned int i = 0; i < slots.size(); i++)
-  {
-      char slot = slots.at(i);
-      Item* item = inventory->get(slot);
-      if (item != NULL)
-      {
-        std::string str_slot;
-        str_slot.push_back(slot);
-        TCODConsole::root->print(3, count + offset, str_slot.c_str());
-        TCODConsole::setColorControl(TCOD_COLCTRL_1, item->getColor(), TCODColor::black);
-        TCODConsole::root->print(5, count++ + offset, "%c%s%c", TCOD_COLCTRL_1, item->getName().c_str(), TCOD_COLCTRL_STOP);
-      }
-  }
-
+  TCODConsole::root->print(2, 2, "Which item do you want to Drop?");
+  showInventoryContents();
   updateScreen();
 
   bool exited_screen = false;
@@ -364,7 +348,7 @@ void displayDropItemsScreen()
     switch(key.c)
     {
       case ESC: displayGameScreen(); exited_screen = true; updateScreen(); break;
-      default:{ exited_screen = (inventory->get(key.c) != NULL); if (exited_screen){_world_->getPlayer()->dropItem(inventory->get(key.c));}}
+    default:{ exited_screen = (_world_->getPlayer()->getInventory()->get(key.c) != NULL); if (exited_screen){_world_->getPlayer()->dropItem(_world_->getPlayer()->getInventory()->get(key.c));}}
     }
   }
 }
@@ -373,37 +357,17 @@ Item* displayUseItemScreen()
 {
   TCODConsole::root->clear();
   TCODConsole::root->print(2, 2, "Which item do you want to use");
-  Inventory *inventory = _world_->getPlayer()->getInventory();
-  std::map<char, Item*> item_map = inventory->getMap();
-  std::string slots("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-  int offset = 5;
-  int count = 0;
-
-  for (unsigned int i = 0; i < slots.size(); i++)
-  {
-      char slot = slots.at(i);
-      Item* item = inventory->get(slot);
-      if (item != NULL)
-      {
-        std::string str_slot;
-        str_slot.push_back(slot);
-        TCODConsole::root->print(3, count + offset, str_slot.c_str());
-        TCODConsole::setColorControl(TCOD_COLCTRL_1, item->getColor(), TCODColor::black);
-        TCODConsole::root->print(5, count++ + offset, "%c%s%c", TCOD_COLCTRL_1, item->getName().c_str(), TCOD_COLCTRL_STOP);
-      }
-  }
-
-  updateScreen();
+  showInventoryContents();
 
   bool exited_screen = false;
   while (!exited_screen)
   {
-    TCOD_key_t key = TCODConsole::waitForKeypress(true);
-    switch(key.c)
-    {
+      TCOD_key_t key = TCODConsole::waitForKeypress(true);
+      switch(key.c)
+      {
       case ESC: displayGameScreen(); exited_screen = true; updateScreen(); return NULL; break;
-      default:{ exited_screen = (inventory->get(key.c) != NULL); if (exited_screen){return inventory->get(key.c);}}
-    }
+      default:{ exited_screen = (_world_->getPlayer()->getInventory()->get(key.c) != NULL); if (exited_screen){return _world_->getPlayer()->getInventory()->get(key.c);}}
+      }
   }
   return NULL;
 }

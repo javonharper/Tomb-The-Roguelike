@@ -41,6 +41,7 @@ class World
 
     tile_t getTile(int x, int y, int z);
     void setTile(int x, int y, int z, int tile_type);
+    void setTileColor(int x, int y, int z, TCODColor color);
     void setTileAsSeen(int x, int y, int z);
     int getWidth();
     int getHeight();

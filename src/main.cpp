@@ -5,6 +5,7 @@
  */
 #include <iostream>
 #include <vector>
+#include <sstream>
 #include "libtcod.hpp"
 #include "enemy.h"
 #include "functions.h"
@@ -31,18 +32,28 @@ int main(int argc, char* argv[])
   initScreen();
   displayTitleScreen();
 
-  world = new World(worldScreenDims[WIDTH], worldScreenDims[HEIGHT], 1);
+  int world_width = worldScreenDims[WIDTH];
+  int world_height = worldScreenDims[HEIGHT];
+  int world_depth = 3;
+
+  world = new World(world_width, world_height, world_depth);
   setWorld(world);//interface.h, just to keep a pointer to the world so It doesn't have to get passed with every message, prompt, etc.
 
   player = world->generatePlayer();
   enemies = world->generateEnemies(random(1,3));
   world->generateItems(random(5, 10));
+  std::stringstream intro_stream;
+  intro_stream << "You are " << player->getName() << ", an adventurer in search of the Icon of Weedaula.";
+  message(intro_stream.str());
+  message("You find yourself in a dank labyrinth of the tomb.");
+  message("Your heart drops as you begin your trek.");
+
 
   //While the game is still going, iterate over all actors
   while (!isGameOver())
   {
     world->incrementTimeStep();
-    std::cout<< "=WORLD STEP" << world->getTimeStep()<<"=" << std::endl;
+//    std::cout<< "=WORLD STEP" << world->getTimeStep()<<"=" << std::endl;
 
     player->FOV(player->getMapLevel());
     displayGameScreen();
