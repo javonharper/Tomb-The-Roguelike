@@ -330,6 +330,19 @@ void Actor::drinkPotion(Item *item)
   turn_finished_ = true;
 }
 
+bool Actor::hasEquipped(Item *item)
+{
+    if(active_body_armour_ == item)
+    {
+	return true;
+    }
+    else if (active_weapon_ == item)
+    {
+	return true;
+    }
+    return false; 
+}
+
 //Handles anything that needs to happen before taking a turn,
 //including checking to see if it is actually the actor turn.
 void Actor::startTurn()

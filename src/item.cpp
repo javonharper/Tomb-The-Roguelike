@@ -10,29 +10,29 @@
 
 Item::Item(item_data_t item_data, World *world)
 {
-  world_ = world;
-  init(item_data);
-  setOnGround(true);
+    world_ = world;
+    init(item_data);
+    setOnGround(true);
 }
 
 Item::Item(World *world)
 {
-  world_ = world;
-  int category = chooseCategory();
-  int type = chooseType(category);
-  init(category, type);
-  setPosition(-1, -1, -1);
-  setOnGround(true);
+    world_ = world;
+    int category = chooseCategory();
+    int type = chooseType(category);
+    init(category, type);
+    setPosition(-1, -1, -1);
+    setOnGround(true);
 }
 
 //Create an item within a given category
 Item::Item(int category, World *world)
 {
-  world_ = world;
-  int type = chooseType(category);
-  init(category, type);
-  setPosition(-1, -1, -1);
-  setOnGround(true);
+    world_ = world;
+    int type = chooseType(category);
+    init(category, type);
+    setPosition(-1, -1, -1);
+    setOnGround(true);
 }
 
 Item::~Item()
@@ -42,30 +42,30 @@ Item::~Item()
 //TODO fix so this chooses by weights (category_probabilities)
 int Item::chooseCategory()
 {
-  return random(0, TOTAL_ITEM_CATEGORIES - 1);
+    return random(0, TOTAL_ITEM_CATEGORIES - 1);
 }
 
 //TODO fix so this chooses by weights (type probs for each type)
 int Item::chooseType(int category)
 {
-  switch (category)
-  {
+    switch (category)
+    {
     case CATEGORY_WEAPON: return random(0, TOTAL_WEAPON_TYPES - 1); break;
     case CATEGORY_BODY_ARMOUR: return random(0, TOTAL_BODY_ARMOUR_TYPES - 1); break;
     case CATEGORY_POTION: return random(0, TOTAL_POTION_TYPES - 1); break;
     default: return -1; break;
-  }
+    }
 }
 
 void Item::init(int category, int type)
 {
-   switch (category)
-  {
+    switch (category)
+    {
     case CATEGORY_WEAPON: init(weapon_db[type]); break;
     case CATEGORY_BODY_ARMOUR: init(armour_db[type]); break;
     case CATEGORY_POTION: init(potion_db[type]); break;
     default: init(erroneous_item);
-  }
+    }
 }
 
 void Item::init(item_data_t item_data)
@@ -76,7 +76,7 @@ void Item::init(item_data_t item_data)
 
     for (int i = 0; i < NUM_ITEM_VALUES; i++)
     {
-      item_values_[i] = item_data.item_values[i];
+	item_values_[i] = item_data.item_values[i];
     }
 
     setFaceTile(item_data.category);
@@ -86,33 +86,45 @@ void Item::init(item_data_t item_data)
 
 void Item::setPosition(int x, int y, int level)
 {
-  this->x_ = x;
-  this->y_ = y;
-  this->map_level_ = level;
+    this->x_ = x;
+    this->y_ = y;
+    this->map_level_ = level;
 }
 
 void Item::setFaceTile(int category)
 {
-  switch(category)
-  {
+    switch(category)
+    {
     case CATEGORY_WEAPON: face_tile_ = '/'; break;
     case CATEGORY_BODY_ARMOUR: face_tile_ = ']'; break;
     case CATEGORY_POTION: face_tile_ = '!'; break;
     case CATEGORY_VICTORY_ITEM: face_tile_ = '~'; break;
     default: face_tile_ = '|'; break;
-  }
+    }
 }
 
 void Item::destroy()
 {
-  std::vector<Item*> &item_list = world_->getItemList();
+    std::vector<Item*> &item_list = world_->getItemList();
 
-  for(unsigned int i = 0; i < item_list.size(); i++)
+    for(unsigned int i = 0; i < item_list.size(); i++)
     {
-      if (this == item_list[i])
-  {
-    item_list.erase(item_list.begin() + i);
-  }
+	if (this == item_list[i])
+	{
+	    item_list.erase(item_list.begin() + i);
+	}
+    }
+}
+
+std::string Item::getEquippedString()
+{
+    switch(category_)
+    {
+    case CATEGORY_WEAPON: return "(wielded)";
+    case CATEGORY_BODY_ARMOUR: return "(worn)";
+    case CATEGORY_POTION: return "(in hand)";
+    case CATEGORY_VICTORY_ITEM: return "(in hand)";
+    default: return "(ERROR item with bad category equipped)";
     }
 }
 

@@ -89,6 +89,7 @@ class Actor
   void wearItem(Item *item);
   void drinkPotion(Item *item);
   bool hasVictoryItem();
+  bool hasEquipped(Item *item);
 
   void startTurn();
   void endTurn();

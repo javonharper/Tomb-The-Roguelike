@@ -62,6 +62,7 @@ class Item
     void destroy();
     int getCategory();
     int getType();
+    std::string getEquippedString();
     int getValue(int i);
 };
 

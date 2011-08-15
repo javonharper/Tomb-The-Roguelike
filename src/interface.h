@@ -8,6 +8,7 @@
 #include <string>
 #include "libtcod.hpp"
 #include "player.h"
+#include "enemy.h"
 #include "world.h"
 
 const static int SCREEN_WIDTH = 80;
@@ -30,6 +31,7 @@ void displayInventoryScreen();
 void displayDropItemsScreen();
 void showInventoryContents();
 Item *displayUseItemScreen();
+void showEnemyStatus(int &x, int &y, Enemy *enemy);
 
 void displayWinScreen(std::string reason);
 void displayGameOverScreen(std::string reason);
