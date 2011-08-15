@@ -392,6 +392,33 @@ void displayGameOverScreen(std::string reason)
   exit(0);
 }
 
+void displayHelpScreen()
+{
+    TCODConsole::root->clear();
+    int y = 2;
+    TCODConsole::root->print(2, y++, "Tomb keybindings");
+    TCODConsole::root->print(4, y++, "k Move north"); 
+    TCODConsole::root->print(4, y++, "j Move south");
+    TCODConsole::root->print(4, y++, "l Move east");
+    TCODConsole::root->print(4, y++, "h Move west");
+    TCODConsole::root->print(4, y++, "u Move northeast"); 
+    TCODConsole::root->print(4, y++, "y Move northwest");
+    TCODConsole::root->print(4, y++, "n Move southeast");
+    TCODConsole::root->print(4, y++, "b Move south west");
+    TCODConsole::root->print(4, y++, ". Rest"); 
+    TCODConsole::root->print(4, y++, "< Go up stairs");
+    TCODConsole::root->print(4, y++, "> Go down stairs");
+    TCODConsole::root->print(4, y++, "c Close a door");
+    TCODConsole::root->print(4, y++, "o Open a door"); 
+    TCODConsole::root->print(4, y++, "d Drop an item");
+    TCODConsole::root->print(4, y++, "g get an item off the floor");
+    TCODConsole::root->print(4, y++, "i show your inventory");
+    TCODConsole::root->print(4, y++, "a active or use an item");   
+    TCODConsole::root->print(4, y++, "? show in-game help");  
+    TCODConsole::root->print(4, y++, "Esc quit the game");  
+    updateScreen();
+}
+
 void drawVerticalLine(int x, int y, int height, TCODColor color)
 {
   for (int i = y; i < y + height - 1 ; i++)

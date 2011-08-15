@@ -23,6 +23,7 @@
 #define PICKUP          'g'
 #define SHOW_INVENTORY  'i'
 #define USE_ITEM        'a'
+#define HELP            '?'
 
 #define YES 'y'
 #define NO  'n'

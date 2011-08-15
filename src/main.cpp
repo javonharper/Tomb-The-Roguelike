@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
   message(intro_stream.str());
   message("You find yourself in a dank labyrinth of the tomb.");
   message("Your heart drops as you begin your trek.");
-
+  message("Press '?' for help");
 
   //While the game is still going, iterate over all actors
   while (!isGameOver())
@@ -122,6 +122,7 @@ void handleKeyPress()
     case DROP: player->promptDropAction(); break;
     case USE_ITEM: player->promptUseItemAction(); break;
     case SHOW_INVENTORY: displayInventoryScreen(); break;
+    case HELP: displayHelpScreen(); break;
     case ESC: displayGameOverScreen("You have exited the game."); break;
     }
 }

@@ -34,6 +34,8 @@ Item *displayUseItemScreen();
 void displayWinScreen(std::string reason);
 void displayGameOverScreen(std::string reason);
 
+void displayHelpScreen();
+
 void drawWorldPanel();
 void drawWorld();
 void drawInfoPanel();
