@@ -133,7 +133,7 @@ const static enemy_data_t enemy_db[] = {
     {
         {-1, -1},
         "player", '@', TCODColor::white,
-        15,   5, {1, 5},
+        30,   5, {1, 3},
         ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC,
         ATT_AVERAGE

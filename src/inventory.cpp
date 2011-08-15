@@ -20,13 +20,11 @@ Inventory::Inventory()
 
 Inventory::~Inventory(){}
 
-void Inventory::add(Item *item)
+char Inventory::add(Item *item)
 {
     char free_slot = findFreeSlot();
     item_map_[free_slot] = item;
-    std::stringstream new_item_stream;
-    new_item_stream << free_slot << " - " << item->getName();
-    message(new_item_stream.str());
+    return free_slot;
 }
 
 void Inventory::remove(char slot)

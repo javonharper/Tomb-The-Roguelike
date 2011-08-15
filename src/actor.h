@@ -83,7 +83,7 @@ class Actor
   //    void castSpell(Spell *spell);
   void rangedAttack(Actor *actor);
   void dropItem(Item *item);
-  void pickUpItem(Item *item);
+  char pickUpItem(Item *item);
   void useItem(Item *item);
   void wieldWeapon(Item *item);
   void wearItem(Item *item);

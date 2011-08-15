@@ -10,6 +10,7 @@
 #include "enemy.h"
 #include "functions.h"
 #include "interface.h"
+#include "inventory.h"
 #include "item_db.h"
 #include "map.h"
 #include "random.h"
@@ -22,15 +23,20 @@ Player::Player(World *world)
     level_ = 1;
     experience_ = 0;
     is_alive_ = true;
-
-    //make the player character unique
-    TCODNamegen::parse("data/names.txt", NULL);
-    name_ = std::string((char*)TCOD_namegen_generate("player", false));
-    TCODNamegen::destroy();
-    att_str_ = random(ATT_BAD, ATT_GOOD);
-    att_int_ = random(ATT_BAD, ATT_GOOD);
-    att_dex_ = random(ATT_BAD, ATT_GOOD);
-    att_vit_ = random(ATT_BAD, ATT_GOOD);
+    //name_ = std::string((char*)TCOD_namegen_generate("player", false));
+    //TCODNamegen::destroy();
+    att_str_ = random(ATT_AVERAGE, ATT_GOOD);
+    att_int_ = random(ATT_AVERAGE, ATT_GOOD);
+    att_dex_ = random(ATT_AVERAGE, ATT_GOOD);
+    att_vit_ = random(ATT_AVERAGE, ATT_GOOD);
+    
+    active_weapon_ = new Item(weapon_db[TYPE_WOODEN_CLUB], world);
+    active_body_armour_ = new Item(armour_db[ TYPE_SILK_TUNIC], world);
+    inventory_->add(active_weapon_);
+    inventory_->add(active_body_armour_);
+    inventory_->add(new Item(potion_db[TYPE_CURE_LIGHT_WOUNDS], world));
+    inventory_->add(new Item(potion_db[TYPE_CURE_LIGHT_WOUNDS], world));
+    inventory_->add(new Item(potion_db[TYPE_CURE_LIGHT_WOUNDS], world));
 }
 
 Player::~Player()
@@ -43,8 +49,8 @@ bool Player::isEnemyAtPosition(int x, int y, int level)
     Enemy *enemy = world_->getEnemyAt(x, y, level);
     if(enemy != NULL)
     {
-  found_enemy = true;
-  this->meleeAttack(enemy);
+	found_enemy = true;
+	this->meleeAttack(enemy);
     }
     return found_enemy;
 }
@@ -63,51 +69,51 @@ void Player::promptDoorAction(char key)
 
     if(!isValidDirection(direction))
     {
-  message("Invalid Key");
+	message("Invalid Key");
     }
     else
     {
-  if (tile.tile_type == TILE_DOOR_OPEN)
-  {
-      if (key == 'o')
-      {
-    message("The door is already open");
-      }
-      else
-      {
-    if (world_->getEnemyAt(x_ + direction.x, y_ + direction.y, map_level_) == NULL)
-    {
+	if (tile.tile_type == TILE_DOOR_OPEN)
+	{
+	    if (key == 'o')
+	    {
+		message("The door is already open");
+	    }
+	    else
+	    {
+		if (world_->getEnemyAt(x_ + direction.x, y_ + direction.y, map_level_) == NULL)
+		{
 
-        closeDoor(x_ + direction.x, y_ + direction.y, map_level_);
-    }
-    else
-    {
-        message("There is something standing here");
-    }
-      }
-  }
-  else if (tile.tile_type == TILE_DOOR_CLOSED)
-  {
-      if (key == 'c')
-      {
-    message("The door is already closed");
-      }
-      else
-      {
-    if (world_->getEnemyAt(x_ + direction.x, y_ + direction.y, map_level_ ) == NULL)
-    {
-        openDoor(x_ + direction.x, y_ + direction.y, map_level_);
-    }
-    else
-    {
-        message("ERROR something is standing here but door is closed");
-    }
-      }
-  }
-  else
-  {
-      message("You see no door there");
-  }
+		    closeDoor(x_ + direction.x, y_ + direction.y, map_level_);
+		}
+		else
+		{
+		    message("There is something standing here");
+		}
+	    }
+	}
+	else if (tile.tile_type == TILE_DOOR_CLOSED)
+	{
+	    if (key == 'c')
+	    {
+		message("The door is already closed");
+	    }
+	    else
+	    {
+		if (world_->getEnemyAt(x_ + direction.x, y_ + direction.y, map_level_ ) == NULL)
+		{
+		    openDoor(x_ + direction.x, y_ + direction.y, map_level_);
+		}
+		else
+		{
+		    message("ERROR something is standing here but door is closed");
+		}
+	    }
+	}
+	else
+	{
+	    message("You see no door there");
+	}
     }
 }
 
@@ -116,18 +122,21 @@ void Player::promptPickupAction()
     std::vector<Item*> items = world_->getItemsAt(x_, y_, map_level_);
     if(items.size() == 1)
     {
-  pickUpItem(items[0]);
+	char free_slot = pickUpItem(items[0]);
+	std::stringstream new_item_stream;
+	new_item_stream << free_slot << " - " << items[0]->getName();
+	message(new_item_stream.str());
     }
     else if (items.size() > 1)
     {
-  //char item_char = prompt("Which item do you want?");
-  message("TODO: handle picking up multiple objects");
-  pickUpItem(items[0]);
-  //TODO show player list in which they can choose an item for them to pick
+	//char item_char = prompt("Which item do you want?");
+	message("TODO: handle picking up multiple objects");
+	pickUpItem(items[0]);
+	//TODO show player list in which they can choose an item for them to pick
     }
     else
     {
-  message("There are no items here");
+	message("There are no items here");
     }
 }
 
@@ -141,22 +150,22 @@ void Player::promptUseItemAction()
     Item *item = displayUseItemScreen();
     if (item != NULL)
     {
-  std::stringstream use_stream;
-  use_stream << "you ";
+	std::stringstream use_stream;
+	use_stream << "you ";
 
-  switch(item->getCategory())
-  {
-  case CATEGORY_WEAPON: use_stream << "wield"; break;
-  case CATEGORY_BODY_ARMOUR: use_stream << "put on"; break;
-  case CATEGORY_POTION: use_stream << "drink the"; break;
-  default: use_stream << "ERROR: malformed item category on use"; break;
-  }
+	switch(item->getCategory())
+	{
+	case CATEGORY_WEAPON: use_stream << "wield"; break;
+	case CATEGORY_BODY_ARMOUR: use_stream << "put on"; break;
+	case CATEGORY_POTION: use_stream << "drink the"; break;
+	default: use_stream << "ERROR: malformed item category on use"; break;
+	}
 
-  use_stream << " the " << item->getName() << ".";
+	use_stream << " the " << item->getName() << ".";
 
-  displayGameScreen();
-  message(use_stream.str());
-  useItem(item);
+	displayGameScreen();
+	message(use_stream.str());
+	useItem(item);
     }
 }
 
@@ -165,18 +174,18 @@ void Player::moveAction(int x, int y, int z)
     move(x,y,z);
     if(x_ == x && y_ == y && map_level_ == z)//if they actually moved there
     {
-  std::vector<Item*> items = world_->getItemsAt(x_, y_, map_level_);
-  if(items.size() == 1)
-  {
-      std::stringstream ground_stream;
-      ground_stream << "You see a " << items[0]->getName() << " here.";
-      message(ground_stream.str());
-      updateScreen();
-  }
-  else if (items.size() > 1)
-  {
-      message("You see many items here");
-  }
+	std::vector<Item*> items = world_->getItemsAt(x_, y_, map_level_);
+	if(items.size() == 1)
+	{
+	    std::stringstream ground_stream;
+	    ground_stream << "You see a " << items[0]->getName() << " here.";
+	    message(ground_stream.str());
+	    updateScreen();
+	}
+	else if (items.size() > 1)
+	{
+	    message("You see many items here");
+	}
     }
 }
 

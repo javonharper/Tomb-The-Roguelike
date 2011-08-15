@@ -12,7 +12,7 @@ Item::Item(item_data_t item_data, World *world)
 {
     world_ = world;
     init(item_data);
-    setOnGround(true);
+    setOnGround(false);
 }
 
 Item::Item(World *world)
@@ -22,7 +22,7 @@ Item::Item(World *world)
     int type = chooseType(category);
     init(category, type);
     setPosition(-1, -1, -1);
-    setOnGround(true);
+    setOnGround(false);
 }
 
 //Create an item within a given category
@@ -32,7 +32,7 @@ Item::Item(int category, World *world)
     int type = chooseType(category);
     init(category, type);
     setPosition(-1, -1, -1);
-    setOnGround(true);
+    setOnGround(false);
 }
 
 Item::~Item()

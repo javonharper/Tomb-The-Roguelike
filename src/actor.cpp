@@ -208,55 +208,43 @@ bool Actor::hasVictoryItem()
 //DND style melee attack.
 void Actor::meleeAttack(Actor *actor)
 {
-  std::stringstream message_stream;
-  std::cout << "== Melee Attack:"<< getName() << "-->"<< actor->getName() << " == "<< std::endl;
-  int attack_roll = random(1, 20) + calcAtt(att_str_);
-  int opponent_ac = actor->calcArmourClass();
-  std::cout <<"ATK roll:" << attack_roll << ",  AC:" << opponent_ac << std::endl;
+    int attack_roll = random(1, 20) + calcAtt(att_str_);
+    int opponent_ac = actor->calcArmourClass();
 
-  int damage_roll = 0;
-  if(attack_roll >= opponent_ac || attack_roll >= 20)
-  {
-    damage_roll = calcMeleeDamage() + calcAtt(att_str_);
-    damage_roll = setBoundedValue(damage_roll, 1, damage_roll);
-
-    //if critical hit, roll again to see if actor can hit again.
-    bool critical_hit = false;
-    if(attack_roll >= 20 && random(1, 20) + calcAtt(att_str_) >= opponent_ac)
+    int damage_roll = 0;
+    if(attack_roll >= opponent_ac || attack_roll >= 20)
     {
-      critical_hit = true;
-      damage_roll = damage_roll + calcMeleeDamage() + calcAtt(att_str_);
+	damage_roll = calcMeleeDamage() + calcAtt(att_str_);
+	damage_roll = setBoundedValue(damage_roll, 1, damage_roll);
+
+	//if critical hit, roll again to see if actor can hit again.
+	bool critical_hit = false;
+	if(attack_roll >= 20 && random(1, 20) + calcAtt(att_str_) >= opponent_ac)
+	{
+	    critical_hit = true;
+	    damage_roll = damage_roll + calcMeleeDamage() + calcAtt(att_str_);
+	    damage_roll = setBoundedValue(damage_roll, 1, damage_roll);
+	}
+
+	if (critical_hit)
+	{
+	}
     }
-    message_stream << actor->getName() << " hit for " <<  damage_roll << " damage";
-    if (critical_hit)
-      {
-        message_stream << " critically";
-      }
-    message_stream << "." <<std::endl;
-  }
-  else
-  {
-    message_stream << getName() << " misses.";
-  }
+    else
+    {
+    }
 
-  std::cout << message_stream.str() << std::endl;
+    //check if the actor is dead.
+    if(damage_roll >= actor->getCurrentHealth())
+    {
+	actor->kill();
+    }
+    else
+    {
+	actor->setCurrentHealth(actor->getCurrentHealth() - damage_roll);
+    }
 
-  //check if the actor is dead.
-  if(damage_roll >= actor->getCurrentHealth())
-  {
-    std::cout << actor->getName() << " killed." << std::endl;
-    message_stream << getName() << actor->getName() << " killed.";
-    actor->kill();
-  }
-  else
-  {
-    actor->setCurrentHealth(actor->getCurrentHealth() - damage_roll);
-    std::cout << actor->getName() << " has " << actor->getCurrentHealth() << " life left" << std::endl;
-  }
-  std::cout << "== Ending melee attack sequence. ==" << std::endl;
-
-  message(message_stream.str());
-  turn_finished_ = true;
+    turn_finished_ = true;
 }
 
 void Actor::rangedAttack(Actor *actor){}
@@ -280,12 +268,13 @@ void Actor::dropItem(Item *item)
   turn_finished_ = true;
 }
 
-void Actor::pickUpItem(Item *item)
+char Actor::pickUpItem(Item *item)
 {
-  inventory_->add(item);
+  char slot = inventory_->add(item);
   item->setPosition(-1, -1, -1);
   item->setOnGround(false);
   turn_finished_ = true;
+  return slot;
 }
 
 void Actor::useItem(Item *item)
@@ -472,6 +461,7 @@ int Actor::calcArmourClass()
   if (this->hasBodyArmour())
   {
     armour_bonus = active_body_armour_->getValue(0);
+
     //armour_bonus += active_shield_->getArmourBonus();
   }
 //std::cout << this->mod_base_ac_ <<":"<< armour_bonus <<":"<< this->calcMod(this->att_dex_) <<":"<< this->calcMod(-mod_size_) <<":"<<std::endl;

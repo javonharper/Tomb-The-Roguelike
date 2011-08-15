@@ -15,7 +15,7 @@ class Inventory
   public:
     Inventory();
     ~Inventory();
-    void add(Item *item);
+    char add(Item *item);
     void remove(Item *item);
     void remove(char item);
     unsigned int size();

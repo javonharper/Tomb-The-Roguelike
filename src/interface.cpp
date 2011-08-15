@@ -126,7 +126,9 @@ void drawInfoPanel()
 
 void showEnemyStatus(int &x, int &y, Enemy *enemy)
 {
-    TCODConsole::root->print(x, y++, enemy->getName().c_str());
+
+    TCODConsole::setColorControl(TCOD_COLCTRL_1, enemy->getColor(), TCODColor::black);
+    TCODConsole::root->print(x, y++, "%c%c%c  %s", TCOD_COLCTRL_1, enemy->getFaceTile(), TCOD_COLCTRL_STOP, enemy->getName().c_str());
     std::stringstream health_info;
     health_info << "Health " << enemy->getCurrentHealth()<<"/"<<enemy->getMaxHealth();
     TCODConsole::root->print(x, y++, health_info.str().c_str());

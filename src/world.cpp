@@ -60,12 +60,12 @@ Player* World::generatePlayer()
 //Then if generate a random number corrosponding to an enemy type.
 //If that enemy's habiat lies at the level generated earlier,
 //the monster created, added to the enemy list, and given a spot on that level.
-std::vector<Enemy*> World::generateEnemies(int enemies)
+std::vector<Enemy*> World::generateEnemies(int min, int max)
 {
   //For each level generate enemeis
   for(int i = START_LEVEL; i < this->getLevels(); i++)
   {
-    int num_enemies = enemies;
+      int num_enemies = random(min, max);
 
     //for each enemy, assign a type that will be on that level.
     for (int j = 0; j < num_enemies; j++)
@@ -88,9 +88,9 @@ std::vector<Enemy*> World::generateEnemies(int enemies)
   return enemy_list_;
 }
 
-std::vector<Item*> World::generateItems(int items)
+std::vector<Item*> World::generateItems(int min, int max)
 {
-  int num_items = items;
+    int num_items = random(min, max);
   for (int i = 0; i < num_items; i++ )
   {
     int level = random(0, this->getLevels() - 1);
