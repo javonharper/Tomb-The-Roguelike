@@ -181,7 +181,7 @@ void drawWorld()
 	for (int j = 0; j < _world_->getHeight(); j++)
 	{
 	    tile_t this_tile = _world_->getTile(i, j, player->getMapLevel());
-	    if(player->canSee(player->getMapLevel(), i, j))
+	     if(player->canSee(player->getMapLevel(), i, j))
 	    {
 		TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, this_tile.color, TCODColor::black);
 		_world_->setTileAsSeen(i,j, player->getMapLevel());

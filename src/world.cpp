@@ -74,7 +74,7 @@ std::vector<Enemy*> World::generateEnemies(int min, int max)
       while(!found_enemy_type)
       {
         int type = random(0, TOTAL_ENEMY_TYPES - 1);
-        if(withinRange(type, enemy_db[type].habitat[0], enemy_db[type].habitat[1]))
+        if(withinRange(i, enemy_db[type].habitat[0], enemy_db[type].habitat[1]))
         {
           Enemy *enemy = new Enemy(enemy_db[type], this);
           position_t new_pos = this->findPosition(i);

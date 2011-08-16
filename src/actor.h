@@ -42,6 +42,7 @@ class Actor
 
   //combat attributes
   int unarmed_damage_[2];
+  double damage_multiplier_;
   int mod_speed_;
   int mod_size_;
   int mod_base_ac_;
