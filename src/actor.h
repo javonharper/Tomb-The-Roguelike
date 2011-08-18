@@ -97,6 +97,7 @@ class Actor
   void regenerateHealth();
   void regenerateEnergy();
   virtual void kill()=0;
+  void bleed();
 
   void FOV(int level);
   void doFov(Map *map, float x, float y);

@@ -47,15 +47,25 @@ const static int SPEED_FAST       = 2;
 const static int SPEED_VERY_FAST  = 1;
 
 const static int BASE_AC = 10;
+
 enum EnemyTypes
 {
   PLAYER = 0,
   EN_BAT,
   EN_RAT,
-  EN_SNAKE,
+  EN_VIPER,
   EN_DOG,
   EN_WOLF,
   EN_WOLVERINE,
+  EN_VAGRANT,
+  EN_GIANT_SPIDER,
+  EN_THEIF,
+  EN_HYENA,
+  EN_BABOON,
+  EN_LOOTER,
+  EN_CLAY_GOLEM,
+  EN_ANKHEG,
+  EXPLORER,
 //  EN_DIRE_RAT,
 //  EN_FERAL_HOUND,
 //  EN_CRYPT_WORM,
@@ -123,6 +133,8 @@ struct enemy_data_t {
     int mod_base_ac;
 
     int sight_range;
+
+    int exp_reward;
 };
 
 const static enemy_data_t enemy_db[] = {
@@ -140,54 +152,142 @@ const static enemy_data_t enemy_db[] = {
         15,   5, {1, 3},
         ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC,
-        ATT_AVERAGE
+        ATT_AVERAGE,
+	0
     },
     {
-        {0, 0},
+        {0, 2},
         "rat", 'r', TCODColor::grey,
         2,   1, {1, 1},
         ATT_BAD, ATT_GOOD, ATT_MIN, ATT_AVERAGE,
         SPEED_FAST, SIZE_TINY, BASE_AC,
-        ATT_AVERAGE
+        ATT_AVERAGE,
+	100
     },
     {
-        {0, 0},
+        {0, 2},
         "bat", 'b', TCODColor::grey,
         2,   1, {1, 1},
         ATT_MIN, ATT_GOOD, ATT_MIN, ATT_AVERAGE,
         SPEED_VERY_FAST, SIZE_DIMINUTIVE, BASE_AC,
-        ATT_AVERAGE
+        ATT_AVERAGE,
+	100
     },
     {
         {0, 1},
-        "snake", 's', TCODColor::desaturatedGreen,
+        "viper", 's', TCODColor::desaturatedGreen,
         6,   1, {1, 3},
         ATT_BELOW_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 3,
-        ATT_AVERAGE
+        ATT_AVERAGE,
+	500
     },
     {
-        {1, 1},
+        {1, 2},
         "dog", 'd', TCODColor::darkOrange,
         5,   1, {1, 4},
         ATT_ABOVE_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_GOOD,
         SPEED_FAST, SIZE_SMALL, BASE_AC + 1,
-        ATT_AVERAGE
+        ATT_AVERAGE,
+	600,
     },
     {
-        {1, 1},
+        {1, 3},
         "wolf", 'd', TCODColor::grey,
         10,   1, {1, 6},
         ATT_ABOVE_AVERAGE, ATT_GOOD, ATT_MIN, ATT_GOOD,
         SPEED_FAST, SIZE_MEDIUM, BASE_AC + 2,
-        ATT_AVERAGE
+        ATT_AVERAGE,
+	600,
     },
     {
-        {1, 3},
+        {3, 4},
         "wolverine", 'd', TCODColor::desaturatedOrange,
         22,   1, {1, 4},
         ATT_GOOD, ATT_GOOD, ATT_MIN, ATT_MAX,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 2,
-        ATT_AVERAGE
+        ATT_AVERAGE,
+	700
+    },
+    {
+        {0, 3},
+        "vagrant", 'H', TCODColor::orange,
+        8, 5, {1, 2},
+        ATT_AVERAGE, ATT_AVERAGE, ATT_BELOW_AVERAGE, ATT_AVERAGE,
+        SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 1,
+        ATT_AVERAGE,
+	500
+    },
+    {
+        {0, 3},
+        "giant spider", 'x', TCODColor::desaturatedRed,
+        7, 0, {1, 3},
+        ATT_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_ABOVE_AVERAGE,
+        SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 1,
+        ATT_AVERAGE,
+	450
+    },
+    {
+        {3, 4},
+        "theif", 'H', TCODColor::purple,
+        15, 5, {1, 4},
+        ATT_BELOW_AVERAGE, ATT_VERY_GOOD, ATT_AVERAGE, ATT_AVERAGE,
+        SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 3,
+        ATT_AVERAGE,
+	1000
+    },
+    {
+        {0, 2},
+        "hyena", 'h', TCODColor::yellow,
+        9, 0, {1, 6},
+        ATT_ABOVE_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_VERY_GOOD,
+        SPEED_FAST, SIZE_MEDIUM, BASE_AC + 2,
+        ATT_AVERAGE,
+	650
+    },
+    {
+        {0, 2},
+        "baboon", 'b', TCODColor::desaturatedOrange,
+        6, 0, {1, 6},
+        ATT_VERY_GOOD, ATT_VERY_GOOD, ATT_MIN, ATT_GOOD,
+        SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 1,
+        ATT_AVERAGE,
+	500
+    },
+    {
+        {0, 2},
+        "looter", 'H', TCODColor::cyan,
+        9, 5, {1, 2},
+        ATT_AVERAGE, ATT_ABOVE_AVERAGE, ATT_BELOW_AVERAGE, ATT_AVERAGE,
+        SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 1,
+        ATT_AVERAGE,
+	350
+    },
+    {
+        {4, 4},
+        "clay golem", 'G', TCODColor::desaturatedYellow,
+        80, 0, {2, 10},
+        ATT_MAX, ATT_BELOW_AVERAGE, ATT_MIN, ATT_MIN,
+        SPEED_VERY_SLOW, SIZE_LARGE, BASE_AC + 14,
+        ATT_AVERAGE,
+	15000
+    },
+    {
+        {3, 4},
+        "ankheg", 'x', TCODColor::desaturatedYellow,
+        29, 0, {2, 10},
+        ATT_MAX, ATT_AVERAGE, ATT_MIN, ATT_GOOD,
+        SPEED_SLOW, SIZE_LARGE, BASE_AC + 9,
+        ATT_AVERAGE,
+	10000
+    },
+    {
+        {2, 4},
+        "explorer", 'H', TCODColor::blue,
+        13, 5, {1, 10},
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_GOOD,
+        SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 4,
+        ATT_AVERAGE,
+	900
     }
 };

@@ -73,6 +73,10 @@ void drawInfoPanel()
     player_level << "Level " << player->getLevel();
     TCODConsole::root->print(x, y++,  player_level.str().c_str());
 
+    std::stringstream player_EXP;
+    player_EXP << "EXP " << player->getExp();
+    TCODConsole::root->print(x, y++,  player_EXP.str().c_str());
+
     std::stringstream d_level;
     d_level << "Tomb Level " << player->getMapLevel() + 1;
     TCODConsole::root->print(x, y++,  d_level.str().c_str());

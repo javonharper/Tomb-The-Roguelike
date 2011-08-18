@@ -60,18 +60,18 @@ void Actor::initProperties(enemy_data_t data, World *world)
 
     for (int z = 0; z < world->getLevels(); z++)
     {
-  TCODMap *map = new TCODMap(world->getWidth(), world->getHeight());
+	TCODMap *map = new TCODMap(world->getWidth(), world->getHeight());
 
-  for (int y = 0; y < world->getHeight(); y++)
-  {
-      for (int x = 0; x < world->getWidth(); x++)
-      {
-    tile_t tile = world->getTile(x,y,z);
-    map->setProperties(x, y, tile.is_passable, tile.is_passable);
-      }
-  }
+	for (int y = 0; y < world->getHeight(); y++)
+	{
+	    for (int x = 0; x < world->getWidth(); x++)
+	    {
+		tile_t tile = world->getTile(x,y,z);
+		map->setProperties(x, y, tile.is_passable, tile.is_passable);
+	    }
+	}
 
-  vision_map_.push_back(map);
+	vision_map_.push_back(map);
     }
 
     turn_finished_ = true;
@@ -85,19 +85,19 @@ void Actor::move(int x, int y, int level)
     bool walking_into_enemy = this->isEnemyAtPosition(x, y, level);
     if(walking_into_enemy)
     {
-  this->turn_finished_ = true;
+	this->turn_finished_ = true;
     }
     //if nothing is there, go there and end the turn.
     else if(world_->getTile(x, y, level).is_passable
-      && world_->getEnemyAt(x, y, level) == NULL)
+	    && world_->getEnemyAt(x, y, level) == NULL)
     {
-  this->setPosition(x, y, level);
-  this->turn_finished_ = true;
+	this->setPosition(x, y, level);
+	this->turn_finished_ = true;
     }
     //If a closed door is there, automatically open it and end the turn.
     else if(world_->getTile(x, y, level).tile_type == TILE_DOOR_CLOSED)//
     {
-  this->openDoor(x, y, level);
+	this->openDoor(x, y, level);
     }
 }
 
@@ -107,9 +107,9 @@ void Actor::moveTowards(int x, int y)
     path->compute(x_, y_, x, y);
     if (! path->isEmpty())
     {
-  int x,y;
-  path->get(0, &x, &y);
-  move(x, y, map_level_);
+	int x,y;
+	path->get(0, &x, &y);
+	move(x, y, map_level_);
     }
 }
 
@@ -128,8 +128,8 @@ void Actor::openDoor(int x, int y, int z)
 {
     if(world_->getTile(x, y, z).tile_type == TILE_DOOR_CLOSED)
     {
-  world_->setTile(x, y, z, TILE_DOOR_OPEN);
-  turn_finished_ = true;
+	world_->setTile(x, y, z, TILE_DOOR_OPEN);
+	turn_finished_ = true;
     }
 }
 
@@ -138,8 +138,8 @@ void Actor::closeDoor(int x, int y, int z)
 {
     if(world_->getTile(x, y, z).tile_type == TILE_DOOR_OPEN)
     {
-  world_->setTile(x, y, z, TILE_DOOR_CLOSED);
-  turn_finished_ = true;
+	world_->setTile(x, y, z, TILE_DOOR_CLOSED);
+	turn_finished_ = true;
     }
 }
 
@@ -150,11 +150,11 @@ void Actor::descendStairs()
 
     if(tile.tile_type == TILE_DOWNSTAIR)
     {
-  world_->setCurrentLevel(world_->getCurrentLevel() + 1);
-  position_t stair_pos = world_->getMapLevel(world_->getCurrentLevel())->getUpStairPos();
-  int level = world_->getCurrentLevel();
-  this->setPosition(stair_pos.x, stair_pos.y, level);
-  this->turn_finished_ = true;
+	world_->setCurrentLevel(world_->getCurrentLevel() + 1);
+	position_t stair_pos = world_->getMapLevel(world_->getCurrentLevel())->getUpStairPos();
+	int level = world_->getCurrentLevel();
+	this->setPosition(stair_pos.x, stair_pos.y, level);
+	this->turn_finished_ = true;
     }
 }
 
@@ -164,32 +164,32 @@ void Actor::ascendStairs()
     tile_t tile = world_->getTile(x_, y_, map_level_);
     if(tile.tile_type == TILE_UPSTAIR)
     {
-  if (map_level_ == 0)
-  {
-      if(!hasVictoryItem())
-      {
-    char result = prompt("Are you sure you want to go to the surface? (y)es/(n)o");
-    if (result == YES)
-    {
-        displayGameOverScreen("You arrive at the surface embarrased and without the icon");
-    }
-    else
-    {
-        message("Okay, then.");
-    }
-      }
-      else
-      {
-    displayWinScreen("Congratulations! You have braved the tomb!");
-      }
-  }
-  else
-  {
-      world_->setCurrentLevel(world_->getCurrentLevel() - 1);
-      position_t stair_pos = world_->getMapLevel(world_->getCurrentLevel())->getDownStairPos();
-      setPosition(stair_pos.x, stair_pos.y, world_->getCurrentLevel());
-      turn_finished_ = true;
-  }
+	if (map_level_ == 0)
+	{
+	    if(!hasVictoryItem())
+	    {
+		char result = prompt("Are you sure you want to go to the surface? (y)es/(n)o");
+		if (result == YES)
+		{
+		    displayGameOverScreen("You arrive at the surface embarrased and without the icon");
+		}
+		else
+		{
+		    message("Okay, then.");
+		}
+	    }
+	    else
+	    {
+		displayWinScreen("Congratulations! You have braved the tomb!");
+	    }
+	}
+	else
+	{
+	    world_->setCurrentLevel(world_->getCurrentLevel() - 1);
+	    position_t stair_pos = world_->getMapLevel(world_->getCurrentLevel())->getDownStairPos();
+	    setPosition(stair_pos.x, stair_pos.y, world_->getCurrentLevel());
+	    turn_finished_ = true;
+	}
     }
 }
 
@@ -199,15 +199,15 @@ bool Actor::hasVictoryItem()
     std::string slots("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
     for (unsigned int i = 0; i < slots.size(); i++)
     {
-  char slot = slots.at(i);
-  Item* item = inventory_->get(slot);
-  if (item != NULL)
-  {
-      if (item->getCategory() == CATEGORY_VICTORY_ITEM)
-      {
-    return true;
-      }
-  }
+	char slot = slots.at(i);
+	Item* item = inventory_->get(slot);
+	if (item != NULL)
+	{
+	    if (item->getCategory() == CATEGORY_VICTORY_ITEM)
+	    {
+		return true;
+	    }
+	}
     }
     return false;
 }
@@ -215,45 +215,49 @@ bool Actor::hasVictoryItem()
 //DND style melee attack.
 void Actor::meleeAttack(Actor *actor)
 {
+    std::cout << "atk=" << name_ << " ,def=" << actor->getName() << ", ";
     int attack_roll = random(1, 20) + calcAtt(att_str_);
     int opponent_ac = actor->calcArmourClass();
-
+    std::cout << "atkroll=" << attack_roll << ",defac=" << opponent_ac << ", ";
     int damage_roll = 0;
+
     if(attack_roll >= opponent_ac || attack_roll >= 20)
     {
-  damage_roll = calcMeleeDamage() + calcAtt(att_str_);
-  damage_roll = setBoundedValue(damage_roll, 1, damage_roll);
+	damage_roll = calcMeleeDamage() + calcAtt(att_str_);
+	damage_roll = setBoundedValue(damage_roll, 1, damage_roll);
 
-  //if critical hit, roll again to see if actor can hit again.
-  bool critical_hit = false;
-  if(attack_roll >= 20 && random(1, 20) + calcAtt(att_str_) >= opponent_ac)
-  {
-      critical_hit = true;
-      damage_roll = damage_roll + calcMeleeDamage() + calcAtt(att_str_);
-      damage_roll = setBoundedValue(damage_roll, 1, damage_roll);
-  }
+	//if critical hit, roll again to see if actor can hit again.
+	bool critical_hit = false;
+	if(attack_roll >= 20 && random(1, 20) + calcAtt(att_str_) >= opponent_ac)
+	{
+	    critical_hit = true;
+	    damage_roll = damage_roll + calcMeleeDamage() + calcAtt(att_str_);
+	    damage_roll = setBoundedValue(damage_roll, 1, damage_roll);
+	}
 
-  if (critical_hit)
-  {
-  }
+	if (critical_hit)
+	{
+	    
+	}
 
-  std::cout << name_ << " -->" << damage_roll << " : " << (double)damage_multiplier_;
-  damage_roll = setBoundedValue(damage_roll * damage_multiplier_, 1, damage_roll * damage_multiplier_);
-  std::cout << " : " << damage_roll << std::endl;
+	std::cout << ",crit=" << critical_hit <<  ", rawdmg=" << damage_roll << " ,mult=" << (double)damage_multiplier_;
+	damage_roll = setBoundedValue(damage_roll * damage_multiplier_, 1, damage_roll * damage_multiplier_);
+	std::cout << ", dmg=" << damage_roll << std::endl;
     }
     else
     {
+	std::cout << "MISS" << std::endl;
     }
 
 
     //check if the actor is dead.
     if(damage_roll >= actor->getCurrentHealth())
     {
-  actor->kill();
+	actor->kill();
     }
     else
     {
-  actor->setCurrentHealth(actor->getCurrentHealth() - damage_roll);
+	actor->setCurrentHealth(actor->getCurrentHealth() - damage_roll);
     }
 
     turn_finished_ = true;
@@ -268,11 +272,11 @@ void Actor::dropItem(Item *item)
     //unequip if it is being worn
     if (item == active_body_armour_)
     {
-  active_body_armour_ = NULL;
+	active_body_armour_ = NULL;
     }
     else if(item == active_weapon_)
     {
-  active_weapon_ = NULL;
+	active_weapon_ = NULL;
     }
 
     item->setPosition(x_, y_, map_level_);
@@ -335,11 +339,11 @@ bool Actor::hasEquipped(Item *item)
 {
     if(active_body_armour_ == item)
     {
-  return true;
+	return true;
     }
     else if (active_weapon_ == item)
     {
-  return true;
+	return true;
     }
     return false;
 }
@@ -349,6 +353,11 @@ bool Actor::hasEquipped(Item *item)
 void Actor::startTurn()
 {
     turn_finished_ = false;
+    if (current_health_points_ < (double) 0.25 * max_health_points_)
+    {
+	bleed();
+    }
+
     if(!isTurn()){turn_finished_ = true;}
 }
 
@@ -358,10 +367,15 @@ void Actor::endTurn()
     //Calculate the actor's next turn.
     if(isTurn())
     {
-  regenerateHealth();
-  regenerateEnergy();
-  next_turn_ = world_->getTimeStep() + calcSpeed();
+	regenerateHealth();
+	regenerateEnergy();
+	next_turn_ = world_->getTimeStep() + calcSpeed();
     }
+}
+
+void Actor::bleed()
+{
+    world_->setTileColor(x_, y_, map_level_, TCODColor::desaturatedRed);
 }
 
 void Actor::regenerateHealth()
@@ -369,10 +383,10 @@ void Actor::regenerateHealth()
     int roll = random(1, 20);
     if(att_vit_ >= roll)
     {
-  if(current_health_points_ < max_health_points_)
-  {
-      current_health_points_ = current_health_points_ + 1;
-  }
+	if(current_health_points_ < max_health_points_)
+	{
+	    current_health_points_ = current_health_points_ + 1;
+	}
     }
 }
 
@@ -381,10 +395,10 @@ void Actor::regenerateEnergy()
     int roll = random(1, 20);
     if(att_int_ >= roll)
     {
-  if(current_energy_points_ < max_energy_points_)
-  {
-      current_energy_points_ = current_energy_points_ + 1;
-  }
+	if(current_energy_points_ < max_energy_points_)
+	{
+	    current_energy_points_ = current_energy_points_ + 1;
+	}
     }
 }
 
@@ -472,9 +486,9 @@ int Actor::calcArmourClass()
 
     if (this->hasBodyArmour())
     {
-  armour_bonus = active_body_armour_->getValue(0);
+	armour_bonus = active_body_armour_->getValue(0);
 
-  //armour_bonus += active_shield_->getArmourBonus();
+	//armour_bonus += active_shield_->getArmourBonus();
     }
     return mod_base_ac_ + armour_bonus + calcAtt(att_dex_) + calcSize();
 }
@@ -487,13 +501,13 @@ int Actor::calcMeleeDamage()
 
     if(this->hasWeapon())
     {
-  rolls = active_weapon_->getValue(0);
-  die_sides = active_weapon_->getValue(1);
+	rolls = active_weapon_->getValue(0);
+	die_sides = active_weapon_->getValue(1);
     }
     else
     {
-  rolls = unarmed_damage_[0];
-  die_sides = unarmed_damage_[1];
+	rolls = unarmed_damage_[0];
+	die_sides = unarmed_damage_[1];
     }
     return calcDieRoll(rolls, die_sides);
 }
@@ -503,7 +517,7 @@ int Actor::calcDieRoll(int rolls, int die_sides)
     int total = 0;
     for (int i = 0; i < rolls; i++)
     {
-  total = total + random(1, die_sides);
+	total = total + random(1, die_sides);
     }
     return total;
 }

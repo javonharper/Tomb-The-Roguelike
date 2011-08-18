@@ -17,13 +17,15 @@ class Enemy : public Actor
     Map *visibility_map_;
     position_t last_known_player_pos_;
     int state_;
+    int exp_reward_;
   public:
     Enemy(enemy_data_t data, World *world);
     ~Enemy();
     void takeTurn();
-    bool isEnemyAtPosition(int x, int y, int level);
     void kill();
+    bool isEnemyAtPosition(int x, int y, int level);
     void setVisibilityMap(Map *map);
+    int getExpReward();
     Map* getVisibilityMap();
     void setLastKnownPlayerPosition(int x, int y);
 };

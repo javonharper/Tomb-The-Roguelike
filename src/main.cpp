@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
 
   int world_width = worldScreenDims[WIDTH];
   int world_height = worldScreenDims[HEIGHT];
-  int world_depth = 3;
+  int world_depth = 5;
 
   world = new World(world_width, world_height, world_depth);
   setWorld(world);//interface.h, just to keep a pointer to the world so It doesn't have to get passed with every message, prompt, etc. probably a better way to do this but i dunno it
