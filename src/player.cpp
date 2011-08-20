@@ -214,6 +214,8 @@ void Player::checkForLevelUp()
 void Player::levelUp(int to_level)
 {
     level_ = to_level;
+    current_health_points_ = max_health_points_;
+    current_energy_points_ = max_energy_points_;
     std::stringstream levelup_stream;
     levelup_stream << "You are now level " << level_;  
     message(levelup_stream.str());
