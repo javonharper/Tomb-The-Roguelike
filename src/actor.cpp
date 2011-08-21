@@ -215,10 +215,10 @@ bool Actor::hasVictoryItem()
 //DND style melee attack.
 void Actor::meleeAttack(Actor *actor)
 {
-    std::cout << "atk=" << name_ << " ,def=" << actor->getName() << ", ";
+    std::cout << "atk=" << name_ << ",def=" << actor->getName() << ",";
     int attack_roll = random(1, 20) + calcAtt(att_str_);
     int opponent_ac = actor->calcArmourClass();
-    std::cout << "atkroll=" << attack_roll << ",defac=" << opponent_ac << ", ";
+    std::cout << "atkroll=" << attack_roll << ",defac=" << opponent_ac << ",";
     int damage_roll = 0;
 
     if(attack_roll >= opponent_ac || attack_roll >= 20)
@@ -237,12 +237,12 @@ void Actor::meleeAttack(Actor *actor)
 
 	if (critical_hit)
 	{
-	    
+
 	}
 
-	std::cout << ",crit=" << critical_hit <<  ", rawdmg=" << damage_roll << " ,mult=" << (double)damage_multiplier_;
+	std::cout << ",crit=" << critical_hit <<  ",rawdmg=" << damage_roll << ",mult=" << (double)damage_multiplier_;
 	damage_roll = setBoundedValue(damage_roll * damage_multiplier_, 1, damage_roll * damage_multiplier_);
-	std::cout << ", dmg=" << damage_roll << std::endl;
+	std::cout << ",dmg=" << damage_roll << std::endl;
     }
     else
     {
@@ -355,7 +355,7 @@ void Actor::startTurn()
     turn_finished_ = false;
     if (current_health_points_ < (double) 0.25 * max_health_points_)
     {
-	bleed();
+	    bleed();
     }
 
     if(!isTurn()){turn_finished_ = true;}
@@ -367,9 +367,9 @@ void Actor::endTurn()
     //Calculate the actor's next turn.
     if(isTurn())
     {
-	regenerateHealth();
-	regenerateEnergy();
-	next_turn_ = world_->getTimeStep() + calcSpeed();
+	    regenerateHealth();
+	    regenerateEnergy();
+	    next_turn_ = world_->getTimeStep() + calcSpeed();
     }
 }
 
@@ -380,14 +380,14 @@ void Actor::bleed()
 
 void Actor::regenerateHealth()
 {
-    int roll = random(1, 20);
-    if(att_vit_ >= roll)
+  int roll = random(1, 20);
+  if(att_vit_ >= roll)
+  {
+    if(current_health_points_ < max_health_points_)
     {
-	if(current_health_points_ < max_health_points_)
-	{
-	    current_health_points_ = current_health_points_ + 1;
-	}
+      current_health_points_ = current_health_points_ + 1;
     }
+  }
 }
 
 void Actor::regenerateEnergy()
@@ -422,55 +422,14 @@ int Actor::calcAtt(int attribute)
     return (attribute - 10 )/5;
 }
 
-//returns true if the actor can see the position with a given map.
 bool Actor::canSee(int level, int x, int y)
 {
-    //return map->getTile(x, y).visible;
-    return vision_map_[level]->isInFov(x,y);
+      return vision_map_[level]->isInFov(x,y);
 }
 
-//Sets the actors field of vision.
-//Adapted from elig's los psuedocode on rogueebasin
-//http://roguebasin.roguelikedevelopment.org/index.php?title=Eligloscode
 void Actor::FOV(int level)
 {
     vision_map_[level]->computeFov(x_, y_, calcSight());//FOV_DIAMOND
-    //for(int i = 0; i < map->getWidth(); i++)
-    //for(int j = 0; j < map->getHeight(); j++)
-    //{
-    ////map->setTileVisibility(i, j, false);
-    //map->setTileVisibility(i, j, true); //View whole map by enabling this.
-    //}
-
-    //for (int i = 0; i < 360; i++)
-    //{
-    //float x = cos((float)i*0.01745f);
-    //float y = sin((float)i*0.01745f);
-    //doFov(map, x, y);
-    //}
-}
-
-//Calculates if the actor can see in a direction
-//Adapted from elig's los psuedocode on rogueebasin
-//http://roguebasin.roguelikedevelopment.org/index.php?title=Eligloscode
-//TODO: Fix sight for att values that are not 10
-void Actor::doFov(Map *map, float x, float y)
-{
-    //float ox = 0, oy = 0;
-    //ox = (float) this->getXPosition() + 0.5f;
-    //oy = (float) this->getYPosition() + 0.5f;
-
-    //for(int i = 0; i <= calcSight(); i++)
-    //{
-    //map->setTileVisibility((int) ox, (int) oy, true);
-    //map->setTileAsSeen((int) ox, (int) oy);
-    //if(!map->getTile((int) ox, (int) oy).is_passable)
-    //{
-    //return;
-    //}
-    //ox+=x;
-    //oy+=y;
-    //}
 }
 
 void Actor::setVisionProperties(int x, int y, int z, int transparent, int walkable)
@@ -479,7 +438,7 @@ void Actor::setVisionProperties(int x, int y, int z, int transparent, int walkab
 }
 
 
-//returns the sum of the base sc, armour(if any), dex modifier and size modifier
+//returns the sum of the base ac, armour(if any), dex modifier and size modifier
 int Actor::calcArmourClass()
 {
     int armour_bonus = 0;
@@ -501,8 +460,8 @@ int Actor::calcMeleeDamage()
 
     if(this->hasWeapon())
     {
-	rolls = active_weapon_->getValue(0);
-	die_sides = active_weapon_->getValue(1);
+      rolls = active_weapon_->getValue(0);
+	    die_sides = active_weapon_->getValue(1);
     }
     else
     {

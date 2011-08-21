@@ -100,7 +100,6 @@ class Actor
   void bleed();
 
   void FOV(int level);
-  void doFov(Map *map, float x, float y);
   bool canSee(int level, int x, int y);
   virtual bool isEnemyAtPosition(int x, int y, int level)=0;
 

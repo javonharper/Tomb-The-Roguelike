@@ -71,6 +71,7 @@ class Map
     ~Map();
     void initializeMap();
     void makeMap();
+    void makeRoom(int x, int y, int w, int h);
     position_t placeFeature(int tile_type);
     bool matchesPattern(tile_t tile[3][3], const int const_tile_pattern[3][3]);
 

@@ -7,6 +7,7 @@
 #include "functions.h"
 #include "random.h"
 #include "map.h"
+#include "libtcod.hpp"
 
 Map::Map(int map_width, int map_height)
 {
@@ -15,18 +16,20 @@ Map::Map(int map_width, int map_height)
 
   tile_map_ = new tile_t*[map_width];
   for (int i = 0; i < map_width; i++)
+  {
     tile_map_[i] = new tile_t[map_height];
-  this->initializeMap();
-  this->makeMap();
+  }
+  initializeMap();
+  makeMap();
 
   //Build the stairs
   position_t down_stair = this->placeFeature(TILE_DOWNSTAIR);
   position_t up_stair = this->placeFeature(TILE_UPSTAIR);
-  this->stair_positions_[DOWNSTAIR_INDEX] = down_stair;
-  this->stair_positions_[UPSTAIR_INDEX] = up_stair;
+  stair_positions_[DOWNSTAIR_INDEX] = down_stair;
+  stair_positions_[UPSTAIR_INDEX] = up_stair;
 
   //Build the doors.
-  for (int i = 0; i < random(0,3);i++)
+  for (int i = 0; i < random(0,2);i++)
     this->placeFeature(TILE_DOOR_CLOSED);
   for (int i = 0; i < random(0,3);i++)
     placeFeature(TILE_DOOR_OPEN);
@@ -60,7 +63,7 @@ void Map::makeMap()
   int max_room_width = 10;
   int min_room_height = 5;
   int max_room_height = 10;
-  int num_rooms = random(3, 5);
+  int num_rooms = random(5, 10);
   //int num_rooms = random(5, 10);
 
   //These variables will be assigned ot be random positions within the room.
@@ -77,13 +80,7 @@ void Map::makeMap()
     int w = random(min_room_width, max_room_width);
     int h = random(min_room_height, max_room_height);
 
-    //Makes the floor starting at x,y and going to x+w, y+h
-    for (int i = -1; i < w + 1; i++)
-      for (int j = -1; j < h + 1; j++)
-        this->tile_map_[x + i][y + j] = tile_db[TILE_WALL];
-    for (int i = 0; i < w; i++)
-      for (int j = 0; j < h; j++)
-        this->tile_map_[x + i][y + j] = tile_db[TILE_FLOOR];
+    makeRoom(x,y,w,h);
 
     //choose a random spot within the room.
     nx = random(x, x + w - 1);
@@ -98,6 +95,17 @@ void Map::makeMap()
   }
 }
 
+void Map::makeRoom(int x, int y, int w, int h)
+{
+//Makes the floor starting at x,y and going to x+w, y+h
+//    for (int i = -1; i < w + 1; i++)
+//      for (int j = -1; j < h + 1; j++)
+//        tile_map_[x + i][y + j] = tile_db[TILE_WALL];
+    for (int i = 0; i < w; i++)
+      for (int j = 0; j < h; j++)
+        tile_map_[x + i][y + j] = tile_db[TILE_FLOOR];
+}
+
 position_t Map::placeFeature(int tile_type)
 {
   position_t pos;
@@ -105,7 +113,7 @@ position_t Map::placeFeature(int tile_type)
   pos.y = -1;
   bool found_spot = false;
 
-  for(int trials = 0; trials < 1000 && !found_spot; trials++)
+  while(!found_spot)
   {
     int pos_x = random(2, this->getWidth() - 2);
     int pos_y = random(2, this->getHeight() - 2);

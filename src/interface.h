@@ -40,6 +40,9 @@ void displayHelpScreen();
 
 void drawWorldPanel();
 void drawWorld();
+void drawMap();
+void drawItems();
+void drawEnemies();
 void drawInfoPanel();
 void drawLogPanel();
 

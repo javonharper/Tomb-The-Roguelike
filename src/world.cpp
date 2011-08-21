@@ -35,6 +35,7 @@ World::World(int world_width, int world_height, int world_levels)
   Item *item = new Item(victory_item, this);
   position_t position = findPosition(levels_ - 1);
   item->setPosition(position.x, position.y, levels_ - 1);
+  item->setOnGround(true);
   item_list_.push_back(item);
 }
 

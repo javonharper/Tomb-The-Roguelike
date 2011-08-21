@@ -114,7 +114,19 @@ void drawInfoPanel()
 
     drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange);
     TCODConsole::root->putCharEx(x - 1, y++, TCOD_CHAR_TEEE, TCODColor::orange, TCODColor::black);
-  
+
+    std::stringstream wep_info;
+    wep_info << "Weapon: " << player->getWeapon()->getName();
+    TCODConsole::root->print(x, y++, wep_info.str().c_str());
+
+    std::stringstream arm_info;
+    arm_info << "Armour: " << player->getBodyArmour()->getName();
+    TCODConsole::root->print(x, y++, arm_info.str().c_str());
+
+    drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange);
+    TCODConsole::root->putCharEx(x - 1, y++, TCOD_CHAR_TEEE, TCODColor::orange, TCODColor::black);
+
+
     //draws the enemy if they are on the same level at the actor
     std::vector<Enemy*> enemies = _world_->getEnemyList();
     for (unsigned int i = 0; i < enemies.size(); i++)
@@ -122,7 +134,7 @@ void drawInfoPanel()
 	Enemy* en = enemies[i];
 	if(en->getMapLevel() == _world_->getCurrentLevel() && player->canSee(en->getMapLevel(), en->getXPosition(), en->getYPosition()))
 	{
-            
+
 	    showEnemyStatus(x, y, en);
 	}
     }
@@ -175,30 +187,48 @@ void displayMessages()
 
 void drawWorld()
 {
-    int x_offset = worldScreenDims[X];
-    int y_offset = worldScreenDims[Y];
-    Player *player = _world_->getPlayer();
+     int x_offset = worldScreenDims[X];
+  int y_offset = worldScreenDims[Y];
+  Player *player = _world_->getPlayer();
+  drawMap();
+  drawItems();
+  drawEnemies();
+  //draws the player
+  TCODConsole::root->putCharEx(player->getXPosition() + x_offset, player->getYPosition()+ y_offset, '@', TCODColor::white, TCODColor::black);
+}
 
-    //draws the tiles
-    for (int i = 0; i < _world_->getWidth(); i++)
+void drawMap()
+{
+   int x_offset = worldScreenDims[X];
+  int y_offset = worldScreenDims[Y];
+  Player *player = _world_->getPlayer();
+
+  //draws the tiles
+  for (int i = 0; i < _world_->getWidth(); i++)
+  {
+    for (int j = 0; j < _world_->getHeight(); j++)
     {
-	for (int j = 0; j < _world_->getHeight(); j++)
-	{
 	    tile_t this_tile = _world_->getTile(i, j, player->getMapLevel());
-	     if(player->canSee(player->getMapLevel(), i, j))
-	    {
-		TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, this_tile.color, TCODColor::black);
-		_world_->setTileAsSeen(i,j, player->getMapLevel());
+      if(player->canSee(player->getMapLevel(), i, j))
+      {
+		    TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, this_tile.color, TCODColor::black);
+		    _world_->setTileAsSeen(i,j, player->getMapLevel());
 	    }
-	     //else if(this_tile.has_been_seen)//has seen before
-	     else
-	     {
-		 TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, TCODColor::darkGrey, TCODColor::black);
-	     }
-	}
-    }
+	    else
+      //else if(this_tile.has_been_seen)//has seen before
+      {
+		    TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, TCODColor::darkGrey, TCODColor::black);
+      }
+	  }
+  }
+}
 
-    //draws the items if they are on the same level
+void drawItems()
+{
+     int x_offset = worldScreenDims[X];
+  int y_offset = worldScreenDims[Y];
+  Player *player = _world_->getPlayer();
+      //draws the items if they are on the same level
     std::vector<Item*> items = _world_->getItemList();
     for (unsigned int i = 0; i < items.size(); i++)
     {
@@ -211,8 +241,14 @@ void drawWorld()
 	    }
 	}
     }
+}
 
-    //draws the enemy if they are on the same level at the actor
+void drawEnemies()
+{
+     int x_offset = worldScreenDims[X];
+  int y_offset = worldScreenDims[Y];
+  Player *player = _world_->getPlayer();
+      //draws the enemy if they are on the same level at the actor
     std::vector<Enemy*> enemies = _world_->getEnemyList();
     for (unsigned int i = 0; i < enemies.size(); i++)
     {
@@ -222,9 +258,6 @@ void drawWorld()
 	    TCODConsole::root->putCharEx(en->getXPosition() + x_offset, en->getYPosition() + y_offset, en->getFaceTile(), en->getColor(), TCODColor::black);
 	}
     }
-
-    //draws the player
-    TCODConsole::root->putCharEx(player->getXPosition() + x_offset, player->getYPosition()+ y_offset, '@', TCODColor::white, TCODColor::black);
 }
 
 //void displayWorld(World *world, bool centered)
@@ -426,25 +459,25 @@ void displayHelpScreen()
     TCODConsole::root->clear();
     int y = 2;
     TCODConsole::root->print(2, y++, "Tomb keybindings");
-    TCODConsole::root->print(4, y++, "k Move north"); 
+    TCODConsole::root->print(4, y++, "k Move north");
     TCODConsole::root->print(4, y++, "j Move south");
     TCODConsole::root->print(4, y++, "l Move east");
     TCODConsole::root->print(4, y++, "h Move west");
-    TCODConsole::root->print(4, y++, "u Move northeast"); 
+    TCODConsole::root->print(4, y++, "u Move northeast");
     TCODConsole::root->print(4, y++, "y Move northwest");
     TCODConsole::root->print(4, y++, "n Move southeast");
     TCODConsole::root->print(4, y++, "b Move south west");
-    TCODConsole::root->print(4, y++, ". Rest"); 
+    TCODConsole::root->print(4, y++, ". Rest");
     TCODConsole::root->print(4, y++, "< Go up stairs");
     TCODConsole::root->print(4, y++, "> Go down stairs");
     TCODConsole::root->print(4, y++, "c Close a door");
-    TCODConsole::root->print(4, y++, "o Open a door"); 
+    TCODConsole::root->print(4, y++, "o Open a door");
     TCODConsole::root->print(4, y++, "d Drop an item");
     TCODConsole::root->print(4, y++, "g get an item off the floor");
     TCODConsole::root->print(4, y++, "i show your inventory");
-    TCODConsole::root->print(4, y++, "a active or use an item");   
-    TCODConsole::root->print(4, y++, "? show in-game help");  
-    TCODConsole::root->print(4, y++, "Esc quit the game");  
+    TCODConsole::root->print(4, y++, "a active or use an item");
+    TCODConsole::root->print(4, y++, "? show in-game help");
+    TCODConsole::root->print(4, y++, "Esc quit the game");
     updateScreen();
 }
 
