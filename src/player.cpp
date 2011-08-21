@@ -226,10 +226,10 @@ void Player::levelUp(int to_level)
 	char result = prompt("Which attribute will you raise? [(s)trength, (d)exterity, (i)ntelligence, (v)itality]");
 	switch(result)
 	{
-	case 's': att_str_++; message("You feel yourself get stronger"); made_selection = true; break;
-	case 'd': att_dex_++; message("You feel more nimble"); made_selection = true; break;
-	case 'i': att_int_++; message("You feel more knowledgable"); made_selection = true; break;
-	case 'v': att_vit_++; message("You feel healthier and more vibrant"); made_selection = true; break;
+	case STRENGTH: att_str_++; message("You feel yourself get stronger"); made_selection = true; break;
+	case DEXTERITY: att_dex_++; message("You feel more nimble"); made_selection = true; break;
+	case INTELLIGENCE: att_int_++; message("You feel more knowledgable"); made_selection = true; break;
+	case VITALITY: att_vit_++; message("You feel healthier and more vibrant"); made_selection = true; break;
 	}
     }
 }

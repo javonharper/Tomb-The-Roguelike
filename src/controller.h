@@ -28,6 +28,11 @@
 #define YES 'y'
 #define NO  'n'
 
+#define STRENGTH 's'
+#define DEXTERITY 'd'
+#define INTELLIGENCE 'i'
+#define VITALITY 'v'
+
 #define ESC 27
 
 struct direction_t

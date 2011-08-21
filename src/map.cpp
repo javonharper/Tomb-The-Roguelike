@@ -28,11 +28,11 @@ Map::Map(int map_width, int map_height)
   stair_positions_[DOWNSTAIR_INDEX] = down_stair;
   stair_positions_[UPSTAIR_INDEX] = up_stair;
 
-  //Build the doors.
-  for (int i = 0; i < random(0,2);i++)
-    this->placeFeature(TILE_DOOR_CLOSED);
-  for (int i = 0; i < random(0,3);i++)
-    placeFeature(TILE_DOOR_OPEN);
+//  //Build the doors.
+//  for (int i = 0; i < random(0,2);i++)
+//    this->placeFeature(TILE_DOOR_CLOSED);
+//  for (int i = 0; i < random(0,3);i++)
+//    placeFeature(TILE_DOOR_OPEN);
 
 
   //Clear the walls
