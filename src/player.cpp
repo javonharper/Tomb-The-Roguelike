@@ -178,28 +178,28 @@ void Player::promptUseItemAction()
 
 void Player::moveAction(int x, int y, int z)
 {
-    move(x,y,z);
-    if(x_ == x && y_ == y && map_level_ == z)//if they actually moved there
+  move(x,y,z);
+  if(x_ == x && y_ == y && map_level_ == z)//if they actually moved there
+  {
+    std::vector<Item*> items = world_->getItemsAt(x_, y_, map_level_);
+    if(items.size() == 1)
     {
-	std::vector<Item*> items = world_->getItemsAt(x_, y_, map_level_);
-	if(items.size() == 1)
-	{
-	    std::stringstream ground_stream;
-	    ground_stream << "You see a " << items[0]->getName() << " here.";
-	    message(ground_stream.str());
-	    updateScreen();
-	}
-	else if (items.size() > 1)
-	{
-	    message("You see many items here");
-	}
+      std::stringstream ground_stream;
+      ground_stream << "You see a " << items[0]->getName() << " here.";
+      message(ground_stream.str());
+      updateScreen();
     }
+    else if (items.size() > 1)
+    {
+      message("You see many items here");
+    }
+  }
 }
 
 void Player::addExp(int exp)
 {
-    experience_ = experience_ + exp;
-    checkForLevelUp();
+  experience_ = experience_ + exp;
+  checkForLevelUp();
 }
 
 void Player::checkForLevelUp()

@@ -80,7 +80,6 @@ std::vector<Enemy*> World::generateEnemies(int min, int max)
           Enemy *enemy = new Enemy(enemy_db[type], this);
           position_t new_pos = this->findPosition(i);
           enemy->setPosition(new_pos.x, new_pos.y, i);
-          enemy_list_.push_back(enemy);
           found_enemy_type = true;
         }
       }
@@ -99,7 +98,6 @@ std::vector<Item*> World::generateItems(int min, int max)
     Item *item = new Item(this);
     item->setPosition(position.x, position.y, level);
     item->setOnGround(true);
-    item_list_.push_back(item);
   }
   return item_list_;
 }

@@ -13,6 +13,7 @@ Item::Item(item_data_t item_data, World *world)
     world_ = world;
     init(item_data);
     setOnGround(false);
+    world->getItemList().push_back(this);
 }
 
 Item::Item(World *world)
@@ -23,6 +24,8 @@ Item::Item(World *world)
     init(category, type);
     setPosition(-1, -1, -1);
     setOnGround(false);
+    world->getItemList().push_back(this);
+
 }
 
 //Create an item within a given category
@@ -33,6 +36,8 @@ Item::Item(int category, World *world)
     init(category, type);
     setPosition(-1, -1, -1);
     setOnGround(false);
+    world->getItemList().push_back(this);
+
 }
 
 Item::~Item()

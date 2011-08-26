@@ -19,6 +19,8 @@ Enemy::Enemy(enemy_data_t data, World *world)
     exp_reward_ = data.exp_reward;
     state_ = STATE_WANDERING;
     setLastKnownPlayerPosition(-1, -1);
+    world->getEnemyList().push_back(this);
+
 }
 
 Enemy::~Enemy()
@@ -98,7 +100,7 @@ void Enemy::kill()
 	}
     }
 
-    bleed();    
+    bleed();
     //will need to implement something that checks if the blood is red, and if they bleed at all
     if(mod_size_ < SIZE_MEDIUM)//lower numbers correspond to bigger sizes
     {

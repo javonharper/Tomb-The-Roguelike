@@ -272,11 +272,11 @@ void Actor::dropItem(Item *item)
     //unequip if it is being worn
     if (item == active_body_armour_)
     {
-	active_body_armour_ = NULL;
+	    active_body_armour_ = NULL;
     }
     else if(item == active_weapon_)
     {
-	active_weapon_ = NULL;
+	    active_weapon_ = NULL;
     }
 
     item->setPosition(x_, y_, map_level_);

@@ -116,11 +116,21 @@ void drawInfoPanel()
     TCODConsole::root->putCharEx(x - 1, y++, TCOD_CHAR_TEEE, TCODColor::orange, TCODColor::black);
 
     std::stringstream wep_info;
-    wep_info << "Weapon: " << player->getWeapon()->getName();
+    Item *wep = player->getWeapon();
+    wep_info << "Weapon: " ;
+    if(wep != NULL)
+    {
+      wep_info << wep->getName();
+    }
     TCODConsole::root->print(x, y++, wep_info.str().c_str());
 
     std::stringstream arm_info;
-    arm_info << "Armour: " << player->getBodyArmour()->getName();
+    Item *arm = player->getBodyArmour();
+    arm_info << "Armour: ";
+    if(arm != NULL)
+    {
+      arm_info << arm->getName();
+    }
     TCODConsole::root->print(x, y++, arm_info.str().c_str());
 
     drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange);
