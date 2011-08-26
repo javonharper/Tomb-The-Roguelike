@@ -20,7 +20,6 @@ Enemy::Enemy(enemy_data_t data, World *world)
     state_ = STATE_WANDERING;
     setLastKnownPlayerPosition(-1, -1);
     world->getEnemyList().push_back(this);
-
 }
 
 Enemy::~Enemy()
