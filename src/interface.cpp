@@ -23,7 +23,7 @@ void setWorld(World *world)
 
 void initScreen()
 {
-    TCODConsole::setCustomFont("art/Alloy_curses_12x12.png", TCOD_FONT_LAYOUT_ASCII_INROW);
+    TCODConsole::setCustomFont("art/terminal10x16_gs_ro.png", TCOD_FONT_LAYOUT_ASCII_INROW);
     TCODConsole::initRoot(SCREEN_WIDTH, SCREEN_HEIGHT, "Tomb");
     TCODSystem::setFps(25);
 }
@@ -60,7 +60,7 @@ void drawWorldPanel()
 
 void drawInfoPanel()
 {
-    drawVerticalLine(infoScreenDims[X], infoScreenDims[Y], SCREEN_HEIGHT + 1, TCODColor::orange);
+    drawVerticalLine(infoScreenDims[X], infoScreenDims[Y], infoScreenDims[HEIGHT], TCODColor::orange);
     int y = infoScreenDims[Y];
     int x = infoScreenDims[X] + 1;
 
@@ -73,9 +73,9 @@ void drawInfoPanel()
     player_level << "Level " << player->getLevel();
     TCODConsole::root->print(x, y++,  player_level.str().c_str());
 
-    std::stringstream player_EXP;
-    player_EXP << "EXP " << player->getExp();
-    TCODConsole::root->print(x, y++,  player_EXP.str().c_str());
+//    std::stringstream player_EXP;
+//    player_EXP << "EXP " << player->getExp();
+//    TCODConsole::root->print(x, y++,  player_EXP.str().c_str());
 
     std::stringstream d_level;
     d_level << "Tomb Level " << player->getMapLevel() + 1;
@@ -98,19 +98,19 @@ void drawInfoPanel()
 
     std::stringstream str_info;
     str_info << "STR " << player->getAttribute(ATT_STR);
-    TCODConsole::root->print(x, y++, str_info.str().c_str());
+    TCODConsole::root->print(x, y, str_info.str().c_str());
 
     std::stringstream int_info;
     int_info << "INT " << player->getAttribute(ATT_INT);
-    TCODConsole::root->print(x, y++, int_info.str().c_str());
+    TCODConsole::root->print(x + 10, y++, int_info.str().c_str());
 
     std::stringstream dex_info;
     dex_info << "DEX " << player->getAttribute(ATT_DEX);
-    TCODConsole::root->print(x, y++, dex_info.str().c_str());
+    TCODConsole::root->print(x, y, dex_info.str().c_str());
 
     std::stringstream vit_info;
     vit_info << "VIT " << player->getAttribute(ATT_VIT);
-    TCODConsole::root->print(x, y++, vit_info.str().c_str());
+    TCODConsole::root->print(x + 10, y++, vit_info.str().c_str());
 
     drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange);
     TCODConsole::root->putCharEx(x - 1, y++, TCOD_CHAR_TEEE, TCODColor::orange, TCODColor::black);
@@ -128,21 +128,19 @@ void drawInfoPanel()
 
 
     //draws the enemy if they are on the same level at the actor
-    std::vector<Enemy*> enemies = _world_->getEnemyList();
-    for (unsigned int i = 0; i < enemies.size(); i++)
-    {
-	Enemy* en = enemies[i];
-	if(en->getMapLevel() == _world_->getCurrentLevel() && player->canSee(en->getMapLevel(), en->getXPosition(), en->getYPosition()))
-	{
-
-	    showEnemyStatus(x, y, en);
-	}
-    }
+//    std::vector<Enemy*> enemies = _world_->getEnemyList();
+//    for (unsigned int i = 0; i < enemies.size(); i++)
+//    {
+//      Enemy* en = enemies[i];
+//      if(en->getMapLevel() == _world_->getCurrentLevel() && player->canSee(en->getMapLevel(), en->getXPosition(), en->getYPosition()))
+//	    {
+//	      showEnemyStatus(x, y, en);
+//	    }
+//    }
 }
 
 void showEnemyStatus(int &x, int &y, Enemy *enemy)
 {
-
     TCODConsole::setColorControl(TCOD_COLCTRL_1, enemy->getColor(), TCODColor::black);
     TCODConsole::root->print(x, y++, "%c%c%c  %s", TCOD_COLCTRL_1, enemy->getFaceTile(), TCOD_COLCTRL_STOP, enemy->getName().c_str());
     std::stringstream health_info;
@@ -153,6 +151,8 @@ void showEnemyStatus(int &x, int &y, Enemy *enemy)
 
 void drawLogPanel()
 {
+    drawHorizontalLine(logScreenDims[X], logScreenDims[Y] - 1, logScreenDims[WIDTH], TCODColor::orange);
+    TCODConsole::root->putCharEx(worldScreenDims[WIDTH], worldScreenDims[HEIGHT] - 1, TCOD_CHAR_TEEN, TCODColor::orange, TCODColor::black);
     displayMessages();
 }
 
@@ -360,11 +360,11 @@ void displayInventoryScreen()
     bool exited_screen = false;
     while (!exited_screen)
     {
-	TCOD_key_t key = TCODConsole::waitForKeypress(true);
-	switch(key.c)
-	{
-	case ESC: displayGameScreen(); exited_screen = true; updateScreen(); break;
-	}
+	    TCOD_key_t key = TCODConsole::waitForKeypress(true);
+	    switch(key.c)
+	    {
+	      case ESC: displayGameScreen(); exited_screen = true; updateScreen(); break;
+	    }
     }
 }
 
@@ -377,42 +377,42 @@ void showInventoryContents()
     int count = 0;
     for (unsigned int i = 0; i < slots.size(); i++)
     {
-	char slot = slots.at(i);
-	Item* item = inventory->get(slot);
-	if (item != NULL)
-	{
-	    std::string str_slot;
-	    str_slot.push_back(slot);
-	    TCODConsole::root->print(3, count + offset, str_slot.c_str());
-	    TCODConsole::setColorControl(TCOD_COLCTRL_1, item->getColor(), TCODColor::black);
-	    std::string being_worn = "";
-	    if (_world_->getPlayer()->hasEquipped(item))
+	    char slot = slots.at(i);
+	    Item* item = inventory->get(slot);
+	    if (item != NULL)
 	    {
-		being_worn = item->getEquippedString();
-	    }
+        std::string str_slot;
+        str_slot.push_back(slot);
+        TCODConsole::root->print(3, count + offset, str_slot.c_str());
+        TCODConsole::setColorControl(TCOD_COLCTRL_1, item->getColor(), TCODColor::black);
+        std::string being_worn = "";
+	      if (_world_->getPlayer()->hasEquipped(item))
+	      {
+		      being_worn = item->getEquippedString();
+	      }
 	    TCODConsole::root->print(5, count++ + offset, "%c%s%c %s", TCOD_COLCTRL_1, item->getName().c_str(), TCOD_COLCTRL_STOP, being_worn.c_str());
-	}
+	    }
     }
     updateScreen();
 }
 
 void displayDropItemsScreen()
 {
-    TCODConsole::root->clear();
-    TCODConsole::root->print(2, 2, "Which item do you want to Drop?");
-    showInventoryContents();
-    updateScreen();
+  TCODConsole::root->clear();
+  TCODConsole::root->print(2, 2, "Which item do you want to Drop?");
+  showInventoryContents();
+  updateScreen();
 
-    bool exited_screen = false;
-    while (!exited_screen)
+  bool exited_screen = false;
+  while (!exited_screen)
+  {
+    TCOD_key_t key = TCODConsole::waitForKeypress(true);
+    switch(key.c)
     {
-	TCOD_key_t key = TCODConsole::waitForKeypress(true);
-	switch(key.c)
-	{
-	case ESC: displayGameScreen(); exited_screen = true; updateScreen(); break;
-	default:{ exited_screen = (_world_->getPlayer()->getInventory()->get(key.c) != NULL); if (exited_screen){_world_->getPlayer()->dropItem(_world_->getPlayer()->getInventory()->get(key.c));}}
-	}
+      case ESC: displayGameScreen(); exited_screen = true; updateScreen(); break;
+      default:{ exited_screen = (_world_->getPlayer()->getInventory()->get(key.c) != NULL); if (exited_screen){_world_->getPlayer()->dropItem(_world_->getPlayer()->getInventory()->get(key.c));}}
     }
+  }
 }
 
 Item* displayUseItemScreen()

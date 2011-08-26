@@ -217,20 +217,20 @@ void Player::levelUp(int to_level)
     current_health_points_ = max_health_points_;
     current_energy_points_ = max_energy_points_;
     std::stringstream levelup_stream;
-    levelup_stream << "You are now level " << level_;
+    levelup_stream << "You are now level " << level_ << "!";
     message(levelup_stream.str());
 
     bool made_selection = false;
     while(!made_selection)
     {
-	char result = prompt("Which attribute will you raise? [(s)trength, (d)exterity, (i)ntelligence, (v)itality]");
-	switch(result)
-	{
-	case STRENGTH: att_str_++; message("You feel yourself get stronger"); made_selection = true; break;
-	case DEXTERITY: att_dex_++; message("You feel more nimble"); made_selection = true; break;
-	case INTELLIGENCE: att_int_++; message("You feel more knowledgable"); made_selection = true; break;
-	case VITALITY: att_vit_++; message("You feel healthier and more vibrant"); made_selection = true; break;
-	}
+	    char result = prompt("Increase (S)trength, (D)exterity, (I)ntelligence, or (V)itality?");
+	    switch(result)
+	    {
+        case STRENGTH: att_str_++; message("You feel stronger"); made_selection = true; break;
+        case DEXTERITY: att_dex_++; message("You feel more nimble"); made_selection = true; break;
+        case INTELLIGENCE: att_int_++; message("You feel more knowledgable"); made_selection = true; break;
+        case VITALITY: att_vit_++; message("You feel healthier and more vibrant"); made_selection = true; break;
+	    }
     }
 }
 

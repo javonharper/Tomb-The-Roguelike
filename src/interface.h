@@ -13,11 +13,11 @@
 
 const static int SCREEN_WIDTH = 80;
 const static int SCREEN_HEIGHT = 24;
+const static int NUM_MESSAGES_DISPLAYED = 4;
 enum DimProperties {X = 0, Y, WIDTH, HEIGHT};
 const static int worldScreenDims[] = {0, 0, SCREEN_WIDTH - 20, SCREEN_HEIGHT - 4};
-const static int infoScreenDims[] = {worldScreenDims[WIDTH], 0, SCREEN_WIDTH - worldScreenDims[WIDTH], SCREEN_HEIGHT};
-const static int logScreenDims[] = {0, worldScreenDims[HEIGHT], SCREEN_WIDTH - infoScreenDims[WIDTH], worldScreenDims[HEIGHT] - SCREEN_HEIGHT};
-const static int NUM_MESSAGES_DISPLAYED = 4;
+const static int infoScreenDims[] = {worldScreenDims[WIDTH], 0, SCREEN_WIDTH - worldScreenDims[WIDTH], SCREEN_HEIGHT - NUM_MESSAGES_DISPLAYED};
+const static int logScreenDims[] = {0, worldScreenDims[HEIGHT], SCREEN_WIDTH + 1, worldScreenDims[HEIGHT] - SCREEN_HEIGHT};
 
 static World *_world_;
 void setWorld(World *world);
