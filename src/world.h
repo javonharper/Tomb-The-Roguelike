@@ -21,6 +21,7 @@ class World
     int height_;
     int levels_;
     std::vector<Map*> level_list_;
+    std::vector<TCODMap*> vision_map_;
     std::vector<Enemy*> enemy_list_;
     std::vector<Item*> item_list_;
 
@@ -36,7 +37,7 @@ class World
     std::vector<Item*> generateItems(int min, int max);
     position_t findPosition(int level);
     Enemy *getEnemyAt(int x, int y, int level);
-      std::vector<Item*> getItemsAt(int x, int y, int level);
+    std::vector<Item*> getItemsAt(int x, int y, int level);
     void kill(Enemy *enemy);
 
     tile_t getTile(int x, int y, int z);
@@ -53,6 +54,7 @@ class World
     Player *getPlayer();
     std::vector<Enemy*> &getEnemyList();
     std::vector<Item*> &getItemList();
+    std::vector<TCODMap*> getVisionMap();
     Map *getMapLevel(int level);
 };
 

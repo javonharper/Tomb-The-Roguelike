@@ -26,7 +26,7 @@ std::vector<Enemy*> enemies;
 int main(int argc, char* argv[])
 {
   int seed = init_rand();
-  //int seed = init_rand(2);
+  //int seed = init_rand(1314485160);
   std::cout << "seed:" << seed << std::endl;
 
   initScreen();

@@ -59,21 +59,23 @@ void Actor::initProperties(enemy_data_t data, World *world)
 
     world_ = world;
 
-    for (int z = 0; z < world->getLevels(); z++)
-    {
-	TCODMap *map = new TCODMap(world->getWidth(), world->getHeight());
+//    for (int z = 0; z < world->getLevels(); z++)
+//    {
+//	TCODMap *map = new TCODMap(world->getWidth(), world->getHeight());
+//
+//	for (int y = 0; y < world->getHeight(); y++)
+//	{
+//	    for (int x = 0; x < world->getWidth(); x++)
+//	    {
+//		tile_t tile = world->getTile(x,y,z);
+//		map->setProperties(x, y, tile.is_passable, tile.is_passable);
+//	    }
+//	}
+//
+//	vision_map_.push_back(map);
+//    }
 
-	for (int y = 0; y < world->getHeight(); y++)
-	{
-	    for (int x = 0; x < world->getWidth(); x++)
-	    {
-		tile_t tile = world->getTile(x,y,z);
-		map->setProperties(x, y, tile.is_passable, tile.is_passable);
-	    }
-	}
-
-	vision_map_.push_back(map);
-    }
+    vision_map_ = world->getVisionMap();
 
     turn_finished_ = true;
     next_turn_ = calcSpeed();

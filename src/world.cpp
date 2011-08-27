@@ -31,6 +31,22 @@ World::World(int world_width, int world_height, int world_levels)
   position_t pos = getMapLevel(world_levels - 1)->getDownStairPos();
   getMapLevel(world_levels - 1)->setTile(pos.x, pos.y, TILE_WALL);
 
+
+for (int z = 0; z < this->getLevels(); z++)
+{
+  TCODMap *map = new TCODMap(this->getWidth(), this->getHeight());
+
+  for (int y = 0; y < this->getHeight(); y++)
+  {
+    for (int x = 0; x < this->getWidth(); x++)
+    {
+      tile_t tile = this->getTile(x,y,z);
+      map->setProperties(x, y, tile.is_passable, tile.is_passable);
+    }
+  }
+  vision_map_.push_back(map);
+}
+
   //places the victory item at the last level of the tomb
   Item *item = new Item(victory_item, this);
   position_t position = findPosition(levels_ - 1);
@@ -79,7 +95,7 @@ std::vector<Enemy*> World::generateEnemies(int min, int max)
         {
           Enemy *enemy = new Enemy(enemy_db[type], this);
           position_t new_pos = findPosition(i);
-          while(player_->getXPosition() != new_pos.x && player_->getYPosition() != new_pos.y && getEnemyAt(new_pos.x, new_pos.y, i) == NULL)
+          while(player_->getXPosition() == new_pos.x && player_->getYPosition() == new_pos.y || getEnemyAt(new_pos.x, new_pos.y, i) != NULL)
           {
             new_pos = findPosition(i);
           }
@@ -179,6 +195,7 @@ void World::setTile(int x, int y, int z, int tile_type)
 Player* World::getPlayer(){return player_;}
 std::vector<Enemy*>& World::getEnemyList(){return enemy_list_;}
 std::vector<Item*>& World::getItemList(){return item_list_;}
+std::vector<TCODMap*> World::getVisionMap(){return vision_map_;}
 tile_t World::getTile(int x, int y, int z){return level_list_[z]->getTile(x, y);}
 void World::setTileAsSeen(int x, int y, int z){this->getMapLevel(z)->setTileAsSeen(x, y);}
 void World::setTileColor(int x, int y, int z, TCODColor color){level_list_[z]->setTileColor(x,y,color);}
