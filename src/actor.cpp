@@ -75,8 +75,6 @@ void Actor::initProperties(enemy_data_t data, World *world)
 //	vision_map_.push_back(map);
 //    }
 
-    vision_map_ = world->getVisionMap();
-
     turn_finished_ = true;
     next_turn_ = calcSpeed();
 }
@@ -106,7 +104,7 @@ void Actor::move(int x, int y, int level)
 
 void Actor::moveTowards(int x, int y)
 {
-    TCODPath *path = new TCODPath(vision_map_[map_level_]);
+    TCODPath *path = new TCODPath(world_->getVisionMap()[map_level_]);
     path->compute(x_, y_, x, y);
     if (! path->isEmpty())
     {
@@ -395,49 +393,49 @@ void Actor::regenerateHealth()
 
 void Actor::regenerateEnergy()
 {
-    int roll = random(1, 20);
-    if(att_int_ >= roll)
+  int roll = random(1, 20);
+  if(att_int_ >= roll)
+  {
+    if(current_energy_points_ < max_energy_points_)
     {
-	if(current_energy_points_ < max_energy_points_)
-	{
-	    current_energy_points_ = current_energy_points_ + 1;
-	}
+      current_energy_points_ = current_energy_points_ + 1;
     }
+  }
 }
 
 int Actor::calcSpeed()
 {
-    return mod_speed_;
+  return mod_speed_;
 }
 
 int Actor::calcSize()
 {
-    return mod_size_;
+  return mod_size_;
 }
 
 int Actor::calcSight()
 {
-    return sight_range_;
+  return sight_range_;
 }
 
 int Actor::calcAtt(int attribute)
 {
-    return (attribute - 10 )/5;
+  return (attribute - 10 )/5;
 }
 
 bool Actor::canSee(int level, int x, int y)
 {
-      return vision_map_[level]->isInFov(x,y);
+  return world_->getVisionMap()[level]->isInFov(x,y);
 }
 
 void Actor::FOV(int level)
 {
-    vision_map_[level]->computeFov(x_, y_, calcSight());//FOV_DIAMOND
+  world_->getVisionMap()[level]->computeFov(x_, y_, calcSight());//FOV_DIAMOND
 }
 
 void Actor::setVisionProperties(int x, int y, int z, int transparent, int walkable)
 {
-    vision_map_[z]->setProperties(x, y, transparent, walkable);
+  world_->getVisionMap()[z]->setProperties(x, y, transparent, walkable);
 }
 
 

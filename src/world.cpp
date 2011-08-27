@@ -95,7 +95,7 @@ std::vector<Enemy*> World::generateEnemies(int min, int max)
         {
           Enemy *enemy = new Enemy(enemy_db[type], this);
           position_t new_pos = findPosition(i);
-          while(player_->getXPosition() == new_pos.x && player_->getYPosition() == new_pos.y || getEnemyAt(new_pos.x, new_pos.y, i) != NULL)
+          while((player_->getXPosition() == new_pos.x && player_->getYPosition() == new_pos.y) || getEnemyAt(new_pos.x, new_pos.y, i) != NULL)
           {
             new_pos = findPosition(i);
           }

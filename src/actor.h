@@ -26,7 +26,6 @@ class Actor
  protected:
   //location attributes
   World *world_;
-  std::vector<TCODMap*> vision_map_;
 
   int x_;
   int y_;
