@@ -23,8 +23,9 @@ Player::Player(World *world)
     level_ = 1;
     experience_ = 0;
     is_alive_ = true;
-    //name_ = std::string((char*)TCOD_namegen_generate("player", false));
-    //TCODNamegen::destroy();
+    TCODNamegen::parse("data/names.txt");
+    name_ = std::string((char*)TCODNamegen::generate("player", false));
+    TCODNamegen::destroy();
     att_str_ = random(ATT_AVERAGE, ATT_GOOD);
     att_int_ = random(ATT_AVERAGE, ATT_GOOD);
     att_dex_ = random(ATT_AVERAGE, ATT_GOOD);
