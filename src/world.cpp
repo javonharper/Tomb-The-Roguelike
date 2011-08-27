@@ -64,7 +64,7 @@ Player* World::generatePlayer()
 std::vector<Enemy*> World::generateEnemies(int min, int max)
 {
   //For each level generate enemeis
-  for(int i = START_LEVEL; i < this->getLevels(); i++)
+  for(int i = START_LEVEL; i < levels_; i++)
   {
       int num_enemies = random(min, max);
 
@@ -78,7 +78,11 @@ std::vector<Enemy*> World::generateEnemies(int min, int max)
         if(withinRange(i, enemy_db[type].habitat[0], enemy_db[type].habitat[1]))
         {
           Enemy *enemy = new Enemy(enemy_db[type], this);
-          position_t new_pos = this->findPosition(i);
+          position_t new_pos = findPosition(i);
+          while(player_->getXPosition() != new_pos.x && player_->getYPosition() != new_pos.y && getEnemyAt(new_pos.x, new_pos.y, i) == NULL)
+          {
+            new_pos = findPosition(i);
+          }
           enemy->setPosition(new_pos.x, new_pos.y, i);
           found_enemy_type = true;
         }
