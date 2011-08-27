@@ -487,7 +487,7 @@ void displayHelpScreen()
     TCODConsole::root->print(4, y++, "i show your inventory");
     TCODConsole::root->print(4, y++, "a active or use an item");
     TCODConsole::root->print(4, y++, "? show in-game help");
-    TCODConsole::root->print(4, y++, "Esc quit the game");
+    TCODConsole::root->print(4, y++, "Q quit the game");
     updateScreen();
 }
 

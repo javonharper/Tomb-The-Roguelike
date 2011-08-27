@@ -123,7 +123,7 @@ void handleKeyPress()
     case USE_ITEM: player->promptUseItemAction(); break;
     case SHOW_INVENTORY: displayInventoryScreen(); break;
     case HELP: displayHelpScreen(); break;
-    case ESC: displayGameOverScreen("You have exited the game."); break;
+    case QUIT: displayGameOverScreen("You have exited the game."); break;
     }
 }
 

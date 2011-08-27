@@ -28,12 +28,13 @@
 #define YES 'y'
 #define NO  'n'
 
-#define STRENGTH 's'
-#define DEXTERITY 'd'
-#define INTELLIGENCE 'i'
-#define VITALITY 'v'
+#define STRENGTH      's'
+#define DEXTERITY     'd'
+#define INTELLIGENCE  'i'
+#define VITALITY      'v'
 
 #define ESC 27
+#define QUIT 'Q'
 
 struct direction_t
 {
