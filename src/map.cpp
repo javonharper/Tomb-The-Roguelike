@@ -63,8 +63,8 @@ void Map::makeMap()
   int max_room_width = 10;
   int min_room_height = 5;
   int max_room_height = 10;
-  int num_rooms = random(5, 10);
   //int num_rooms = random(5, 10);
+  int num_rooms = random(1,1);
 
   //These variables will be assigned ot be random positions within the room.
   int ox = -1;

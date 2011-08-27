@@ -138,15 +138,15 @@ void drawInfoPanel()
 
 
     //draws the enemy if they are on the same level at the actor
-//    std::vector<Enemy*> enemies = _world_->getEnemyList();
-//    for (unsigned int i = 0; i < enemies.size(); i++)
-//    {
-//      Enemy* en = enemies[i];
-//      if(en->getMapLevel() == _world_->getCurrentLevel() && player->canSee(en->getMapLevel(), en->getXPosition(), en->getYPosition()))
-//	    {
-//	      showEnemyStatus(x, y, en);
-//	    }
-//    }
+    std::vector<Enemy*> enemies = _world_->getEnemyList();
+    for (unsigned int i = 0; i < enemies.size(); i++)
+    {
+      Enemy* en = enemies[i];
+      if(en->getMapLevel() == _world_->getCurrentLevel() && player->canSee(en->getMapLevel(), en->getXPosition(), en->getYPosition()))
+	    {
+	      showEnemyStatus(x, y, en);
+	    }
+   }
 }
 
 void showEnemyStatus(int &x, int &y, Enemy *enemy)

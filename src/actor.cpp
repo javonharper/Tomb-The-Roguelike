@@ -55,6 +55,7 @@ void Actor::initProperties(enemy_data_t data, World *world)
     att_str_ = data.att_str;
     att_dex_ = data.att_dex;
     att_int_ = data.att_int;
+    att_vit_ = data.att_vit;
 
     world_ = world;
 

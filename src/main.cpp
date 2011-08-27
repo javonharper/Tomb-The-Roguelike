@@ -39,8 +39,8 @@ int main(int argc, char* argv[])
   world = new World(world_width, world_height, world_depth);
   setWorld(world);//interface.h, just to keep a pointer to the world so It doesn't have to get passed with every message, prompt, etc. probably a better way to do this but i dunno it
   player = world->generatePlayer();
-  enemies = world->generateEnemies(0,0);
-  world->generateItems(10,20);
+  enemies = world->generateEnemies(1,1);
+  world->generateItems(0,0);
 
   std::stringstream intro_stream;
   intro_stream << "You are " << player->getName() << ", an adventurer in search of the Icon of Weedaula.";
