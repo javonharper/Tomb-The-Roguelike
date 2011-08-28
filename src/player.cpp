@@ -24,7 +24,7 @@ Player::Player(World *world)
     experience_ = 0;
     is_alive_ = true;
     TCODNamegen::parse("data/names.txt");
-    name_ = (std::string)TCODNamegen::generate("player", false);
+    name_ = std::string(TCODNamegen::generate("player", false));
     TCODNamegen::destroy();
     att_str_ = random(ATT_AVERAGE, ATT_GOOD);
     att_int_ = random(ATT_AVERAGE, ATT_GOOD);
@@ -127,39 +127,41 @@ void Player::promptDoorAction(char key)
 
 void Player::promptPickupAction()
 {
-    std::vector<Item*> items = world_->getItemsAt(x_, y_, map_level_);
-    if(items.size() == 1)
+  std::vector<Item*> items = world_->getItemsAt(x_, y_, map_level_);
+  if(items.size() == 1)
+  {
+    char free_slot = pickUpItem(items[0]);
+    std::stringstream new_item_stream;
+    new_item_stream << free_slot << " - " << items[0]->getName();
+    message(new_item_stream.str());
+  }
+  else if (items.size() > 1)
+  {
+    for (unsigned int i = 0; i < items.size();i++ )
     {
-  char free_slot = pickUpItem(items[0]);
-  std::stringstream new_item_stream;
-  new_item_stream << free_slot << " - " << items[0]->getName();
-  message(new_item_stream.str());
+      std::stringstream prompt_stream;
+      prompt_stream << "Pick up the " << items[i]->getName() << "? (y)es/(n)o";
+      if(prompt(prompt_stream.str()) == YES)
+      {
+        char free_slot = pickUpItem(items[i]);
+        std::stringstream new_item_stream;
+        new_item_stream << free_slot << " - " << items[i]->getName();
+        message(new_item_stream.str());
+      }
     }
-    else if (items.size() > 1)
-    {
-  //char item_char = prompt("Which item do you want?");
-  message("TODO: handle picking up multiple objects");
-  pickUpItem(items[0]);
-  //TODO show player list in which they can choose an item for them to pick
-    }
-    else
-    {
-  message("There are no items here");
-    }
+  }
+  else
+  {
+    message("There are no items here");
+  }
 }
 
-void Player::promptDropAction()
+void Player::promptUseItemAction(Item *item)
 {
-  displayDropItemsScreen();
-}
-
-void Player::promptUseItemAction()
-{
-    Item *item = displayUseItemScreen();
     if (item != NULL)
     {
-  std::stringstream use_stream;
-  use_stream << "you ";
+      std::stringstream use_stream;
+      use_stream << "you ";
 
   switch(item->getCategory())
   {

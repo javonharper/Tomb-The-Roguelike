@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
   world = new World(world_width, world_height, world_depth);
   setWorld(world);//interface.h, just to keep a pointer to the world so It doesn't have to get passed with every message, prompt, etc. probably a better way to do this but i dunno it
   player = world->generatePlayer();
-  enemies = world->generateEnemies(3,5);
+  enemies = world->generateEnemies(5,10);
   world->generateItems(5,10);
 
   std::stringstream intro_stream;
@@ -119,8 +119,6 @@ void handleKeyPress()
     case OPEN_DOOR: player->promptDoorAction(key.c); break;
     case CLOSE_DOOR: player->promptDoorAction(key.c); break;
     case PICKUP: player->promptPickupAction(); break;
-    case DROP: player->promptDropAction(); break;
-    case USE_ITEM: player->promptUseItemAction(); break;
     case SHOW_INVENTORY: displayInventoryScreen(); break;
     case HELP: displayHelpScreen(); break;
     case QUIT: displayGameOverScreen("You have exited the game."); break;

@@ -83,7 +83,7 @@ public:
     void promptDoorAction(char key);
     void promptPickupAction();
     void promptDropAction();
-    void promptUseItemAction();
+    void promptUseItemAction(Item *item);
     void moveAction(int x, int y, int z);
 
     int getLevel();

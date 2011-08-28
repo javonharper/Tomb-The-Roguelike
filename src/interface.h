@@ -28,9 +28,10 @@ void updateScreen();
 void displayTitleScreen();
 void displayGameScreen();
 void displayInventoryScreen();
-void displayDropItemsScreen();
+bool displayUseItemScreen();
+bool displayDropItemsScreen();
+bool displayInspectItemsScreen();
 void showInventoryContents();
-Item *displayUseItemScreen();
 void showEnemyStatus(int &x, int &y, Enemy *enemy);
 
 void displayWinScreen(std::string reason);

@@ -19,10 +19,11 @@
 #define MOVE_DOWNSTAIRS '>'
 #define CLOSE_DOOR      'c'
 #define OPEN_DOOR       'o'
-#define DROP            'd'
 #define PICKUP          'g'
 #define SHOW_INVENTORY  'i'
 #define USE_ITEM        'a'
+#define DROP_ITEM       'd'
+#define INSPECT_ITEM    'i'
 #define HELP            '?'
 
 #define YES 'y'
