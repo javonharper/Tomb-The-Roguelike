@@ -23,7 +23,7 @@ void setWorld(World *world)
 
 void initScreen()
 {
-  TCODConsole::setCustomFont("art/terminal10x16_gs_ro.png", TCOD_FONT_LAYOUT_ASCII_INROW);
+  TCODConsole::setCustomFont("art/Alloy_curses_12x12.png", TCOD_FONT_LAYOUT_ASCII_INROW);
   TCODConsole::initRoot(SCREEN_WIDTH, SCREEN_HEIGHT, "Tomb");
   TCODSystem::setFps(25);
 }
@@ -143,9 +143,9 @@ void drawInfoPanel()
 //    {
 //      Enemy* en = enemies[i];
 //      if(en->getMapLevel() == _world_->getCurrentLevel() && player->canSee(en->getMapLevel(), en->getXPosition(), en->getYPosition()))
-//	    {
-//	      showEnemyStatus(x, y, en);
-//	    }
+//      {
+//        showEnemyStatus(x, y, en);
+//      }
 //   }
 }
 
@@ -218,18 +218,18 @@ void drawMap()
   {
     for (int j = 0; j < _world_->getHeight(); j++)
     {
-	    tile_t this_tile = _world_->getTile(i, j, player->getMapLevel());
+      tile_t this_tile = _world_->getTile(i, j, player->getMapLevel());
       if(player->canSee(player->getMapLevel(), i, j))
       {
-		    TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, this_tile.color, TCODColor::black);
-		    _world_->setTileAsSeen(i,j, player->getMapLevel());
-	    }
-	    //else
+        TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, this_tile.color, TCODColor::black);
+        _world_->setTileAsSeen(i,j, player->getMapLevel());
+      }
+      //else
       else if(this_tile.has_been_seen)
       {
-		    TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, TCODColor::darkGrey, TCODColor::black);
+        TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, TCODColor::darkGrey, TCODColor::black);
       }
-	  }
+    }
   }
 }
 
@@ -242,14 +242,14 @@ void drawItems()
     std::vector<Item*> items = _world_->getItemList();
     for (unsigned int i = 0; i < items.size(); i++)
     {
-	Item *item = items[i];
-	if (item->isOnGround())
-	{
-	    if (player->canSee(item->getMapLevel(), item->getXPosition(), item->getYPosition()))
-	    {
-		TCODConsole::root->putCharEx(item->getXPosition() + x_offset, item->getYPosition() + y_offset, item->getFaceTile(), item->getColor(), TCODColor::black);
-	    }
-	}
+  Item *item = items[i];
+  if (item->isOnGround())
+  {
+      if (player->canSee(item->getMapLevel(), item->getXPosition(), item->getYPosition()))
+      {
+    TCODConsole::root->putCharEx(item->getXPosition() + x_offset, item->getYPosition() + y_offset, item->getFaceTile(), item->getColor(), TCODColor::black);
+      }
+  }
     }
 }
 
@@ -262,11 +262,11 @@ void drawEnemies()
     std::vector<Enemy*> enemies = _world_->getEnemyList();
     for (unsigned int i = 0; i < enemies.size(); i++)
     {
-	Enemy* en = enemies[i];
-	if(en->getMapLevel() == _world_->getCurrentLevel() && player->canSee(en->getMapLevel(), en->getXPosition(), en->getYPosition()))
-	{
-	    TCODConsole::root->putCharEx(en->getXPosition() + x_offset, en->getYPosition() + y_offset, en->getFaceTile(), en->getColor(), TCODColor::black);
-	}
+  Enemy* en = enemies[i];
+  if(en->getMapLevel() == _world_->getCurrentLevel() && player->canSee(en->getMapLevel(), en->getXPosition(), en->getYPosition()))
+  {
+      TCODConsole::root->putCharEx(en->getXPosition() + x_offset, en->getYPosition() + y_offset, en->getFaceTile(), en->getColor(), TCODColor::black);
+  }
     }
 }
 
@@ -436,12 +436,12 @@ bool displayUseItemScreen()
     bool exited_screen = false;
     while (!exited_screen)
     {
-	    TCOD_key_t key = TCODConsole::waitForKeypress(true);
-	    switch(key.c)
-	    {
-	      case ESC: exited_screen = true; return false; break;
-	      default:{ exited_screen = (_world_->getPlayer()->getInventory()->get(key.c) != NULL); if (exited_screen){_world_->getPlayer()->promptUseItemAction(_world_->getPlayer()->getInventory()->get(key.c));}return true;}
-	    }
+      TCOD_key_t key = TCODConsole::waitForKeypress(true);
+      switch(key.c)
+      {
+        case ESC: exited_screen = true; return false; break;
+        default:{ exited_screen = (_world_->getPlayer()->getInventory()->get(key.c) != NULL); if (exited_screen){_world_->getPlayer()->promptUseItemAction(_world_->getPlayer()->getInventory()->get(key.c));}return true;}
+      }
     }
 
   return exited_screen;
@@ -524,7 +524,7 @@ void drawVerticalLine(int x, int y, int height, TCODColor color)
 {
     for (int i = y; i < y + height - 1 ; i++)
     {
-	TCODConsole::root->putCharEx(x, i, TCOD_CHAR_VLINE, color, TCODColor::black);
+  TCODConsole::root->putCharEx(x, i, TCOD_CHAR_VLINE, color, TCODColor::black);
     }
 }
 
@@ -532,6 +532,6 @@ void drawHorizontalLine(int x, int y, int width, TCODColor color)
 {
     for (int i = x; i < x + width - 1 ; i++)
     {
-	TCODConsole::root->putCharEx(i, y, TCOD_CHAR_HLINE, color, TCODColor::black);
+  TCODConsole::root->putCharEx(i, y, TCOD_CHAR_HLINE, color, TCODColor::black);
     }
 }
