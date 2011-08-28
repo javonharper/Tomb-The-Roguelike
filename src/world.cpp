@@ -184,10 +184,10 @@ void World::setTile(int x, int y, int z, int tile_type)
   level_list_[z]->setTile(x,y, tile_type);
   tile_t tile = tile_db[tile_type];
 
-  player_->setVisionProperties(x, y, z, tile.is_passable, tile.is_passable);
+  player_->setVisionProperties(x, y, z, tile.is_transparent, tile.is_passable);
   for (unsigned int i = 0; i < enemy_list_.size(); i++)
   {
-    enemy_list_[i]->setVisionProperties(x, y, z, tile.is_passable, tile.is_passable);
+    enemy_list_[i]->setVisionProperties(x, y, z, tile.is_transparent, tile.is_passable);
   }
 }
 

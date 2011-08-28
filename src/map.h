@@ -34,6 +34,7 @@ struct tile_t
   int tile_type;
   int face_tile;
   bool is_passable;
+  bool is_transparent;
   TCODColor color;
   bool has_been_seen;
 };
@@ -42,14 +43,14 @@ struct tile_t
 const static tile_t tile_db[] =
 {
 
-  {TILE_UNKNOWN,      '?', false, TCODColor::red ,        false},
-  {TILE_BLANK,        ' ', false, TCODColor::yellow ,    false},
-  {TILE_FLOOR,        '.', true,  TCODColor::white  ,      false},
-  {TILE_WALL,         TCOD_CHAR_BLOCK1, false, TCODColor::lightOrange ,  false},
-  {TILE_DOWNSTAIR,    '>', true,  TCODColor::white    ,  false  },
-  {TILE_UPSTAIR,      '<', true,  TCODColor::white    ,  false  },
-  {TILE_DOOR_CLOSED,  '+', false, TCODColor::darkYellow  ,  false},
-  {TILE_DOOR_OPEN,    '/', true,  TCODColor::darkYellow,  false}
+  {TILE_UNKNOWN,      '?',              false, false, TCODColor::red,         false},
+  {TILE_BLANK,        ' ',              false, false, TCODColor::yellow,      false},
+  {TILE_FLOOR,        '.',              true,  true,  TCODColor::white,       false},
+  {TILE_WALL,         TCOD_CHAR_BLOCK1, false, false, TCODColor::lightOrange, false},
+  {TILE_DOWNSTAIR,    '>',              true,  true,  TCODColor::white,       false},
+  {TILE_UPSTAIR,      '<',              true,  true,  TCODColor::white,       false},
+  {TILE_DOOR_CLOSED,  '+',              false, false, TCODColor::darkYellow,  false},
+  {TILE_DOOR_OPEN,    '/',              true,  true,  TCODColor::darkYellow,  false}
   //BROKEN DOORS?
   //TRAP DOORS?
 };

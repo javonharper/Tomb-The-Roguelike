@@ -34,13 +34,13 @@ int main(int argc, char* argv[])
 
   int world_width = worldScreenDims[WIDTH];
   int world_height = worldScreenDims[HEIGHT];
-  int world_depth = 5;
+  int world_depth = 5;//5
 
   world = new World(world_width, world_height, world_depth);
   setWorld(world);//interface.h, just to keep a pointer to the world so It doesn't have to get passed with every message, prompt, etc. probably a better way to do this but i dunno it
   player = world->generatePlayer();
-  enemies = world->generateEnemies(2,2);
-  world->generateItems(0,0);
+  enemies = world->generateEnemies(3,5);
+  world->generateItems(5,10);
 
   std::stringstream intro_stream;
   intro_stream << "You are " << player->getName() << ", an adventurer in search of the Icon of Weedaula.";
@@ -124,6 +124,7 @@ void handleKeyPress()
     case SHOW_INVENTORY: displayInventoryScreen(); break;
     case HELP: displayHelpScreen(); break;
     case QUIT: displayGameOverScreen("You have exited the game."); break;
+    case 'S': player->spawnPillar();
     }
 }
 

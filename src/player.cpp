@@ -225,7 +225,7 @@ void Player::levelUp(int to_level)
     while(!made_selection)
     {
 	    char result = prompt("Increase (S)trength, (D)exterity, (I)ntelligence, or (V)itality?");
-	    switch(result)
+	    switch(tolower(result))
 	    {
         case STRENGTH: att_str_++; message("You feel stronger"); made_selection = true; break;
         case DEXTERITY: att_dex_++; message("You feel more nimble"); made_selection = true; break;
@@ -236,16 +236,22 @@ void Player::levelUp(int to_level)
 }
 
 int Player::findLevelByExp(int exp)
-    {
+{
 	for (unsigned int i = 0; i < sizeof(experience_thresholds)/sizeof(int); i++)
 	{
-	    if (exp < experience_thresholds[i])
-	    {
-		return i;
-	    }
+    if (exp < experience_thresholds[i])
+    {
+      return i;
+    }
 	}
 	return 0;
-    }
+}
+
+void Player::spawnPillar()
+{
+    world_->setTileColor(x_, y_, map_level_, TCODColor::cyan);
+    world_->getVisionMap()[map_level_]->setProperties(x_, y_, true, false);
+}
 
 int Player::getLevel()
 {return level_;}

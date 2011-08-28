@@ -71,7 +71,7 @@ class Actor
   Actor();
   ~Actor();
   void initProperties(enemy_data_t data, World *world);
-  void move(int x, int y, int z);
+  void move(int x, int y, int level);
   void moveTowards(int x, int y);
   void wander();
   void rest();

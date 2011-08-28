@@ -88,6 +88,7 @@ public:
 
     int getLevel();
     int getExp();
+    void spawnPillar();
 };
 
 #endif

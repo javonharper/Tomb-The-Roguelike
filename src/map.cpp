@@ -11,8 +11,8 @@
 
 Map::Map(int map_width, int map_height)
 {
-  this->width_ = map_width;
-  this->height_ = map_height;
+  width_ = map_width;
+  height_ = map_height;
 
   tile_map_ = new tile_t*[map_width];
   for (int i = 0; i < map_width; i++)
@@ -23,20 +23,11 @@ Map::Map(int map_width, int map_height)
   makeMap();
 
   //Build the stairs
-  position_t down_stair = this->placeFeature(TILE_DOWNSTAIR);
-  position_t up_stair = this->placeFeature(TILE_UPSTAIR);
+  position_t down_stair = placeFeature(TILE_DOWNSTAIR);
+  position_t up_stair = placeFeature(TILE_UPSTAIR);
   stair_positions_[DOWNSTAIR_INDEX] = down_stair;
   stair_positions_[UPSTAIR_INDEX] = up_stair;
-
-//  //Build the doors.
-//  for (int i = 0; i < random(0,2);i++)
-//    this->placeFeature(TILE_DOOR_CLOSED);
-//  for (int i = 0; i < random(0,3);i++)
-//    placeFeature(TILE_DOOR_OPEN);
-
-
-  //Clear the walls
-  this->cleanWalls();
+  cleanWalls();
 }
 
 Map::~Map()
@@ -47,11 +38,11 @@ Map::~Map()
 //For every tile in the map, make it a wall.
 void Map::initializeMap()
 {
-  for (int i = 0; i < this->width_; i++)
+  for (int i = 0; i < width_; i++)
   {
-    for (int j = 0; j < this->height_; j++)
+    for (int j = 0; j < height_; j++)
     {
-      this->tile_map_[i][j] = tile_db[TILE_WALL];
+      tile_map_[i][j] = tile_db[TILE_WALL];
     }
   }
 }
@@ -63,8 +54,8 @@ void Map::makeMap()
   int max_room_width = 10;
   int min_room_height = 5;
   int max_room_height = 10;
-  //int num_rooms = random(5, 10);
-  int num_rooms = random(1,1);
+  int num_rooms = random(5, 10);
+  //int num_rooms = random(1,1);
 
   //These variables will be assigned ot be random positions within the room.
   int ox = -1;
@@ -75,8 +66,8 @@ void Map::makeMap()
   //While still making rooms, choose random position and size, put the floor down, and connect them by corridors.
   while (num_rooms--)
   {
-    int x = random(2, this->width_ - max_room_width - 2);
-    int y = random(2, this->height_ - max_room_height - 2);
+    int x = random(2, width_ - max_room_width - 2);
+    int y = random(2, height_ - max_room_height - 2);
     int w = random(min_room_width, max_room_width);
     int h = random(min_room_height, max_room_height);
 
@@ -88,7 +79,7 @@ void Map::makeMap()
 
     if (ox != -1 && oy != -1)
     {
-      this->placeCorridor(ox, oy, nx, ny);
+      placeCorridor(ox, oy, nx, ny);
     }
     ox = nx;
     oy = ny;
