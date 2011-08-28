@@ -224,8 +224,8 @@ void drawMap()
 		    TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, this_tile.color, TCODColor::black);
 		    _world_->setTileAsSeen(i,j, player->getMapLevel());
 	    }
-	    else
-      //else if(this_tile.has_been_seen)//has seen before
+	    //else
+      else if(this_tile.has_been_seen)//has seen before
       {
 		    TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, TCODColor::darkGrey, TCODColor::black);
       }

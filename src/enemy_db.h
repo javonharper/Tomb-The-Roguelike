@@ -47,6 +47,7 @@ const static int SPEED_FAST       = 2;
 const static int SPEED_VERY_FAST  = 1;
 
 const static int BASE_AC = 10;
+const static int BASIC_SIGHT = 5;
 
 enum EnemyTypes
 {
@@ -152,8 +153,8 @@ const static enemy_data_t enemy_db[] = {
         15,   5, {1, 3},
         ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC,
-        ATT_AVERAGE,
-	0
+        BASIC_SIGHT,
+      	0
     },
     {
         {0, 2},
@@ -161,8 +162,8 @@ const static enemy_data_t enemy_db[] = {
         2,   1, {1, 1},
         ATT_BAD, ATT_GOOD, ATT_MIN, ATT_AVERAGE,
         SPEED_FAST, SIZE_TINY, BASE_AC,
-        ATT_AVERAGE,
-	100
+        BASIC_SIGHT,
+	      100
     },
     {
         {0, 2},
@@ -170,8 +171,8 @@ const static enemy_data_t enemy_db[] = {
         2,   1, {1, 1},
         ATT_MIN, ATT_GOOD, ATT_MIN, ATT_AVERAGE,
         SPEED_VERY_FAST, SIZE_DIMINUTIVE, BASE_AC,
-        ATT_AVERAGE,
-	100
+        BASIC_SIGHT,
+	      100
     },
     {
         {0, 1},
@@ -179,8 +180,8 @@ const static enemy_data_t enemy_db[] = {
         6,   1, {1, 3},
         ATT_BELOW_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 3,
-        ATT_AVERAGE,
-	500
+        BASIC_SIGHT,
+	      500
     },
     {
         {1, 2},
@@ -188,8 +189,8 @@ const static enemy_data_t enemy_db[] = {
         5,   1, {1, 4},
         ATT_ABOVE_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_GOOD,
         SPEED_FAST, SIZE_SMALL, BASE_AC + 1,
-        ATT_AVERAGE,
-	600,
+        BASIC_SIGHT,
+      	600,
     },
     {
         {1, 3},
@@ -197,8 +198,8 @@ const static enemy_data_t enemy_db[] = {
         10,   1, {1, 6},
         ATT_ABOVE_AVERAGE, ATT_GOOD, ATT_MIN, ATT_GOOD,
         SPEED_FAST, SIZE_MEDIUM, BASE_AC + 2,
-        ATT_AVERAGE,
-	600,
+        BASIC_SIGHT,
+      	600,
     },
     {
         {3, 4},
@@ -206,8 +207,8 @@ const static enemy_data_t enemy_db[] = {
         22,   1, {1, 4},
         ATT_GOOD, ATT_GOOD, ATT_MIN, ATT_MAX,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 2,
-        ATT_AVERAGE,
-	700
+        BASIC_SIGHT,
+      	700
     },
     {
         {0, 3},
@@ -215,8 +216,8 @@ const static enemy_data_t enemy_db[] = {
         8, 5, {1, 2},
         ATT_AVERAGE, ATT_AVERAGE, ATT_BELOW_AVERAGE, ATT_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 1,
-        ATT_AVERAGE,
-	500
+        BASIC_SIGHT,
+	      500
     },
     {
         {0, 3},
@@ -224,8 +225,8 @@ const static enemy_data_t enemy_db[] = {
         7, 0, {1, 3},
         ATT_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_ABOVE_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 1,
-        ATT_AVERAGE,
-	450
+        BASIC_SIGHT,
+      	450
     },
     {
         {3, 4},
@@ -233,8 +234,8 @@ const static enemy_data_t enemy_db[] = {
         15, 5, {1, 4},
         ATT_BELOW_AVERAGE, ATT_VERY_GOOD, ATT_AVERAGE, ATT_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 3,
-        ATT_AVERAGE,
-	1000
+        BASIC_SIGHT,
+	      1000
     },
     {
         {0, 2},
@@ -242,8 +243,8 @@ const static enemy_data_t enemy_db[] = {
         9, 0, {1, 6},
         ATT_ABOVE_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_VERY_GOOD,
         SPEED_FAST, SIZE_MEDIUM, BASE_AC + 2,
-        ATT_AVERAGE,
-	650
+        BASIC_SIGHT,
+	      650
     },
     {
         {0, 2},
@@ -251,8 +252,8 @@ const static enemy_data_t enemy_db[] = {
         6, 0, {1, 6},
         ATT_VERY_GOOD, ATT_VERY_GOOD, ATT_MIN, ATT_GOOD,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 1,
-        ATT_AVERAGE,
-	500
+        BASIC_SIGHT,
+	      500
     },
     {
         {0, 2},
@@ -260,8 +261,8 @@ const static enemy_data_t enemy_db[] = {
         9, 5, {1, 2},
         ATT_AVERAGE, ATT_ABOVE_AVERAGE, ATT_BELOW_AVERAGE, ATT_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 1,
-        ATT_AVERAGE,
-	350
+        BASIC_SIGHT,
+      	350
     },
     {
         {4, 4},
@@ -269,8 +270,8 @@ const static enemy_data_t enemy_db[] = {
         80, 0, {2, 10},
         ATT_MAX, ATT_BELOW_AVERAGE, ATT_MIN, ATT_MIN,
         SPEED_VERY_SLOW, SIZE_LARGE, BASE_AC + 14,
-        ATT_AVERAGE,
-	15000
+        BASIC_SIGHT,
+	      15000
     },
     {
         {3, 4},
@@ -278,8 +279,8 @@ const static enemy_data_t enemy_db[] = {
         29, 0, {2, 10},
         ATT_MAX, ATT_AVERAGE, ATT_MIN, ATT_GOOD,
         SPEED_SLOW, SIZE_LARGE, BASE_AC + 9,
-        ATT_AVERAGE,
-	10000
+        BASIC_SIGHT,
+	      10000
     },
     {
         {2, 4},
@@ -287,7 +288,7 @@ const static enemy_data_t enemy_db[] = {
         13, 5, {1, 10},
         ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_GOOD,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 4,
-        ATT_AVERAGE,
-	900
+        BASIC_SIGHT,
+	      900
     }
 };
