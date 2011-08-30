@@ -3,7 +3,7 @@ MANUAL
 
 Welcome to the Tomb.
 Tomb is a roguelike game with a setting in the ancient burial ground of a long lost ruler.
-Your goal as the adventurer is to brave the depths of the labyrinths and corridors and retrieve 
+Your goal as the adventurer is to brave the depths of the labyrinths and corridors and retrieve
 the icon of the weedaula so that peace can be restored in your nearby village.
 
 The tomb, items, and enemies are randomly generated so it guarantees no game is ever the same.
@@ -22,10 +22,8 @@ o   open a door
 c   close a door
 >   go down a set of stairs
 <   go up a set of stairs
-d   drop an item
 g   get an item off the ground
 i   open inventory
-a   activate (use) an item.
 ESC quit game
 
 ATTRIBUTES
@@ -33,31 +31,5 @@ Strength: How much melee damage inflicts; How much one can withstand physical at
 Intelligence: How much magic damage inflicts; How successful magic spells are; How fast energy restores.
 Dexterity: Accuracy; How much ranged physical damage inflicts; Ability to dodge attacks
 Vitality: How often health restores
-
-STATUS
-Poisoned: Lose health every turn, do not get vitality health roll
-Confused: partially lose control of movement; vit roll to decide if can controll oneself
-Paralyzed: completely lose ability to moveTowards
-
-MONSTER BEHAVIOR
-Hostile: See pc and will actively try to attack it
-Searching: Was hostile, but no longer sees pc. Will move to last seen spot and give up.
-Wandering: Does not see pc, hanging out.
-Fleeing: Is overwhelmed by pc's power and is actively try to escape.
-
-ITEMS
-Armour:{silk tunic, cloth robe, leather vest, ring mail armour, splint mail armour, full plate armour}
-Shields:{wooden shield, buckler, small sheild, large shield, kit shield, tower shield}
-Melee Weapons:{wooden club, dagger, battle-axe, long sword, warhammer, quarterstaff, spear}
-Bows:{short bow}
-Ammo:{arrow}
-Potions:{heal light wounds, heal moderate wounds                    #increases health
-         restore light energy, restore moderate energy,                    #increases energy
-         poison, confusion, paralysis,              #inficts status
-         speed, sight, slow, blinding,              #changes alt-attributes
-         strength, wisdom, dexterity, consitution}  #changes main attributes
-MAGIC
-Arcane Spells:{magic dart, magic beam, magic ray}
-
 
 
