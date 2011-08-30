@@ -14,6 +14,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "controller.h"
+#include "class.h"
 
 std::vector<std::string> message_log;
 void setWorld(World *world)
@@ -69,9 +70,13 @@ void drawInfoPanel()
 
   TCODConsole::root->print(x, y++, player->getName().c_str());
 
-  std::stringstream player_level;
-  player_level << "Level " << player->getLevel();
-  TCODConsole::root->print(x, y++,  player_level.str().c_str());
+  std::stringstream class_stream;
+  class_stream << "L" << player->getClass()->getClassLevel(player->getClass()->getActiveClassType()) << " " << player->getClass()->getActiveClassTypeString();
+  TCODConsole::root->print(x, y++,  class_stream.str().c_str());
+
+//  std::stringstream player_level;
+//  player_level << "Level " << player->getLevel();
+//  TCODConsole::root->print(x, y++,  player_level.str().c_str());
 
 //    std::stringstream player_EXP;
 //    player_EXP << "EXP " << player->getExp();
@@ -81,8 +86,10 @@ void drawInfoPanel()
   d_level << "Tomb Level " << player->getMapLevel() + 1;
   TCODConsole::root->print(x, y++,  d_level.str().c_str());
 
+  y++;
   drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange);
   TCODConsole::root->putCharEx(x - 1, y++, TCOD_CHAR_TEEE, TCODColor::orange, TCODColor::black);
+  y++;
 
   std::stringstream health_info;
   health_info << "Health " << player->getCurrentHealth()<<"/"<<player->getMaxHealth();
@@ -108,16 +115,22 @@ void drawInfoPanel()
   dex_info << "DEX " << player->getAttribute(ATT_DEX);
   TCODConsole::root->print(x, y, dex_info.str().c_str());
 
+  std::stringstream wis_info;
+  wis_info << "WIS " << player->getAttribute(ATT_WIS);
+  TCODConsole::root->print(x + 10, y++, wis_info.str().c_str());
+
   std::stringstream vit_info;
   vit_info << "VIT " << player->getAttribute(ATT_VIT);
-  TCODConsole::root->print(x + 10, y++, vit_info.str().c_str());
+  TCODConsole::root->print(x + 5, y++, vit_info.str().c_str());
 
+  y++;
   drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange);
   TCODConsole::root->putCharEx(x - 1, y++, TCOD_CHAR_TEEE, TCODColor::orange, TCODColor::black);
+  y++;
 
   std::stringstream wep_info;
   Item *wep = player->getWeapon();
-  wep_info << "Weapon: " ;
+  wep_info << "Wpn: " ;
   if(wep != NULL)
   {
     wep_info << wep->getName();
@@ -126,15 +139,15 @@ void drawInfoPanel()
 
   std::stringstream arm_info;
   Item *arm = player->getBodyArmour();
-  arm_info << "Armour: ";
+  arm_info << "Amr: ";
   if(arm != NULL)
   {
     arm_info << arm->getName();
   }
   TCODConsole::root->print(x, y++, arm_info.str().c_str());
 
-  drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange);
-  TCODConsole::root->putCharEx(x - 1, y++, TCOD_CHAR_TEEE, TCODColor::orange, TCODColor::black);
+  //drawHorizontalLine(x, y, infoScreenDims[WIDTH], TCODColor::orange);
+  //TCODConsole::root->putCharEx(x - 1, y++, TCOD_CHAR_TEEE, TCODColor::orange, TCODColor::black);
 
 
 //    //draws the enemy if they are on the same level at the actor
@@ -224,8 +237,8 @@ void drawMap()
         TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, this_tile.color, TCODColor::black);
         _world_->setTileAsSeen(i,j, player->getMapLevel());
       }
-      //else
-      else if(this_tile.has_been_seen)
+      else //uncomment to see whole map, but greyed out
+      //else if(this_tile.has_been_seen)
       {
         TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, TCODColor::darkGrey, TCODColor::black);
       }
@@ -245,10 +258,14 @@ void drawItems()
   Item *item = items[i];
   if (item->isOnGround())
   {
+    if(item->getMapLevel() == _world_->getCurrentLevel())
+    {
       if (player->canSee(item->getMapLevel(), item->getXPosition(), item->getYPosition()))
       {
+
     TCODConsole::root->putCharEx(item->getXPosition() + x_offset, item->getYPosition() + y_offset, item->getFaceTile(), item->getColor(), TCODColor::black);
       }
+    }
   }
     }
 }
@@ -263,9 +280,12 @@ void drawEnemies()
     for (unsigned int i = 0; i < enemies.size(); i++)
     {
   Enemy* en = enemies[i];
-  if(en->getMapLevel() == _world_->getCurrentLevel() && player->canSee(en->getMapLevel(), en->getXPosition(), en->getYPosition()))
+  if(en->getMapLevel() == _world_->getCurrentLevel())
   {
+    if(player->canSee(en->getMapLevel(), en->getXPosition(), en->getYPosition()))
+    {
       TCODConsole::root->putCharEx(en->getXPosition() + x_offset, en->getYPosition() + y_offset, en->getFaceTile(), en->getColor(), TCODColor::black);
+    }
   }
     }
 }

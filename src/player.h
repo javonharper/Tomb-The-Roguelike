@@ -62,12 +62,14 @@ const static int experience_thresholds[] = {
 };
 
 class Enemy;
+class Class;
 class Player : public Actor
 {
 private:
     int level_;
     int experience_;
     bool is_alive_;
+    Class *class_;
 public:
     Player(World *world);
     ~Player();
@@ -76,7 +78,7 @@ public:
     bool isAlive();
 
     void addExp(int exp);
-    void levelUp(int to_level);
+    void levelUp();
     void checkForLevelUp();
     int findLevelByExp(int exp);
 
@@ -88,7 +90,8 @@ public:
 
     int getLevel();
     int getExp();
-    void spawnPillar();
+
+    Class *getClass();
 };
 
 #endif

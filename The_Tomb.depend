@@ -282,7 +282,7 @@
 	"random.h"
 	"world.h"
 
-1314487161 /home/javon/programming/projects/tomb-the-roguelike/src/actor.h
+1314669519 /home/javon/programming/projects/tomb-the-roguelike/src/actor.h
 	<string>
 	<vector>
 	"libtcod.hpp"
@@ -432,18 +432,18 @@
 1303006434 /home/javon/programming/projects/libtcod-1.5.1/include/txtfield.hpp
 	"color.hpp"
 
-1314498998 /home/javon/programming/projects/tomb-the-roguelike/src/enemy_db.h
+1314669684 /home/javon/programming/projects/tomb-the-roguelike/src/enemy_db.h
 
 1303610142 /home/javon/programming/projects/tomb-the-roguelike/src/functions.h
 
-1314501442 /home/javon/programming/projects/tomb-the-roguelike/src/interface.h
+1314511923 /home/javon/programming/projects/tomb-the-roguelike/src/interface.h
 	<string>
 	"libtcod.hpp"
 	"player.h"
 	"enemy.h"
 	"world.h"
 
-1314494510 /home/javon/programming/projects/tomb-the-roguelike/src/player.h
+1314669300 /home/javon/programming/projects/tomb-the-roguelike/src/player.h
 	"actor.h"
 
 1314485149 /home/javon/programming/projects/tomb-the-roguelike/src/world.h
@@ -465,7 +465,7 @@
 1311647103 source:/home/javon/programming/projects/tomb-the-roguelike/src/controller.cpp
 	"controller.h"
 
-1314501366 /home/javon/programming/projects/tomb-the-roguelike/src/controller.h
+1314502882 /home/javon/programming/projects/tomb-the-roguelike/src/controller.h
 
 1314326714 source:/home/javon/programming/projects/tomb-the-roguelike/src/enemy.cpp
 	<cmath>
@@ -513,7 +513,7 @@
 	"libtcod.hpp"
 	"item.h"
 
-1314501332 source:/home/javon/programming/projects/tomb-the-roguelike/src/main.cpp
+1314669312 source:/home/javon/programming/projects/tomb-the-roguelike/src/main.cpp
 	<iostream>
 	<vector>
 	<sstream>
@@ -533,7 +533,7 @@
 	"map.h"
 	"libtcod.hpp"
 
-1314501475 source:/home/javon/programming/projects/tomb-the-roguelike/src/player.cpp
+1314669301 source:/home/javon/programming/projects/tomb-the-roguelike/src/player.cpp
 	<cmath>
 	<iostream>
 	<sstream>
@@ -547,6 +547,7 @@
 	"random.h"
 	"world.h"
 	"player.h"
+	"class.h"
 
 1298258060 source:/home/javon/programming/projects/tomb-the-roguelike/src/random.cpp
 	<cstdlib>
@@ -561,4 +562,10 @@
 	"world.h"
 	"player.h"
 	"enemy.h"
+
+1314668824 source:/home/javon/programming/projects/tomb-the-roguelike/src/class.cpp
+	"class.h"
+
+1314668706 /home/javon/programming/projects/tomb-the-roguelike/src/class.h
+	<string>
 

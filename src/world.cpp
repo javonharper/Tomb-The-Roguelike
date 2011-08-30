@@ -52,7 +52,6 @@ for (int z = 0; z < this->getLevels(); z++)
   position_t position = findPosition(levels_ - 1);
   item->setPosition(position.x, position.y, levels_ - 1);
   item->setOnGround(true);
-  item_list_.push_back(item);
 }
 
 World::~World()

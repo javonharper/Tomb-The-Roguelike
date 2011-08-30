@@ -1,34 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="src/actor.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="4163" topLine="27" />
+	<File name="MANUAL.txt" open="0" top="0" tabpos="0">
+		<Cursor position="671" topLine="5" />
 	</File>
-	<File name="src/controller.h" open="1" top="0" tabpos="4">
-		<Cursor position="639" topLine="12" />
+	<File name="src/actor.cpp" open="1" top="1" tabpos="10">
+		<Cursor position="5799" topLine="209" />
 	</File>
-	<File name="src/enemy_db.h" open="0" top="0" tabpos="0">
-		<Cursor position="5979" topLine="141" />
+	<File name="src/actor.h" open="0" top="0" tabpos="0">
+		<Cursor position="964" topLine="90" />
 	</File>
-	<File name="src/interface.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="13974" topLine="358" />
+	<File name="src/class.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="786" topLine="17" />
 	</File>
-	<File name="src/interface.h" open="1" top="0" tabpos="2">
-		<Cursor position="1219" topLine="26" />
+	<File name="src/class.h" open="1" top="0" tabpos="3">
+		<Cursor position="228" topLine="3" />
 	</File>
-	<File name="src/inventory.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="33" />
+	<File name="src/controller.h" open="0" top="0" tabpos="0">
+		<Cursor position="825" topLine="15" />
 	</File>
-	<File name="src/main.cpp" open="1" top="1" tabpos="3">
-		<Cursor position="1085" topLine="30" />
+	<File name="src/enemy_db.h" open="1" top="0" tabpos="8">
+		<Cursor position="5759" topLine="126" />
 	</File>
-	<File name="src/map.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1159" topLine="48" />
+	<File name="src/interface.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="8694" topLine="264" />
 	</File>
-	<File name="src/player.cpp" open="1" top="0" tabpos="5">
-		<Cursor position="3973" topLine="155" />
+	<File name="src/interface.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="21" />
 	</File>
-	<File name="src/player.h" open="1" top="0" tabpos="6">
-		<Cursor position="1156" topLine="71" />
+	<File name="src/item.cpp" open="1" top="0" tabpos="6">
+		<Cursor position="0" topLine="6" />
+	</File>
+	<File name="src/item_db.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="54" />
+	</File>
+	<File name="src/main.cpp" open="1" top="0" tabpos="9">
+		<Cursor position="1087" topLine="36" />
+	</File>
+	<File name="src/player.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="5251" topLine="205" />
+	</File>
+	<File name="src/player.h" open="1" top="0" tabpos="4">
+		<Cursor position="984" topLine="71" />
+	</File>
+	<File name="src/world.cpp" open="1" top="0" tabpos="7">
+		<Cursor position="1472" topLine="30" />
 	</File>
 </CodeBlocks_layout_file>

@@ -56,6 +56,7 @@ class Actor
   int att_str_;
   int att_dex_;
   int att_int_;
+  int att_wis_;
   int att_vit_;
 
   //time keeping attributes

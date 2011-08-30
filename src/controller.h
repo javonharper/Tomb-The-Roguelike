@@ -32,6 +32,7 @@
 #define STRENGTH      's'
 #define DEXTERITY     'd'
 #define INTELLIGENCE  'i'
+#define WISDOM        'w'
 #define VITALITY      'v'
 
 #define ESC 27

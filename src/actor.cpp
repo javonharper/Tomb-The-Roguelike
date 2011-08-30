@@ -55,6 +55,7 @@ void Actor::initProperties(enemy_data_t data, World *world)
     att_str_ = data.att_str;
     att_dex_ = data.att_dex;
     att_int_ = data.att_int;
+    att_wis_ = data.att_wis;
     att_vit_ = data.att_vit;
 
     world_ = world;
@@ -202,43 +203,51 @@ bool Actor::hasVictoryItem()
 void Actor::meleeAttack(Actor *actor)
 {
   std::cout << "atk=" << name_ << ",def=" << actor->getName() << ",";
-  int attack_roll = random(1, 20) + calcAtt(att_str_);
+  int die_roll = random(1, 20);
+  int attack_roll =  die_roll + calcAtt(att_str_);
   int opponent_ac = actor->calcArmourClass();
   std::cout << "atkroll=" << attack_roll << ",defac=" << opponent_ac << ",";
   int damage_roll = 0;
 
+  std::stringstream action_stream;
+  action_stream << name_;
   if(attack_roll >= opponent_ac || attack_roll >= 20)
   {
+
     damage_roll = calcMeleeDamage() + calcAtt(att_str_);
     damage_roll = setBoundedValue(damage_roll, 1, damage_roll);
 
     //if critical hit, roll again to see if actor can hit again.
     bool critical_hit = false;
-    if(attack_roll >= 20 && random(1, 20) + calcAtt(att_str_) >= opponent_ac)
+    if(die_roll == 20)
     {
       critical_hit = true;
       damage_roll = damage_roll + calcMeleeDamage() + calcAtt(att_str_);
       damage_roll = setBoundedValue(damage_roll, 1, damage_roll);
+      action_stream << " critically ";
     }
 
-    if (critical_hit)
-    {
-
-    }
-
+    action_stream << " hits ";
     std::cout << ",crit=" << critical_hit <<  ",rawdmg=" << damage_roll << ",mult=" << (double)damage_multiplier_;
     damage_roll = setBoundedValue(damage_roll * damage_multiplier_, 1, damage_roll * damage_multiplier_);
     std::cout << ",dmg=" << damage_roll << std::endl;
   }
   else
   {
+    action_stream << " misses ";
     std::cout << "MISS" << std::endl;
   }
+
+  action_stream << actor->getName();
+  message(action_stream.str());
 
   //check if the actor is dead.
   if(damage_roll >= actor->getCurrentHealth())
   {
     actor->kill();
+    std::stringstream  kill_stream;
+    kill_stream << "The " << actor->getName() << " dies!";
+    message(kill_stream.str());
   }
   else
   {
@@ -471,6 +480,7 @@ int Actor::getAttribute(int att_type)
     case ATT_STR: return att_str_;
     case ATT_DEX: return att_dex_;
     case ATT_INT: return att_int_;
+    case ATT_WIS: return att_wis_;
     case ATT_VIT: return att_vit_;
     default: message("ERROR: malformed att_type"); return -1;
   }

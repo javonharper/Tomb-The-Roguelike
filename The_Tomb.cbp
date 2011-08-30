@@ -120,6 +120,8 @@
 		<Unit filename="makefile" />
 		<Unit filename="src/actor.cpp" />
 		<Unit filename="src/actor.h" />
+		<Unit filename="src/class.cpp" />
+		<Unit filename="src/class.h" />
 		<Unit filename="src/controller.cpp" />
 		<Unit filename="src/controller.cpp~" />
 		<Unit filename="src/controller.h" />

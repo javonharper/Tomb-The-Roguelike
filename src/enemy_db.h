@@ -17,6 +17,7 @@ enum AttributeTypes
   ATT_STR = 0,
   ATT_DEX,
   ATT_INT,
+  ATT_WIS,
   ATT_VIT
 };
 
@@ -127,6 +128,7 @@ struct enemy_data_t {
     int att_str;
     int att_dex;
     int att_int;
+    int att_wis;
     int att_vit;
 
     int mod_speed;
@@ -151,7 +153,7 @@ const static enemy_data_t enemy_db[] = {
         {-1, -1},
         "player", '@', TCODColor::white,
         15,   5, {1, 3},
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC,
         BASIC_SIGHT,
       	0
@@ -160,7 +162,7 @@ const static enemy_data_t enemy_db[] = {
         {0, 2},
         "rat", 'r', TCODColor::grey,
         2,   1, {1, 1},
-        ATT_BAD, ATT_GOOD, ATT_MIN, ATT_AVERAGE,
+        ATT_BAD, ATT_GOOD, ATT_MIN, ATT_MIN, ATT_AVERAGE,
         SPEED_FAST, SIZE_TINY, BASE_AC,
         BASIC_SIGHT,
 	      100
@@ -169,7 +171,7 @@ const static enemy_data_t enemy_db[] = {
         {0, 2},
         "bat", 'b', TCODColor::grey,
         2,   1, {1, 1},
-        ATT_MIN, ATT_GOOD, ATT_MIN, ATT_AVERAGE,
+        ATT_MIN, ATT_GOOD, ATT_MIN, ATT_MIN, ATT_AVERAGE,
         SPEED_VERY_FAST, SIZE_DIMINUTIVE, BASE_AC,
         BASIC_SIGHT,
 	      100
@@ -178,7 +180,7 @@ const static enemy_data_t enemy_db[] = {
         {0, 1},
         "viper", 's', TCODColor::desaturatedGreen,
         6,   1, {1, 3},
-        ATT_BELOW_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_AVERAGE,
+        ATT_BELOW_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_MIN, ATT_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 3,
         BASIC_SIGHT,
 	      500
@@ -187,7 +189,7 @@ const static enemy_data_t enemy_db[] = {
         {1, 2},
         "dog", 'd', TCODColor::darkOrange,
         5,   1, {1, 4},
-        ATT_ABOVE_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_GOOD,
+        ATT_ABOVE_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_MIN, ATT_GOOD,
         SPEED_FAST, SIZE_SMALL, BASE_AC + 1,
         BASIC_SIGHT,
       	600,
@@ -196,7 +198,7 @@ const static enemy_data_t enemy_db[] = {
         {1, 3},
         "wolf", 'd', TCODColor::grey,
         10,   1, {1, 6},
-        ATT_ABOVE_AVERAGE, ATT_GOOD, ATT_MIN, ATT_GOOD,
+        ATT_ABOVE_AVERAGE, ATT_GOOD, ATT_MIN, ATT_MIN, ATT_GOOD,
         SPEED_FAST, SIZE_MEDIUM, BASE_AC + 2,
         BASIC_SIGHT,
       	600,
@@ -205,7 +207,7 @@ const static enemy_data_t enemy_db[] = {
         {3, 4},
         "wolverine", 'd', TCODColor::desaturatedOrange,
         22,   1, {1, 4},
-        ATT_GOOD, ATT_GOOD, ATT_MIN, ATT_MAX,
+        ATT_GOOD, ATT_GOOD, ATT_MIN, ATT_MIN,  ATT_MAX,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 2,
         BASIC_SIGHT,
       	700
@@ -214,7 +216,7 @@ const static enemy_data_t enemy_db[] = {
         {0, 3},
         "vagrant", 'H', TCODColor::orange,
         8, 5, {1, 2},
-        ATT_AVERAGE, ATT_AVERAGE, ATT_BELOW_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE, ATT_AVERAGE, ATT_BELOW_AVERAGE, ATT_BELOW_AVERAGE, ATT_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 1,
         BASIC_SIGHT,
 	      500
@@ -223,7 +225,7 @@ const static enemy_data_t enemy_db[] = {
         {0, 3},
         "giant spider", 'x', TCODColor::desaturatedRed,
         7, 0, {1, 3},
-        ATT_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_ABOVE_AVERAGE,
+        ATT_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_MIN, ATT_ABOVE_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 1,
         BASIC_SIGHT,
       	450
@@ -232,7 +234,7 @@ const static enemy_data_t enemy_db[] = {
         {3, 4},
         "theif", 'H', TCODColor::purple,
         15, 5, {1, 4},
-        ATT_BELOW_AVERAGE, ATT_VERY_GOOD, ATT_AVERAGE, ATT_AVERAGE,
+        ATT_BELOW_AVERAGE, ATT_VERY_GOOD, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 3,
         BASIC_SIGHT,
 	      1000
@@ -241,7 +243,7 @@ const static enemy_data_t enemy_db[] = {
         {0, 2},
         "hyena", 'h', TCODColor::yellow,
         9, 0, {1, 6},
-        ATT_ABOVE_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_VERY_GOOD,
+        ATT_ABOVE_AVERAGE, ATT_VERY_GOOD, ATT_MIN, ATT_MIN, ATT_VERY_GOOD,
         SPEED_FAST, SIZE_MEDIUM, BASE_AC + 2,
         BASIC_SIGHT,
 	      650
@@ -250,7 +252,7 @@ const static enemy_data_t enemy_db[] = {
         {0, 2},
         "baboon", 'b', TCODColor::desaturatedOrange,
         6, 0, {1, 6},
-        ATT_VERY_GOOD, ATT_VERY_GOOD, ATT_MIN, ATT_GOOD,
+        ATT_VERY_GOOD, ATT_VERY_GOOD, ATT_MIN, ATT_MIN, ATT_GOOD,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 1,
         BASIC_SIGHT,
 	      500
@@ -259,7 +261,7 @@ const static enemy_data_t enemy_db[] = {
         {0, 2},
         "looter", 'H', TCODColor::cyan,
         9, 5, {1, 2},
-        ATT_AVERAGE, ATT_ABOVE_AVERAGE, ATT_BELOW_AVERAGE, ATT_AVERAGE,
+        ATT_AVERAGE, ATT_ABOVE_AVERAGE, ATT_BELOW_AVERAGE, ATT_BELOW_AVERAGE, ATT_AVERAGE,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 1,
         BASIC_SIGHT,
       	350
@@ -268,7 +270,7 @@ const static enemy_data_t enemy_db[] = {
         {4, 4},
         "clay golem", 'G', TCODColor::desaturatedYellow,
         80, 0, {2, 10},
-        ATT_MAX, ATT_BELOW_AVERAGE, ATT_MIN, ATT_MIN,
+        ATT_MAX, ATT_BELOW_AVERAGE, ATT_MIN, ATT_MIN, ATT_MIN,
         SPEED_VERY_SLOW, SIZE_LARGE, BASE_AC + 14,
         BASIC_SIGHT,
 	      15000
@@ -277,7 +279,7 @@ const static enemy_data_t enemy_db[] = {
         {3, 4},
         "ankheg", 'x', TCODColor::desaturatedYellow,
         29, 0, {2, 10},
-        ATT_MAX, ATT_AVERAGE, ATT_MIN, ATT_GOOD,
+        ATT_MAX, ATT_AVERAGE, ATT_MIN, ATT_MIN, ATT_GOOD,
         SPEED_SLOW, SIZE_LARGE, BASE_AC + 9,
         BASIC_SIGHT,
 	      10000
@@ -286,7 +288,7 @@ const static enemy_data_t enemy_db[] = {
         {2, 4},
         "explorer", 'H', TCODColor::blue,
         13, 5, {1, 10},
-        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_GOOD,
+        ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_AVERAGE, ATT_GOOD,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 4,
         BASIC_SIGHT,
 	      900

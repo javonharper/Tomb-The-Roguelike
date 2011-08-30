@@ -39,14 +39,13 @@ int main(int argc, char* argv[])
   world = new World(world_width, world_height, world_depth);
   setWorld(world);//interface.h, just to keep a pointer to the world so It doesn't have to get passed with every message, prompt, etc. probably a better way to do this but i dunno it
   player = world->generatePlayer();
-  enemies = world->generateEnemies(5,10);
+  enemies = world->generateEnemies(4,8);
   world->generateItems(5,10);
 
   std::stringstream intro_stream;
   intro_stream << "You are " << player->getName() << ", an adventurer in search of the Icon of Weedaula.";
   message(intro_stream.str());
-  message("You find yourself in a dank labyrinth of the tomb.");
-  message("Your heart drops as you begin your trek.");
+  message("Bring the Icon back to the surface to win the game!");
   message("Press '?' for help");
 
   //While the game is still going, iterate over all actors
@@ -122,7 +121,6 @@ void handleKeyPress()
     case SHOW_INVENTORY: displayInventoryScreen(); break;
     case HELP: displayHelpScreen(); break;
     case QUIT: displayGameOverScreen("You have exited the game."); break;
-    case 'S': player->spawnPillar();
     }
 }
 

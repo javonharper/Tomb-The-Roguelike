@@ -16,6 +16,7 @@
 #include "random.h"
 #include "world.h"
 #include "player.h"
+#include "class.h"
 
 Player::Player(World *world)
 {
@@ -23,9 +24,13 @@ Player::Player(World *world)
     level_ = 1;
     experience_ = 0;
     is_alive_ = true;
+
     TCODNamegen::parse("data/names.txt");
     name_ = std::string(TCODNamegen::generate("player", false));
     TCODNamegen::destroy();
+
+    class_ = new Class();
+
     att_str_ = random(ATT_AVERAGE, ATT_GOOD);
     att_int_ = random(ATT_AVERAGE, ATT_GOOD);
     att_dex_ = random(ATT_AVERAGE, ATT_GOOD);
@@ -210,28 +215,30 @@ void Player::checkForLevelUp()
     int level = findLevelByExp(experience_);
     if(level > level_)
     {
-	    levelUp(level);
+	    levelUp();
     }
 }
 
-void Player::levelUp(int to_level)
+void Player::levelUp()
 {
-    level_ = to_level;
-    current_health_points_ = max_health_points_;
-    current_energy_points_ = max_energy_points_;
+    int to_level = level_++;
+    int to_class_level = class_->levelUp();
+    current_health_points_ = max_health_points_ = max_health_points_ + random(1, 6);//should do this based off vit
+    current_energy_points_ = max_energy_points_ = max_energy_points_ + random(1, 6);//should so this based off int
     std::stringstream levelup_stream;
-    levelup_stream << "You are now level " << level_ << "!";
+    levelup_stream << "You are now a level " << to_class_level << " " << class_->getActiveClassTypeString();
     message(levelup_stream.str());
 
     bool made_selection = false;
     while(!made_selection)
     {
-	    char result = prompt("Increase (S)trength, (D)exterity, (I)ntelligence, or (V)itality?");
+	    char result = prompt("Increase (S)trength, (D)exterity, (I)ntelligence, (W)isdom, or (V)itality?");
 	    switch(tolower(result))
 	    {
         case STRENGTH: att_str_++; message("You feel stronger"); made_selection = true; break;
         case DEXTERITY: att_dex_++; message("You feel more nimble"); made_selection = true; break;
-        case INTELLIGENCE: att_int_++; message("You feel more knowledgable"); made_selection = true; break;
+        case INTELLIGENCE: att_int_++; message("You feel more intelligent"); made_selection = true; break;
+        case WISDOM: att_wis_++; message("You feel wise"); made_selection = true; break;
         case VITALITY: att_vit_++; message("You feel healthier and more vibrant"); made_selection = true; break;
 	    }
     }
@@ -249,10 +256,9 @@ int Player::findLevelByExp(int exp)
 	return 0;
 }
 
-void Player::spawnPillar()
+Class *Player::getClass()
 {
-    world_->setTileColor(x_, y_, map_level_, TCODColor::cyan);
-    world_->getVisionMap()[map_level_]->setProperties(x_, y_, true, false);
+  return class_;
 }
 
 int Player::getLevel()
