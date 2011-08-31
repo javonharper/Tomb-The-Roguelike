@@ -201,7 +201,7 @@ void Player::useItemAction(Item *item)
             break;
         }
 
-        use_stream << " the " << item->getName() << ".";
+        use_stream << " the " << item->getName();
 
         displayGameScreen();
         message(use_stream.str());
@@ -234,17 +234,13 @@ void Player::changeClassAction()//Lawsuit dohoho
     int class_type = class_->getActiveClassType();
     displayChangeClassScreen();
 
-
     if (class_type != class_->getActiveClassType())
     {
         std::stringstream notify_stream;
         notify_stream << "You are now a " << class_->getActiveClassTypeString();
         message(notify_stream.str());
+        turn_finished_ = true;
     }
-
-
-
-    turn_finished_ = true;
 }
 
 void Player::addExp(int exp)

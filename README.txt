@@ -2,15 +2,15 @@ Tomb: The Rogue-like
 Tomb is a roguelike written in C++ using the libtcod library.
 
 Playing Tomb:
-Tomb should be built before it is ran. 
-In the terminal, run the command
+Tomb should be built before it is ran.
+At command line, type in the command
 
 make run
 
 Afterwards, you can run the command ./tomb or double click the executable file to start the game.
 
 Developing Tomb:
-This repository comes with the code::blocks project files I'm using to write Tomb.
+This repository comes with the code::blocks project files I'm using to develop Tomb.
 Alternatively, there is a makefile that cleans, builds, and runs the project.
 
 Acknowlegements:
