@@ -1,11 +1,25 @@
+/*
+ *  File:       class.cpp
+ *  Summary:    The various classes the player can take on
+ *  Written by: Javon Harper
+ */
+
 #include "class.h"
+#include "interface.h"
 
 Class::Class()
 {
   active_class_ = CLASS_ADVENTURER;
   for (int i = 0; i < NUM_CLASS_TYPES; i++)
   {
-    class_levels_[i] = 1;
+    if(i == CLASS_ADVENTURER)
+    {
+      class_levels_[i] = 1;
+    }
+    else
+    {
+      class_levels_[i] = 0;
+    }
   }
 }
 
@@ -23,7 +37,7 @@ std::string Class::getActiveClassTypeString()
 {
   switch(active_class_)
   {
-    case CLASS_ADVENTURER: return "Adventurer";
+    case CLASS_ADVENTURER: return "Adventurer";//can replace these strings with class stuff
     case CLASS_FIGHTER: return "Fighter";
     case CLASS_PRIEST: return "Priest";
     case CLASS_MAGICIAN: return "Magician";
@@ -40,5 +54,39 @@ int Class::getClassLevel(int class_type)
 int Class::levelUp()
 {
   class_levels_[active_class_] = class_levels_[active_class_] + 1;
+
+  for (int i = 0; i < NUM_CLASS_TYPES; i++)
+  {
+    if (hasRequirementsForClass(i) && getClassLevel(i) == 0)
+    {
+      class_levels_[i] = 1;
+    }
+  }
+
   return class_levels_[active_class_];
+}
+
+void Class::changeClass(int class_type)
+{
+  if(hasRequirementsForClass(class_type))
+  {
+    active_class_ = class_type;
+  }
+  else
+  {
+    message("You do not have the required experience to be this class");
+    message("TODO class.changeClass(): Tell them what they actually need");
+  }
+}
+
+bool Class::hasRequirementsForClass(int class_type)
+{
+  for (int i = 0; i < NUM_CLASS_TYPES; i++)
+  {
+    if (class_data[class_type].class_requirements[i] > getClassLevel(i))
+    {
+      return false;
+    }
+  }
+  return true;
 }

@@ -25,102 +25,142 @@ std::vector<Enemy*> enemies;
 
 int main(int argc, char* argv[])
 {
-  int seed = init_rand();
-  //int seed = init_rand(1314485160);
-  std::cout << "seed:" << seed << std::endl;
+    int seed = init_rand();
+    //int seed = init_rand(1314485160);
+    std::cout << "seed:" << seed << std::endl;
 
-  initScreen();
-  displayTitleScreen();
+    initScreen();
+    displayTitleScreen();
 
-  int world_width = worldScreenDims[WIDTH];
-  int world_height = worldScreenDims[HEIGHT];
-  int world_depth = 5;//5
+    int world_width = worldScreenDims[WIDTH];
+    int world_height = worldScreenDims[HEIGHT];
+    int world_depth = 5;//5
 
-  world = new World(world_width, world_height, world_depth);
-  setWorld(world);//interface.h, just to keep a pointer to the world so It doesn't have to get passed with every message, prompt, etc. probably a better way to do this but i dunno it
-  player = world->generatePlayer();
-  enemies = world->generateEnemies(4,8);
-  world->generateItems(5,10);
+    world = new World(world_width, world_height, world_depth);
+    setWorld(world);//interface.h, just to keep a pointer to the world so It doesn't have to get passed with every message, prompt, etc. probably a better way to do this but i dunno it
+    player = world->generatePlayer();
+    enemies = world->generateEnemies(4,8);
+    world->generateItems(5,10);
 
-  std::stringstream intro_stream;
-  intro_stream << "You are " << player->getName() << ", an adventurer in search of the Icon of Weedaula.";
-  message(intro_stream.str());
-  message("Bring the Icon back to the surface to win the game!");
-  message("Press '?' for help");
+    std::stringstream intro_stream;
+    intro_stream << "You are " << player->getName() << ", an Adventurer in search of the Icon of Weedaula.";
+    message(intro_stream.str());
+    message("Bring the Icon back to the surface to win the game!");
+    message("Press '?' for help");
 
-  //While the game is still going, iterate over all actors
-  while (!isGameOver())
-  {
-    world->incrementTimeStep();
+    //While the game is still going, iterate over all actors
+    while (!isGameOver())
+    {
+        world->incrementTimeStep();
 //    std::cout<< "=WORLD STEP" << world->getTimeStep()<<"=" << std::endl;
 
-    player->FOV(player->getMapLevel());
-    displayGameScreen();
-    updateScreen();
+        player->FOV(player->getMapLevel());
+        displayGameScreen();
+        updateScreen();
 
-    player->startTurn();
-    while(!player->isTurnFinished() && player->isTurn() && !isGameOver())
-    {
-      //std::cout << player->getName() << &player << " taking turn at world step " << world->getTimeStep() << std::endl;
-      handleKeyPress();
+        player->startTurn();
+        while (!player->isTurnFinished() && player->isTurn() && !isGameOver())
+        {
+            //std::cout << player->getName() << &player << " taking turn at world step " << world->getTimeStep() << std::endl;
+            handleKeyPress();
+        }
+        player->endTurn();
+
+        //make the actors take their turns
+        //NOTE only actors +- one level of the player can take turns.
+        enemies = world->getEnemyList();
+        for (unsigned int i = 0; i < enemies.size(); i++)
+        {
+            Enemy *en = enemies[i];
+
+            en->startTurn();
+            //NOTE messing with level ranges
+            if (en->isTurn() && withinRange(en->getMapLevel(), player->getMapLevel() - 0, player->getMapLevel() + 0))
+            {
+                //std::cout << en->getName() << &enemies[i] <<" taking turn at world step " << world->getTimeStep() << std::endl;
+                en->FOV(en->getMapLevel());
+                en->takeTurn();
+            }
+            en->endTurn();
+        }
     }
-    player->endTurn();
 
-    //make the actors take their turns
-    //NOTE only actors +- one level of the player can take turns.
-    enemies = world->getEnemyList();
-    for (unsigned int i = 0; i < enemies.size(); i++)
+    if (isGameOver())
     {
-      Enemy *en = enemies[i];
-
-      en->startTurn();
-      //NOTE messing with level ranges
-      if(en->isTurn() && withinRange(en->getMapLevel(), player->getMapLevel() - 0, player->getMapLevel() + 0))
-      {
-        //std::cout << en->getName() << &enemies[i] <<" taking turn at world step " << world->getTimeStep() << std::endl;
-        en->FOV(en->getMapLevel());
-        en->takeTurn();
-      }
-      en->endTurn();
+        if (!player->isAlive())
+        {
+            displayGameOverScreen("You have been struck down");
+        }
     }
-  }
-
-  if (isGameOver())
-  {
-    if (!player->isAlive())
-    {
-      displayGameOverScreen("You have been struck down");
-    }
-  }
 }
 
 bool isGameOver()
 {
-  return TCODConsole::isWindowClosed() || !player->isAlive();
+    return TCODConsole::isWindowClosed() || !player->isAlive();
 }
 
 void handleKeyPress()
 {
-  TCOD_key_t key = TCODConsole::waitForKeypress(true);
-  switch(key.c)
+    TCOD_key_t key = TCODConsole::waitForKeypress(true);
+    switch (key.c)
     {
-    case MOVE_WEST: player->moveAction(player->getXPosition() - 1, player->getYPosition(), player->getMapLevel()); break;
-    case MOVE_SOUTH: player->moveAction(player->getXPosition(), player->getYPosition() + 1, player->getMapLevel()); break;
-    case MOVE_NORTH: player->moveAction(player->getXPosition(), player->getYPosition() - 1, player->getMapLevel()); break;
-    case MOVE_EAST: player->moveAction(player->getXPosition() + 1, player->getYPosition(), player->getMapLevel()); break;
-    case MOVE_NORTHWEST: player->moveAction(player->getXPosition() - 1, player->getYPosition() - 1, player->getMapLevel()); break;
-    case MOVE_NORTHEAST: player->moveAction(player->getXPosition() + 1, player->getYPosition() - 1, player->getMapLevel()); break;
-    case MOVE_SOUTHWEST: player->moveAction(player->getXPosition() - 1, player->getYPosition() + 1, player->getMapLevel()); break;
-    case MOVE_SOUTHEAST: player->moveAction(player->getXPosition() + 1, player->getYPosition() + 1, player->getMapLevel()); break;
-    case REST: player->rest(); break;
-    case MOVE_DOWNSTAIRS: player->descendStairs(); break;
-    case MOVE_UPSTAIRS: player->ascendStairs(); break;
-    case OPEN_DOOR: player->promptDoorAction(key.c); break;
-    case CLOSE_DOOR: player->promptDoorAction(key.c); break;
-    case PICKUP: player->promptPickupAction(); break;
-    case SHOW_INVENTORY: displayInventoryScreen(); break;
-    case HELP: displayHelpScreen(); break;
-    case QUIT: displayGameOverScreen("You have exited the game."); break;
+        //actions
+    case MOVE_WEST:
+        player->moveAction(player->getXPosition() - 1, player->getYPosition(), player->getMapLevel());
+        break;
+    case MOVE_SOUTH:
+        player->moveAction(player->getXPosition(), player->getYPosition() + 1, player->getMapLevel());
+        break;
+    case MOVE_NORTH:
+        player->moveAction(player->getXPosition(), player->getYPosition() - 1, player->getMapLevel());
+        break;
+    case MOVE_EAST:
+        player->moveAction(player->getXPosition() + 1, player->getYPosition(), player->getMapLevel());
+        break;
+    case MOVE_NORTHWEST:
+        player->moveAction(player->getXPosition() - 1, player->getYPosition() - 1, player->getMapLevel());
+        break;
+    case MOVE_NORTHEAST:
+        player->moveAction(player->getXPosition() + 1, player->getYPosition() - 1, player->getMapLevel());
+        break;
+    case MOVE_SOUTHWEST:
+        player->moveAction(player->getXPosition() - 1, player->getYPosition() + 1, player->getMapLevel());
+        break;
+    case MOVE_SOUTHEAST:
+        player->moveAction(player->getXPosition() + 1, player->getYPosition() + 1, player->getMapLevel());
+        break;
+    case REST:
+        player->restAction();
+        break;
+    case MOVE_DOWNSTAIRS:
+        player->descendStairs();//need to be action
+        break;
+    case MOVE_UPSTAIRS:
+        player->ascendStairs();//need to be action
+        break;
+    case OPEN_DOOR:
+        player->openDoorAction();
+        break;
+    case CLOSE_DOOR:
+        player->closeDoorAction();
+        break;
+    case PICKUP:
+        player->pickupItemAction();
+        break;
+    case CHANGE_CLASS:
+        player->changeClassAction();
+        break;
+
+        //screens
+    case SHOW_INVENTORY:
+        displayInventoryScreen();
+        break;
+    case HELP:
+        displayHelpScreen();
+        break;
+    case QUIT:
+        displayGameOverScreen("You have exited the game.");
+        break;
     }
 }
 

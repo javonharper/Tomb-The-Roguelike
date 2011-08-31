@@ -201,7 +201,7 @@ const static enemy_data_t enemy_db[] = {
         ATT_ABOVE_AVERAGE, ATT_GOOD, ATT_MIN, ATT_MIN, ATT_GOOD,
         SPEED_FAST, SIZE_MEDIUM, BASE_AC + 2,
         BASIC_SIGHT,
-      	600,
+      	700,
     },
     {
         {3, 4},
@@ -210,7 +210,7 @@ const static enemy_data_t enemy_db[] = {
         ATT_GOOD, ATT_GOOD, ATT_MIN, ATT_MIN,  ATT_MAX,
         SPEED_NORMAL, SIZE_MEDIUM, BASE_AC + 2,
         BASIC_SIGHT,
-      	700
+      	800
     },
     {
         {0, 3},
@@ -269,7 +269,7 @@ const static enemy_data_t enemy_db[] = {
     {
         {4, 4},
         "clay golem", 'G', TCODColor::desaturatedYellow,
-        80, 0, {2, 10},
+        50, 0, {2, 8},
         ATT_MAX, ATT_BELOW_AVERAGE, ATT_MIN, ATT_MIN, ATT_MIN,
         SPEED_VERY_SLOW, SIZE_LARGE, BASE_AC + 14,
         BASIC_SIGHT,
@@ -278,7 +278,7 @@ const static enemy_data_t enemy_db[] = {
     {
         {3, 4},
         "ankheg", 'x', TCODColor::desaturatedYellow,
-        29, 0, {2, 10},
+        23, 0, {2, 6},
         ATT_MAX, ATT_AVERAGE, ATT_MIN, ATT_MIN, ATT_GOOD,
         SPEED_SLOW, SIZE_LARGE, BASE_AC + 9,
         BASIC_SIGHT,

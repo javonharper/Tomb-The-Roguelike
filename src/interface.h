@@ -32,6 +32,7 @@ bool displayUseItemScreen();
 bool displayDropItemsScreen();
 bool displayInspectItemsScreen();
 void showInventoryContents();
+void displayChangeClassScreen();
 void showEnemyStatus(int &x, int &y, Enemy *enemy);
 
 void displayWinScreen(std::string reason);

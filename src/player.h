@@ -82,11 +82,14 @@ public:
     void checkForLevelUp();
     int findLevelByExp(int exp);
 
-    void promptDoorAction(char key);
-    void promptPickupAction();
-    void promptDropAction();
-    void promptUseItemAction(Item *item);
     void moveAction(int x, int y, int z);
+    void restAction();
+    void openDoorAction();
+    void closeDoorAction();
+    void pickupItemAction();
+    void dropItemAction();
+    void useItemAction(Item *item);
+    void changeClassAction();//Lawsuit
 
     int getLevel();
     int getExp();

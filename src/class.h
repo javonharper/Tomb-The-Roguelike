@@ -1,3 +1,9 @@
+/*
+ *  File:       class.h
+ *  Summary:    The various classes the player can take on
+ *  Written by: Javon Harper
+ */
+
 #ifndef CLASS_H
 #define CLASS_H
 
@@ -13,6 +19,23 @@ enum ClassType
   NUM_CLASS_TYPES
 };
 
+struct class_data_t
+{
+  int class_type;
+  std::string class_letter;
+  std::string class_string;
+  int class_requirements[NUM_CLASS_TYPES];
+};
+
+const static class_data_t class_data [NUM_CLASS_TYPES] =
+{
+  { CLASS_ADVENTURER,  "a", "Adventurer", {0,0,0,0,0} },
+  { CLASS_FIGHTER,     "f", "Fighter",    {2,0,0,0,0} },
+  { CLASS_ROGUE,       "r", "Rogue",      {2,0,0,0,0} },
+  { CLASS_PRIEST,      "p", "Priest",     {2,0,0,0,0} },
+  { CLASS_MAGICIAN,    "m", "Magician",   {2,0,0,0,0} }
+};
+
 class Class
 {
   private:
@@ -25,6 +48,8 @@ class Class
     std::string getActiveClassTypeString();
     int getClassLevel(int class_type);
     int levelUp();
+    void changeClass(int class_type);
+    bool hasRequirementsForClass(int class_type);
 
 };
 

@@ -20,7 +20,6 @@ enum WeaponTypes
   TYPE_DAGGER = 0,
   TYPE_WOODEN_CLUB,
   TYPE_QUARTERSTAFF,
-  TYPE_HANDAXE,
   TYPE_BATTLEAXE,
   TYPE_LONGSWORD,
   TYPE_WARHAMMER,
@@ -58,7 +57,6 @@ const static item_data_t weapon_db[] =
   {"dagger",        CATEGORY_WEAPON, TYPE_DAGGER,       TCODColor::white,       {1, 4, 0, 0, 0}},
   {"wooden club",   CATEGORY_WEAPON, TYPE_WOODEN_CLUB,  TCODColor::darkOrange,  {1, 6, 0, 0, 0}},
   {"quarterstaff",  CATEGORY_WEAPON, TYPE_QUARTERSTAFF, TCODColor::orange,      {1, 6, 0, 0, 0}},
-  {"handaxe",       CATEGORY_WEAPON, TYPE_HANDAXE,      TCODColor::orange,      {1, 6, 0, 0, 0}},
   {"battle-axe",    CATEGORY_WEAPON, TYPE_BATTLEAXE,    TCODColor::darkOrange,  {1, 8, 0, 0, 0}},
   {"long sword",    CATEGORY_WEAPON, TYPE_LONGSWORD,    TCODColor::grey,        {1, 8, 0, 0, 0}},
   {"warhammer",     CATEGORY_WEAPON, TYPE_WARHAMMER,    TCODColor::darkYellow,  {1, 8, 0, 0, 0}},
@@ -72,9 +70,9 @@ const static item_data_t armour_db[] =
   {"leather armour",      CATEGORY_BODY_ARMOUR, TYPE_LEATHER_ARMOUR,      TCODColor::darkOrange,        {2, 0, 0, 0, 0}},
   {"hide armour",         CATEGORY_BODY_ARMOUR, TYPE_HIDE_ARMOUR,         TCODColor::desaturatedYellow, {3, 0, 0, 0, 0}},
   {"ring mail armour",    CATEGORY_BODY_ARMOUR, TYPE_RING_MAIL_ARMOUR,    TCODColor::darkGrey,          {4, 0, 0, 0, 0}},
-  {"breast plate",        CATEGORY_BODY_ARMOUR, TYPE_BREAST_PLATE,        TCODColor::grey,              {5, 0, 0, 0, 0}},  
+  {"breast plate",        CATEGORY_BODY_ARMOUR, TYPE_BREAST_PLATE,        TCODColor::grey,              {5, 0, 0, 0, 0}},
   {"splint mail armour",  CATEGORY_BODY_ARMOUR, TYPE_SPLINT_MAIL_ARMOUR,  TCODColor::grey,              {6, 0, 0, 0, 0}},
-  {"half-plate armour",   CATEGORY_BODY_ARMOUR, TYPE_HALF_PLATE_ARMOUR,   TCODColor::lightGrey,         {7, 0, 0, 0, 0}},  
+  {"half-plate armour",   CATEGORY_BODY_ARMOUR, TYPE_HALF_PLATE_ARMOUR,   TCODColor::lightGrey,         {7, 0, 0, 0, 0}},
   {"full plate armour",   CATEGORY_BODY_ARMOUR, TYPE_FULL_PLATE_ARMOUR,   TCODColor::white,             {8, 0, 0, 0, 0}}
 };
 

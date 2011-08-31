@@ -6,7 +6,7 @@ Tomb is a roguelike game with a setting in the ancient burial ground of a long l
 Your goal as the adventurer is to brave the depths of the labyrinths and corridors and retrieve
 the icon of the weedaula so that peace can be restored in your nearby village.
 
-The tomb, items, and enemies are randomly generated so it guarantees no game is ever the same.
+The tomb, items, and enemies are randomly generated so no game is ever the same.
 
 KEY COMMANDS
 h   go west
@@ -25,11 +25,4 @@ c   close a door
 g   get an item off the ground
 i   open inventory
 ESC quit game
-
-ATTRIBUTES
-Strength: How much melee damage inflicts; How much one can withstand physical attacks
-Intelligence: How much magic damage inflicts; How successful magic spells are; How fast energy restores.
-Dexterity: Accuracy; How much ranged physical damage inflicts; Ability to dodge attacks
-Vitality: How often health restores
-
 

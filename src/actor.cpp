@@ -206,7 +206,7 @@ void Actor::meleeAttack(Actor *actor)
   int die_roll = random(1, 20);
   int attack_roll =  die_roll + calcAtt(att_str_);
   int opponent_ac = actor->calcArmourClass();
-  std::cout << "atkroll=" << attack_roll << ",defac=" << opponent_ac << ",";
+  std::cout << "atkroll=" << attack_roll << ",defac=" << opponent_ac;
   int damage_roll = 0;
 
   std::stringstream action_stream;
@@ -246,7 +246,7 @@ void Actor::meleeAttack(Actor *actor)
   {
     actor->kill();
     std::stringstream  kill_stream;
-    kill_stream << "The " << actor->getName() << " dies!";
+    kill_stream << actor->getName() << " dies!";
     message(kill_stream.str());
   }
   else
@@ -437,7 +437,7 @@ int Actor::calcArmourClass()
 
     if (this->hasBodyArmour())
     {
-	armour_bonus = active_body_armour_->getValue(0);
+	    armour_bonus = active_body_armour_->getValue(0);
 
 	//armour_bonus += active_shield_->getArmourBonus();
     }

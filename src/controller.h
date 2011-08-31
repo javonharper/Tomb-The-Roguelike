@@ -1,8 +1,9 @@
 /*
- * Filename: controller.h
- * description: handles turning user input into command
- * author: Javon Harper
+ *  File:       controller.h
+ *  Summary:    Handles user input and converts into objects the game can use
+ *  Written by: Javon Harper
  */
+
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
@@ -24,6 +25,7 @@
 #define USE_ITEM        'a'
 #define DROP_ITEM       'd'
 #define INSPECT_ITEM    'i'
+#define CHANGE_CLASS    'C'
 #define HELP            '?'
 
 #define YES 'y'
@@ -46,4 +48,5 @@ struct direction_t
 
 direction_t charToDirection(char key);
 bool isValidDirection(direction_t dir);
+int charToClassInt(char letter);
 #endif
