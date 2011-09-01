@@ -149,6 +149,8 @@ void handleKeyPress()
         break;
     case CHANGE_CLASS:
         player->changeClassAction();
+        displayGameScreen();
+        updateScreen();
         break;
 
         //screens
@@ -157,6 +159,8 @@ void handleKeyPress()
         break;
     case HELP:
         displayHelpScreen();
+        displayGameScreen();
+        updateScreen();
         break;
     case QUIT:
         displayGameOverScreen("You have exited the game.");

@@ -55,10 +55,18 @@ int Item::chooseType(int category)
 {
     switch (category)
     {
-    case CATEGORY_WEAPON: return random(0, TOTAL_WEAPON_TYPES - 1); break;
-    case CATEGORY_BODY_ARMOUR: return random(0, TOTAL_BODY_ARMOUR_TYPES - 1); break;
-    case CATEGORY_POTION: return random(0, TOTAL_POTION_TYPES - 1); break;
-    default: return -1; break;
+    case CATEGORY_WEAPON:
+        return random(0, TOTAL_WEAPON_TYPES - 1);
+        break;
+    case CATEGORY_BODY_ARMOUR:
+        return random(0, TOTAL_BODY_ARMOUR_TYPES - 1);
+        break;
+    case CATEGORY_POTION:
+        return random(0, TOTAL_POTION_TYPES - 1);
+        break;
+    default:
+        return -1;
+        break;
     }
 }
 
@@ -66,10 +74,17 @@ void Item::init(int category, int type)
 {
     switch (category)
     {
-    case CATEGORY_WEAPON: init(weapon_db[type]); break;
-    case CATEGORY_BODY_ARMOUR: init(armour_db[type]); break;
-    case CATEGORY_POTION: init(potion_db[type]); break;
-    default: init(erroneous_item);
+    case CATEGORY_WEAPON:
+        init(weapon_db[type]);
+        break;
+    case CATEGORY_BODY_ARMOUR:
+        init(armour_db[type]);
+        break;
+    case CATEGORY_POTION:
+        init(potion_db[type]);
+        break;
+    default:
+        init(erroneous_item);
     }
 }
 
@@ -81,7 +96,7 @@ void Item::init(item_data_t item_data)
 
     for (int i = 0; i < NUM_ITEM_VALUES; i++)
     {
-	item_values_[i] = item_data.item_values[i];
+        item_values_[i] = item_data.item_values[i];
     }
 
     setFaceTile(item_data.category);
@@ -98,13 +113,23 @@ void Item::setPosition(int x, int y, int level)
 
 void Item::setFaceTile(int category)
 {
-    switch(category)
+    switch (category)
     {
-    case CATEGORY_WEAPON: face_tile_ = '/'; break;
-    case CATEGORY_BODY_ARMOUR: face_tile_ = ']'; break;
-    case CATEGORY_POTION: face_tile_ = '!'; break;
-    case CATEGORY_VICTORY_ITEM: face_tile_ = '~'; break;
-    default: face_tile_ = '|'; break;
+    case CATEGORY_WEAPON:
+        face_tile_ = '/';
+        break;
+    case CATEGORY_BODY_ARMOUR:
+        face_tile_ = ']';
+        break;
+    case CATEGORY_POTION:
+        face_tile_ = '!';
+        break;
+    case CATEGORY_VICTORY_ITEM:
+        face_tile_ = '~';
+        break;
+    default:
+        face_tile_ = '|';
+        break;
     }
 }
 
@@ -112,36 +137,74 @@ void Item::destroy()
 {
     std::vector<Item*> &item_list = world_->getItemList();
 
-    for(unsigned int i = 0; i < item_list.size(); i++)
+    for (unsigned int i = 0; i < item_list.size(); i++)
     {
-	if (this == item_list[i])
-	{
-	    item_list.erase(item_list.begin() + i);
-	}
+        if (this == item_list[i])
+        {
+            item_list.erase(item_list.begin() + i);
+        }
     }
 }
 
 std::string Item::getEquippedString()
 {
-    switch(category_)
+    switch (category_)
     {
-    case CATEGORY_WEAPON: return "(wielded)";
-    case CATEGORY_BODY_ARMOUR: return "(worn)";
-    case CATEGORY_POTION: return "(in hand)";
-    case CATEGORY_VICTORY_ITEM: return "(in hand)";
-    default: return "(ERROR item with bad category equipped)";
+    case CATEGORY_WEAPON:
+        return "(wielded)";
+    case CATEGORY_BODY_ARMOUR:
+        return "(worn)";
+    case CATEGORY_POTION:
+        return "(in hand)";
+    case CATEGORY_VICTORY_ITEM:
+        return "(in hand)";
+    default:
+        return "(ERROR item with bad category equipped)";
     }
 }
 
-int Item::getXPosition(){return x_;}
-int Item::getYPosition(){return y_;}
-int Item::getMapLevel(){return map_level_;}
-char Item::getFaceTile(){return face_tile_;}
-TCODColor Item::getColor(){return color_;}
-std::string Item::getName(){return name_;}
-bool Item::isOnGround(){return on_ground_;}
-void Item::setOnGround(bool on_ground){on_ground_ = on_ground;}
-int Item::getCategory(){return category_;}
-int Item::getValue(int i){return item_values_[i];}
-int Item::getType(){return type_;}
+int Item::getXPosition()
+{
+    return x_;
+}
+int Item::getYPosition()
+{
+    return y_;
+}
+int Item::getMapLevel()
+{
+    return map_level_;
+}
+char Item::getFaceTile()
+{
+    return face_tile_;
+}
+TCODColor Item::getColor()
+{
+    return color_;
+}
+std::string Item::getName()
+{
+    return name_;
+}
+bool Item::isOnGround()
+{
+    return on_ground_;
+}
+void Item::setOnGround(bool on_ground)
+{
+    on_ground_ = on_ground;
+}
+int Item::getCategory()
+{
+    return category_;
+}
+int Item::getValue(int i)
+{
+    return item_values_[i];
+}
+int Item::getType()
+{
+    return type_;
+}
 

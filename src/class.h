@@ -11,37 +11,37 @@
 
 enum ClassType
 {
-  CLASS_ADVENTURER = 0,
-  CLASS_FIGHTER,
-  CLASS_ROGUE,
-  CLASS_PRIEST,
-  CLASS_MAGICIAN,
-  NUM_CLASS_TYPES
+    CLASS_ADVENTURER = 0,
+    CLASS_FIGHTER,
+    CLASS_ROGUE,
+    CLASS_PRIEST,
+    CLASS_MAGICIAN,
+    NUM_CLASS_TYPES
 };
 
 struct class_data_t
 {
-  int class_type;
-  std::string class_letter;
-  std::string class_string;
-  int class_requirements[NUM_CLASS_TYPES];
+    int class_type;
+    std::string class_letter;
+    std::string class_string;
+    int class_requirements[NUM_CLASS_TYPES];
 };
 
 const static class_data_t class_data [NUM_CLASS_TYPES] =
 {
-  { CLASS_ADVENTURER,  "a", "Adventurer", {0,0,0,0,0} },
-  { CLASS_FIGHTER,     "f", "Fighter",    {2,0,0,0,0} },
-  { CLASS_ROGUE,       "r", "Rogue",      {2,0,0,0,0} },
-  { CLASS_PRIEST,      "p", "Priest",     {2,0,0,0,0} },
-  { CLASS_MAGICIAN,    "m", "Magician",   {2,0,0,0,0} }
+    { CLASS_ADVENTURER,  "a", "Adventurer", {0,0,0,0,0} },
+    { CLASS_FIGHTER,     "f", "Fighter",    {3,0,0,0,0} },
+    { CLASS_ROGUE,       "r", "Rogue",      {3,0,0,0,0} },
+    { CLASS_PRIEST,      "p", "Priest",     {3,0,0,0,0} },
+    { CLASS_MAGICIAN,    "m", "Magician",   {3,0,0,0,0} }
 };
 
 class Class
 {
-  private:
+private:
     int active_class_;
     int class_levels_ [NUM_CLASS_TYPES];
-  public:
+public:
     Class();
     ~Class();
     int getActiveClassType();

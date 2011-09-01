@@ -13,18 +13,18 @@ const static int NUM_ITEM_VALUES = 5;
 
 struct item_data_t
 {
-  std::string name;
-  int category;
-  int type;
-  TCODColor color;
-  int item_values[NUM_ITEM_VALUES];
+    std::string name;
+    int category;
+    int type;
+    TCODColor color;
+    int item_values[NUM_ITEM_VALUES];
 };
 
 class World;
 class Item
 {
 
-  private:
+private:
     World *world_;
     int x_;
     int y_;
@@ -39,7 +39,7 @@ class Item
     char face_tile_;
     TCODColor color_;
 
-  public:
+public:
     Item(World *world);
     Item(item_data_t item_data, World *world);
     Item(int category, World *world);

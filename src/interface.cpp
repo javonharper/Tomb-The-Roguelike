@@ -425,11 +425,14 @@ bool displayDropItemsScreen()
         case ESC:
             exited_screen = true;
             return false;
-        default:{
+        default:
+        {
             exited_screen = (_world_->getPlayer()->getInventory()->get(key.c) != NULL);
-            if (exited_screen){
+            if (exited_screen)
+            {
                 _world_->getPlayer()->dropItem(_world_->getPlayer()->getInventory()->get(key.c));
-            } return true;
+            }
+            return true;
         }
         }
     }
@@ -543,12 +546,13 @@ void displayChangeClassScreen()
         {
             class_int = charToClassInt(key.c);
         }
+        else
+        {
+            exited_screen = true;
+        }
 
         switch (class_int)
         {
-        case ESC:
-            exited_screen = true;
-            break;
         case CLASS_ADVENTURER:
             exited_screen = true;
             pclass->changeClass(CLASS_ADVENTURER);
@@ -598,25 +602,26 @@ void displayHelpScreen()
     TCODConsole::root->clear();
     int y = 2;
     TCODConsole::root->print(2, y++, "Tomb keybindings");
-    TCODConsole::root->print(4, y++, "k Move north");
-    TCODConsole::root->print(4, y++, "j Move south");
-    TCODConsole::root->print(4, y++, "l Move east");
-    TCODConsole::root->print(4, y++, "h Move west");
-    TCODConsole::root->print(4, y++, "u Move northeast");
-    TCODConsole::root->print(4, y++, "y Move northwest");
-    TCODConsole::root->print(4, y++, "n Move southeast");
-    TCODConsole::root->print(4, y++, "b Move south west");
-    TCODConsole::root->print(4, y++, ". Rest");
-    TCODConsole::root->print(4, y++, "< Go up stairs");
-    TCODConsole::root->print(4, y++, "> Go down stairs");
-    TCODConsole::root->print(4, y++, "c Close a door");
-    TCODConsole::root->print(4, y++, "o Open a door");
-    TCODConsole::root->print(4, y++, "g get an item off the floor");
-    TCODConsole::root->print(4, y++, "i show your inventory");
-    TCODConsole::root->print(4, y++, "C change your class");
-    TCODConsole::root->print(4, y++, "? show in-game help");
-    TCODConsole::root->print(4, y++, "Q quit the game");
+    TCODConsole::root->print(4, y++, "k - Move north");
+    TCODConsole::root->print(4, y++, "j - Move south");
+    TCODConsole::root->print(4, y++, "l - Move east");
+    TCODConsole::root->print(4, y++, "h - Move west");
+    TCODConsole::root->print(4, y++, "u - Move northeast");
+    TCODConsole::root->print(4, y++, "y - Move northwest");
+    TCODConsole::root->print(4, y++, "n - Move southeast");
+    TCODConsole::root->print(4, y++, "b - Move south west");
+    TCODConsole::root->print(4, y++, ". - Rest");
+    TCODConsole::root->print(4, y++, "< - Go up stairs");
+    TCODConsole::root->print(4, y++, "> - Go down stairs");
+    TCODConsole::root->print(4, y++, "c - Close a door");
+    TCODConsole::root->print(4, y++, "o - Open a door");
+    TCODConsole::root->print(4, y++, "g - get an item off the floor");
+    TCODConsole::root->print(4, y++, "i - show your inventory");
+    TCODConsole::root->print(4, y++, "C - change character class");
+    TCODConsole::root->print(4, y++, "? - show in-game help");
+    TCODConsole::root->print(4, y++, "Q - quit the game");
     updateScreen();
+    TCODConsole::waitForKeypress(true);
 }
 
 void drawVerticalLine(int x, int y, int height, TCODColor color)

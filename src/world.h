@@ -16,7 +16,7 @@ class Enemy;
 class Item;
 class World
 {
-  private:
+private:
     int width_;
     int height_;
     int levels_;
@@ -29,7 +29,7 @@ class World
     int time_step_;
 
     Player *player_;
-  public:
+public:
     World(int world_width, int world_height, int world_levels);
     ~World();
     Player* generatePlayer();

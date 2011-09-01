@@ -42,8 +42,8 @@
 
 struct direction_t
 {
-  int x;
-  int y;
+    int x;
+    int y;
 };
 
 direction_t charToDirection(char key);

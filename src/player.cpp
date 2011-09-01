@@ -6,6 +6,7 @@
 #include <cmath>
 #include <iostream>
 #include <sstream>
+#include <string>
 #include "controller.h"
 #include "enemy.h"
 #include "functions.h"
@@ -26,7 +27,7 @@ Player::Player(World *world)
     is_alive_ = true;
 
     TCODNamegen::parse("data/names.txt");
-    name_ = std::string(TCODNamegen::generate("player", false));
+    name_ = TCODNamegen::generate((char*)"player", false);
     TCODNamegen::destroy();
 
     class_ = new Class();
@@ -260,7 +261,7 @@ void Player::checkForLevelUp()
 
 void Player::levelUp()
 {
-    int to_level = level_++;
+    level_++;
     int to_class_level = class_->levelUp();
     std::stringstream levelup_stream;
     levelup_stream << "You are now a level " << to_class_level << " " << class_->getActiveClassTypeString();

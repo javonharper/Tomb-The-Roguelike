@@ -9,84 +9,89 @@
 
 Class::Class()
 {
-  active_class_ = CLASS_ADVENTURER;
-  for (int i = 0; i < NUM_CLASS_TYPES; i++)
-  {
-    if(i == CLASS_ADVENTURER)
+    active_class_ = CLASS_ADVENTURER;
+    for (int i = 0; i < NUM_CLASS_TYPES; i++)
     {
-      class_levels_[i] = 1;
+        if (i == CLASS_ADVENTURER)
+        {
+            class_levels_[i] = 1;
+        }
+        else
+        {
+            class_levels_[i] = 0;
+        }
     }
-    else
-    {
-      class_levels_[i] = 0;
-    }
-  }
 }
 
 Class::~Class()
 {
-  //dtor
+    //dtor
 }
 
 int Class::getActiveClassType()
 {
-  return active_class_;
+    return active_class_;
 }
 
 std::string Class::getActiveClassTypeString()
 {
-  switch(active_class_)
-  {
-    case CLASS_ADVENTURER: return "Adventurer";//can replace these strings with class stuff
-    case CLASS_FIGHTER: return "Fighter";
-    case CLASS_PRIEST: return "Priest";
-    case CLASS_MAGICIAN: return "Magician";
-    case CLASS_ROGUE: return "Rogue";
-  }
-   return "ERROR: malformed class";
+    switch (active_class_)
+    {
+    case CLASS_ADVENTURER:
+        return "Adventurer";//can replace these strings with class stuff
+    case CLASS_FIGHTER:
+        return "Fighter";
+    case CLASS_PRIEST:
+        return "Priest";
+    case CLASS_MAGICIAN:
+        return "Magician";
+    case CLASS_ROGUE:
+        return "Rogue";
+    }
+    return "ERROR: malformed class";
 }
 
 int Class::getClassLevel(int class_type)
 {
-  return class_levels_[class_type];
+    return class_levels_[class_type];
 }
 
 int Class::levelUp()
 {
-  class_levels_[active_class_] = class_levels_[active_class_] + 1;
+    class_levels_[active_class_] = class_levels_[active_class_] + 1;
 
-  for (int i = 0; i < NUM_CLASS_TYPES; i++)
-  {
-    if (hasRequirementsForClass(i) && getClassLevel(i) == 0)
+    for (int i = 0; i < NUM_CLASS_TYPES; i++)
     {
-      class_levels_[i] = 1;
+        if (hasRequirementsForClass(i) && getClassLevel(i) == 0)
+        {
+            class_levels_[i] = 1;
+        }
     }
-  }
 
-  return class_levels_[active_class_];
+    return class_levels_[active_class_];
 }
 
 void Class::changeClass(int class_type)
 {
-  if(hasRequirementsForClass(class_type))
-  {
-    active_class_ = class_type;
-  }
-  else
-  {
-    message("You do not have the required experience to be this class");
-    message("TODO class.changeClass(): Tell them what they actually need");
-  }
+    if (hasRequirementsForClass(class_type))
+    {
+        active_class_ = class_type;
+    }
+    else
+    {
+        message("You do not have the required experience to be this class");
+        //message("TODO class.changeClass(): Tell them what they actually need");
+    }
 }
 
 bool Class::hasRequirementsForClass(int class_type)
 {
-  for (int i = 0; i < NUM_CLASS_TYPES; i++)
-  {
-    if (class_data[class_type].class_requirements[i] > getClassLevel(i))
+    for (int i = 0; i < NUM_CLASS_TYPES; i++)
     {
-      return false;
+        if (class_data[class_type].class_requirements[i] > getClassLevel(i))
+        {
+            return false;
+        }
     }
-  }
-  return true;
+    return true;
 }

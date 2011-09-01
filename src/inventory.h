@@ -10,9 +10,9 @@
 class Item;
 class Inventory
 {
-  private:
+private:
     std::map<char, Item*> item_map_;
-  public:
+public:
     Inventory();
     ~Inventory();
     char add(Item *item);

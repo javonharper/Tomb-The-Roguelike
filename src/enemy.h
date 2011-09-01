@@ -13,12 +13,12 @@ class Map;
 class Player;
 class Enemy : public Actor
 {
-  private:
+private:
     Map *visibility_map_;
     position_t last_known_player_pos_;
     int state_;
     int exp_reward_;
-  public:
+public:
     Enemy(enemy_data_t data, World *world);
     ~Enemy();
     void takeTurn();

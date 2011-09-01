@@ -8,7 +8,8 @@
 
 #include "actor.h"
 
-const static int experience_thresholds[] = {
+const static int experience_thresholds[] =
+{
     0,
     1000,
     3000,
