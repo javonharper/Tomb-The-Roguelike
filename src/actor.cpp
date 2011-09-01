@@ -213,7 +213,6 @@ void Actor::meleeAttack(Actor *actor)
     action_stream << name_;
     if (attack_roll >= opponent_ac || attack_roll >= 20)
     {
-
         damage_roll = calcMeleeDamage() + calcAtt(att_str_);
         damage_roll = setBoundedValue(damage_roll, 1, damage_roll);
 
@@ -235,7 +234,7 @@ void Actor::meleeAttack(Actor *actor)
     else
     {
         action_stream << " misses ";
-        std::cout << "MISS" << std::endl;
+        std::cout << ",MISS" << std::endl;
     }
 
     action_stream << actor->getName();
@@ -464,7 +463,7 @@ int Actor::calcArmourClass()
 {
     int armour_bonus = 0;
 
-    if (this->hasBodyArmour())
+    if (hasBodyArmour())
     {
         armour_bonus = active_body_armour_->getValue(ARMV_AC);
 
@@ -509,7 +508,16 @@ int Actor::getAttribute(int att_type)
     case ATT_STR:
         return att_str_;
     case ATT_DEX:
-        return att_dex_;
+    {
+        int armour_penalty = 0;
+        if (hasBodyArmour())
+        {
+            armour_penalty = active_body_armour_->getValue(ARMV_DEX_PEN);
+            //armour_bonus += active_shield_->getArmourBonus();
+        }
+
+        return att_dex_ + armour_penalty;
+    }
     case ATT_INT:
         return att_int_;
     case ATT_WIS:

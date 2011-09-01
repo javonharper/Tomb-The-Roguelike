@@ -5,7 +5,6 @@
  */
 #include "libtcod.hpp"
 #include "item.h"
-//const static int category_probabilities[] = {50, 40};
 
 enum ItemCategories
 {
@@ -85,12 +84,12 @@ const static item_data_t armour_db[] =
     {"silk tunic",          CATEGORY_BODY_ARMOUR, TYPE_SILK_TUNIC,          TCODColor::lightYellow,       {1, 0, 0, 0, 0}},
     {"cloth robe",          CATEGORY_BODY_ARMOUR, TYPE_CLOTH_ROBE,          TCODColor::lightBlue,         {1, 0, 0, 0, 0}},
     {"leather armour",      CATEGORY_BODY_ARMOUR, TYPE_LEATHER_ARMOUR,      TCODColor::darkOrange,        {2, 0, 0, 0, 0}},
-    {"hide armour",         CATEGORY_BODY_ARMOUR, TYPE_HIDE_ARMOUR,         TCODColor::desaturatedYellow, {3, 0, 0, 0, 0}},
-    {"ring mail armour",    CATEGORY_BODY_ARMOUR, TYPE_RING_MAIL_ARMOUR,    TCODColor::darkGrey,          {4, 0, 0, 0, 0}},
-    {"breast plate",        CATEGORY_BODY_ARMOUR, TYPE_BREAST_PLATE,        TCODColor::grey,              {5, 0, 0, 0, 0}},
-    {"splint mail armour",  CATEGORY_BODY_ARMOUR, TYPE_SPLINT_MAIL_ARMOUR,  TCODColor::grey,              {6, 0, 0, 0, 0}},
-    {"half-plate armour",   CATEGORY_BODY_ARMOUR, TYPE_HALF_PLATE_ARMOUR,   TCODColor::lightGrey,         {7, 0, 0, 0, 0}},
-    {"full plate armour",   CATEGORY_BODY_ARMOUR, TYPE_FULL_PLATE_ARMOUR,   TCODColor::white,             {8, 0, 0, 0, 0}}
+    {"hide armour",         CATEGORY_BODY_ARMOUR, TYPE_HIDE_ARMOUR,         TCODColor::desaturatedYellow, {3, -3, 0, 0, 0}},
+    {"ring mail armour",    CATEGORY_BODY_ARMOUR, TYPE_RING_MAIL_ARMOUR,    TCODColor::darkGrey,          {4, -4, 0, 0, 0}},
+    {"breast plate",        CATEGORY_BODY_ARMOUR, TYPE_BREAST_PLATE,        TCODColor::grey,              {5, -5, 0, 0, 0}},
+    {"splint mail armour",  CATEGORY_BODY_ARMOUR, TYPE_SPLINT_MAIL_ARMOUR,  TCODColor::grey,              {6, -6, 0, 0, 0}},
+    {"half-plate armour",   CATEGORY_BODY_ARMOUR, TYPE_HALF_PLATE_ARMOUR,   TCODColor::lightGrey,         {7, -7, 0, 0, 0}},
+    {"full plate armour",   CATEGORY_BODY_ARMOUR, TYPE_FULL_PLATE_ARMOUR,   TCODColor::white,             {8, -8, 0, 0, 0}}
 };
 
 const static item_data_t potion_db[] =
