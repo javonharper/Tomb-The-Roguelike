@@ -3,7 +3,12 @@
  *  Summary:    misc useful functions
  *  Written by: Javon Harper
  */
+
+#include <string>
+#include <sstream>
 #include "functions.h"
+#include "actor.h"
+
 
 bool withinRange(int x, int min, int max)
 {
@@ -18,12 +23,13 @@ int setBoundedValue(int var, int min, int max)
         return max;
     else return var;
 }
+
 int min(int a, int b)
 {
     return (a < b)? a:b;
 }
+
 int max(int a, int b)
 {
     return (a > b)? a:b;
 }
-

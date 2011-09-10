@@ -34,10 +34,10 @@ int main(int argc, char* argv[])
 
     int world_width = worldScreenDims[WIDTH];
     int world_height = worldScreenDims[HEIGHT];
-    int world_depth = 5;//5
+    int world_depth = 5;
 
     world = new World(world_width, world_height, world_depth);
-    setWorld(world);//interface.h, just to keep a pointer to the world so It doesn't have to get passed with every message, prompt, etc. probably a better way to do this but i dunno it
+    setWorld(world);//interface.h, just to keep a pointer to the world so It doesn't have to get passed with every message, prompt, etc. probably a better way to do this but i cba
     player = world->generatePlayer();
     enemies = world->generateEnemies(4,8);
     world->generateItems(5,10);
@@ -48,12 +48,9 @@ int main(int argc, char* argv[])
     message("Bring the Icon back to the surface to win the game!");
     message("Press '?' for help");
 
-    //While the game is still going, iterate over all actors
     while (!isGameOver())
     {
         world->incrementTimeStep();
-//    std::cout<< "=WORLD STEP" << world->getTimeStep()<<"=" << std::endl;
-
         player->FOV(player->getMapLevel());
         displayGameScreen();
         updateScreen();
@@ -61,24 +58,18 @@ int main(int argc, char* argv[])
         player->startTurn();
         while (!player->isTurnFinished() && player->isTurn() && !isGameOver())
         {
-            //std::cout << player->getName() << &player << " taking turn at world step " << world->getTimeStep() << std::endl;
             handleKeyPress();
         }
         player->endTurn();
 
-        //make the actors take their turns
-        //NOTE only actors +- one level of the player can take turns.
         enemies = world->getEnemyList();
         for (unsigned int i = 0; i < enemies.size(); i++)
         {
             Enemy *en = enemies[i];
-
+            en->FOV(en->getMapLevel());
             en->startTurn();
-            //NOTE messing with level ranges
-            if (en->isTurn() && withinRange(en->getMapLevel(), player->getMapLevel() - 0, player->getMapLevel() + 0))
+            if (en->isTurn() && withinRange(en->getMapLevel(), player->getMapLevel(), player->getMapLevel()))
             {
-                //std::cout << en->getName() << &enemies[i] <<" taking turn at world step " << world->getTimeStep() << std::endl;
-                en->FOV(en->getMapLevel());
                 en->takeTurn();
             }
             en->endTurn();
@@ -133,10 +124,10 @@ void handleKeyPress()
         player->restAction();
         break;
     case MOVE_DOWNSTAIRS:
-        player->descendStairs();//need to be action
+        player->descendStairsAction();
         break;
     case MOVE_UPSTAIRS:
-        player->ascendStairs();//need to be action
+        player->ascendStairsAction();
         break;
     case OPEN_DOOR:
         player->openDoorAction();

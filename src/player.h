@@ -87,6 +87,8 @@ public:
     void restAction();
     void openDoorAction();
     void closeDoorAction();
+    void descendStairsAction();
+    void ascendStairsAction();
     void pickupItemAction();
     void dropItemAction();
     void useItemAction(Item *item);

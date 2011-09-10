@@ -9,5 +9,6 @@
 int init_rand();
 int init_rand(int seed);
 int random(int min, int max);
+int die_roll(int rolls, int die_sides);
 
 #endif

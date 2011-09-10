@@ -35,6 +35,7 @@ protected:
     std::string name_;
     int face_tile_;
     TCODColor color_;
+    bool is_player_;
 
     //sense attributes
     int sight_range_;
@@ -98,6 +99,7 @@ public:
     void regenerateEnergy();
     virtual void kill()=0;
     void bleed();
+    void takeDamage(int damage);
 
     void FOV(int level);
     bool canSee(int level, int x, int y);
@@ -106,7 +108,6 @@ public:
     //Calculators
     int calcArmourClass();
     int calcMeleeDamage();
-    int calcDieRoll(int rolls, int die_sides);
     int calcAtt(int attribute);
     int calcSight();
     int calcSmell();
@@ -141,6 +142,7 @@ public:
     Item *getBodyArmour();
     int getAttribute(int att_type);
     void setVisionProperties(int x, int y, int z, int transparent, int walkable);
+    bool getIsPlayer();
 };
 
 #endif

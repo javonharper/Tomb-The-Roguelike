@@ -28,3 +28,13 @@ int random(int min, int max)
     int random = rand() % range;
     return min + random;
 }
+
+int die_roll(int rolls, int die_sides)
+{
+    int total = 0;
+    for (int i = 0; i < rolls; i++)
+    {
+        total = total + random(1, die_sides);
+    }
+    return total;
+}

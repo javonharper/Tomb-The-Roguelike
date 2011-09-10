@@ -232,8 +232,8 @@ void drawMap()
                 TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, this_tile.color, TCODColor::black);
                 _world_->setTileAsSeen(i,j, player->getMapLevel());
             }
-            else //uncomment to see whole map, but greyed out
-                //else if(this_tile.has_been_seen)
+            //else //uncomment to see whole map, but greyed out
+            else if(this_tile.has_been_seen)
             {
                 TCODConsole::root->putCharEx(i + x_offset, j + y_offset, this_tile.face_tile, TCODColor::darkGrey, TCODColor::black);
             }
@@ -532,6 +532,18 @@ void displayChangeClassScreen()
     {
         TCODConsole::root->print(3, 5 + i, class_data[i].class_letter.c_str());
         TCODConsole::root->print(5, 5 + i, class_data[i].class_string.c_str());
+        std::stringstream level_stream;
+        int level = _world_->getPlayer()->getClass()->getClassLevel(i);
+        if(level == 0)
+        {
+            level_stream << "Not Accessible";
+        }
+        else
+        {
+            level_stream << "Level " << level;
+        }
+
+        TCODConsole::root->print(20, 5 + i, level_stream.str().c_str());
     }
     updateScreen();
 

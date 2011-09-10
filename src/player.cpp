@@ -25,6 +25,7 @@ Player::Player(World *world)
     level_ = 1;
     experience_ = 0;
     is_alive_ = true;
+    is_player_ = true;
 
     TCODNamegen::parse("data/names.txt");
     name_ = TCODNamegen::generate((char*)"player", false);
@@ -143,6 +144,42 @@ void Player::closeDoorAction()
     }
 }
 
+void Player::ascendStairsAction()
+{
+    tile_t tile = world_->getTile(x_, y_, map_level_);
+    if (tile.tile_type == TILE_UPSTAIR)
+    {
+        if (map_level_ == 0)
+        {
+            if (!hasVictoryItem())
+            {
+                char result = prompt("Are you sure you want to go to the surface? (y)es/(n)o");
+                if (result == YES)
+                {
+                    displayGameOverScreen("You arrive at the surface embarrased and without the icon");
+                }
+                else
+                {
+                    message("Okay, then.");
+                }
+            }
+            else
+            {
+                displayWinScreen("Congratulations! You have braved the tomb!");
+            }
+        }
+        else
+        {
+            ascendStairs();
+        }
+    }
+}
+
+void Player::descendStairsAction()
+{
+    descendStairs();
+}
+
 void Player::pickupItemAction()
 {
     std::vector<Item*> items = world_->getItemsAt(x_, y_, map_level_);
@@ -252,10 +289,18 @@ void Player::addExp(int exp)
 
 void Player::checkForLevelUp()
 {
-    int level = findLevelByExp(experience_);
-    if (level > level_)
+    bool done = false;
+    while (!done)
     {
-        levelUp();
+        int level = findLevelByExp(experience_);
+        if (level > level_)
+        {
+            levelUp();
+        }
+        else
+        {
+            done = true;
+        }
     }
 }
 

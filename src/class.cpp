@@ -35,20 +35,7 @@ int Class::getActiveClassType()
 
 std::string Class::getActiveClassTypeString()
 {
-    switch (active_class_)
-    {
-    case CLASS_ADVENTURER:
-        return "Adventurer";//can replace these strings with class stuff
-    case CLASS_FIGHTER:
-        return "Fighter";
-    case CLASS_PRIEST:
-        return "Priest";
-    case CLASS_MAGICIAN:
-        return "Magician";
-    case CLASS_ROGUE:
-        return "Rogue";
-    }
-    return "ERROR: malformed class";
+    return class_data[active_class_].class_string;
 }
 
 int Class::getClassLevel(int class_type)
@@ -79,8 +66,8 @@ void Class::changeClass(int class_type)
     }
     else
     {
+        //TODO tell them what they actually need to be this class
         message("You do not have the required experience to be this class");
-        //message("TODO class.changeClass(): Tell them what they actually need");
     }
 }
 

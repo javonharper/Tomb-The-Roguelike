@@ -59,6 +59,7 @@ void Actor::initProperties(enemy_data_t data, World *world)
     att_vit_ = data.att_vit;
 
     world_ = world;
+    is_player_ = false;
 
     turn_finished_ = true;
     next_turn_ = calcSpeed();
@@ -144,39 +145,14 @@ void Actor::descendStairs()
     }
 }
 
-//If the player is on top of an up stair, let him go to the previous level.
-//FIXME: these messages should go in the player class
 void Actor::ascendStairs()
 {
     tile_t tile = world_->getTile(x_, y_, map_level_);
     if (tile.tile_type == TILE_UPSTAIR)
     {
-        if (map_level_ == 0)
-        {
-            if (!hasVictoryItem())
-            {
-                char result = prompt("Are you sure you want to go to the surface? (y)es/(n)o");
-                if (result == YES)
-                {
-                    displayGameOverScreen("You arrive at the surface embarrased and without the icon");
-                }
-                else
-                {
-                    message("Okay, then.");
-                }
-            }
-            else
-            {
-                displayWinScreen("Congratulations! You have braved the tomb!");
-            }
-        }
-        else
-        {
             world_->setCurrentLevel(world_->getCurrentLevel() - 1);
             position_t stair_pos = world_->getMapLevel(world_->getCurrentLevel())->getDownStairPos();
             setPosition(stair_pos.x, stair_pos.y, world_->getCurrentLevel());
-            turn_finished_ = true;
-        }
     }
 }
 
@@ -210,7 +186,6 @@ void Actor::meleeAttack(Actor *actor)
     int damage_roll = 0;
 
     std::stringstream action_stream;
-    action_stream << name_;
     if (attack_roll >= opponent_ac || attack_roll >= 20)
     {
         damage_roll = calcMeleeDamage() + calcAtt(att_str_);
@@ -226,19 +201,14 @@ void Actor::meleeAttack(Actor *actor)
             action_stream << " critically ";
         }
 
-        action_stream << " hits ";
         std::cout << ",crit=" << critical_hit <<  ",rawdmg=" << damage_roll << ",mult=" << (double)damage_multiplier_;
         damage_roll = setBoundedValue(damage_roll * damage_multiplier_, 1, damage_roll * damage_multiplier_);
         std::cout << ",dmg=" << damage_roll << std::endl;
     }
     else
     {
-        action_stream << " misses ";
         std::cout << ",MISS" << std::endl;
     }
-
-    action_stream << actor->getName();
-    message(action_stream.str());
 
     //check if the actor is dead.
     if (damage_roll >= actor->getCurrentHealth())
@@ -250,10 +220,22 @@ void Actor::meleeAttack(Actor *actor)
     }
     else
     {
-        actor->setCurrentHealth(actor->getCurrentHealth() - damage_roll);
+        actor->takeDamage(damage_roll);
     }
 
     turn_finished_ = true;
+}
+
+void Actor::takeDamage(int damage)
+{
+    int health = current_health_points_;
+    current_health_points_ = current_health_points_ - damage;
+    if (current_health_points_ < (double) 0.25 * max_health_points_ && health >= (double) 0.25 * max_health_points_)
+    {
+        std::stringstream hurt_stream;
+        hurt_stream << name_ << " is badly hurt";
+        message(hurt_stream.str());
+    }
 }
 
 void Actor::rangedAttack(Actor *actor){}
@@ -335,16 +317,16 @@ void Actor::drinkPotion(Item *item)
     switch (item->getType())
     {
     case TYPE_CURE_LIGHT_WOUNDS:
-        current_health_points_ = setBoundedValue(current_health_points_ + calcDieRoll(item->getValue(PTNV_DIE_SIDES), item->getValue(PTNV_DIE_SIDES)), 0, max_health_points_);
+        current_health_points_ = setBoundedValue(current_health_points_ + die_roll(item->getValue(PTNV_DIE_SIDES), item->getValue(PTNV_DIE_SIDES)), 0, max_health_points_);
         break;
     case TYPE_CURE_MODERATE_WOUNDS:
-        current_health_points_ = setBoundedValue(current_health_points_ + calcDieRoll(item->getValue(PTNV_DIE_SIDES), item->getValue(PTNV_DIE_SIDES)), 0, max_health_points_);
+        current_health_points_ = setBoundedValue(current_health_points_ + die_roll(item->getValue(PTNV_DIE_SIDES), item->getValue(PTNV_DIE_SIDES)), 0, max_health_points_);
         break;
     case TYPE_LIGHT_ENERGY_RESTORE:
-        current_energy_points_ = setBoundedValue(current_energy_points_ + calcDieRoll(item->getValue(PTNV_DIE_SIDES), item->getValue(PTNV_DIE_SIDES)), 0, max_energy_points_);
+        current_energy_points_ = setBoundedValue(current_energy_points_ + die_roll(item->getValue(PTNV_DIE_SIDES), item->getValue(PTNV_DIE_SIDES)), 0, max_energy_points_);
         break;
     case TYPE_MODERATE_ENERGY_RESTORE:
-        current_energy_points_ = setBoundedValue(current_energy_points_ + calcDieRoll(item->getValue(PTNV_DIE_SIDES), item->getValue(PTNV_DIE_SIDES)), 0, max_energy_points_);
+        current_energy_points_ = setBoundedValue(current_energy_points_ + die_roll(item->getValue(PTNV_DIE_SIDES), item->getValue(PTNV_DIE_SIDES)), 0, max_energy_points_);
         break;
     default:
         message("ERROR actor tried to quaff potion with bad type");
@@ -371,11 +353,6 @@ bool Actor::hasEquipped(Item *item)
 void Actor::startTurn()
 {
     turn_finished_ = false;
-    if (current_health_points_ < (double) 0.25 * max_health_points_)
-    {
-        bleed();
-    }
-
     if (!isTurn())
     {
         turn_finished_ = true;
@@ -390,6 +367,11 @@ void Actor::endTurn()
         regenerateHealth();
         regenerateEnergy();
         next_turn_ = world_->getTimeStep() + calcSpeed();
+    }
+
+    if (current_health_points_ < (double) 0.25 * max_health_points_)
+    {
+        bleed();
     }
 }
 
@@ -488,17 +470,7 @@ int Actor::calcMeleeDamage()
         rolls = unarmed_damage_[0];
         die_sides = unarmed_damage_[1];
     }
-    return calcDieRoll(rolls, die_sides);
-}
-
-int Actor::calcDieRoll(int rolls, int die_sides)
-{
-    int total = 0;
-    for (int i = 0; i < rolls; i++)
-    {
-        total = total + random(1, die_sides);
-    }
-    return total;
+    return die_roll(rolls, die_sides);
 }
 
 int Actor::getAttribute(int att_type)
@@ -542,89 +514,115 @@ bool Actor::isTurnFinished()
 {
     return turn_finished_;
 }
+
 bool Actor::isTurn()
 {
     return next_turn_ == world_->getTimeStep();
 }
+
 int Actor::getXPosition()
 {
     return x_;
 }
+
 int Actor::getYPosition()
 {
     return y_;
 }
+
 int Actor::getMapLevel()
 {
     return map_level_;
 }
+
 int Actor::getFaceTile()
 {
     return face_tile_;
 }
+
 TCODColor Actor::getColor()
 {
     return color_;
 }
+
 void Actor::setXPosition(int x)
 {
     this->x_ = x;
 }
+
 void Actor::setYPosition(int y)
 {
     this->y_ = y;
 }
+
 void Actor::setMapLevel(int z)
 {
     this->map_level_ = z;
 }
+
 std::string Actor::getName()
 {
     return name_;
 }
+
 int Actor::getCurrentHealth()
 {
     return current_health_points_;
 }
+
 void Actor::setCurrentHealth(int health)
 {
     current_health_points_ = health;
 }
+
 int Actor::getMaxHealth()
 {
     return max_health_points_;
 }
+
 int Actor::getCurrentEnergy()
 {
     return current_energy_points_;
 }
+
 void Actor::setCurrentEnergy(int energy)
 {
     current_energy_points_ = energy;
 }
+
 int Actor::getMaxEnergy()
 {
     return max_energy_points_;
 }
+
 bool Actor::hasWeapon()
 {
     return active_weapon_ != NULL;
 }
+
 bool Actor::hasBodyArmour()
 {
     return active_body_armour_ != NULL;
 }
+
 Inventory* Actor::getInventory()
 {
     return inventory_;
 }
+
 Item* Actor::getWeapon()
 {
     return active_weapon_;
 }
+
 Item* Actor::getBodyArmour()
 {
     return active_body_armour_;
+}
+
+bool Actor::getIsPlayer()
+{
+  return is_player_;
 }
 
 

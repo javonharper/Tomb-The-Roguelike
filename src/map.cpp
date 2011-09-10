@@ -231,13 +231,13 @@ void Map::placeCorridor(int src_x, int src_y, int dest_x, int dest_y)
 //EWWWW quaduple for loops!!
 void Map::cleanWalls()
 {
-    for (int i = 0; i < this->width_; i++)
+    for (int i = 0; i < width_; i++)
     {
-        for (int j = 0; j < this->height_; j++)
+        for (int j = 0; j < height_; j++)
         {
-            if (i == 0 || i == this->width_ - 1 || j == 0 || j == this->height_ - 1)
+            if (i == 0 || i == width_ - 1 || j == 0 || j == height_ - 1)
             {
-                this->setTile(i, j, TILE_BLANK);
+                setTile(i, j, TILE_BLANK);
             }
             else
             {
@@ -249,7 +249,7 @@ void Map::cleanWalls()
                 {
                     for (int l = j - 1; l < j + 2; l++)
                     {
-                        if (this->getTile(k, l).is_passable == true)
+                        if (getTile(k, l).is_passable == true)
                         {
                             make_blank = false;
                         }
@@ -257,7 +257,7 @@ void Map::cleanWalls()
                 }
                 if (make_blank)
                 {
-                    this->setTile(i, j, TILE_BLANK);
+                    setTile(i, j, TILE_BLANK);
                 }
             }
         }
