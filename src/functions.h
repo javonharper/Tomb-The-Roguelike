@@ -10,5 +10,6 @@ bool withinRange(int x, int min, int max);
 int setBoundedValue(int var, int min, int max);
 int min(int a, int b);
 int max(int a, int b);
+std::string capitalize(std::string str);
 
 #endif

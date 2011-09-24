@@ -1,49 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="src/actor.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="10437" topLine="329" />
+	<File name="src/actor.cpp" open="1" top="1" tabpos="2">
+		<Cursor position="4998" topLine="175" />
 	</File>
-	<File name="src/actor.h" open="1" top="0" tabpos="9">
-		<Cursor position="2332" topLine="87" />
+	<File name="src/interface.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="21014" topLine="623" />
 	</File>
-	<File name="src/class.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="810" topLine="47" />
+	<File name="src/interface.h" open="1" top="0" tabpos="4">
+		<Cursor position="1592" topLine="35" />
 	</File>
-	<File name="src/class.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="18" />
-	</File>
-	<File name="src/enemy_db.h" open="1" top="0" tabpos="4">
-		<Cursor position="3460" topLine="156" />
-	</File>
-	<File name="src/functions.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="229" topLine="9" />
-	</File>
-	<File name="src/interface.cpp" open="1" top="0" tabpos="7">
-		<Cursor position="18060" topLine="522" />
-	</File>
-	<File name="src/interface.h" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="31" />
-	</File>
-	<File name="src/inventory.cpp" open="1" top="0" tabpos="6">
-		<Cursor position="0" topLine="31" />
-	</File>
-	<File name="src/item_db.h" open="1" top="0" tabpos="8">
-		<Cursor position="0" topLine="81" />
-	</File>
-	<File name="src/main.cpp" open="1" top="0" tabpos="5">
-		<Cursor position="1907" topLine="47" />
-	</File>
-	<File name="src/player.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="7457" topLine="282" />
-	</File>
-	<File name="src/player.h" open="1" top="0" tabpos="3">
-		<Cursor position="287" topLine="6" />
-	</File>
-	<File name="src/random.cpp" open="1" top="0" tabpos="10">
-		<Cursor position="512" topLine="14" />
-	</File>
-	<File name="src/random.h" open="1" top="0" tabpos="11">
-		<Cursor position="242" topLine="0" />
+	<File name="src/main.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="82" topLine="4" />
 	</File>
 </CodeBlocks_layout_file>

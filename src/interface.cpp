@@ -636,6 +636,18 @@ void displayHelpScreen()
     TCODConsole::waitForKeypress(true);
 }
 
+void indicateHit(int x, int y)
+{
+    TCODConsole::root->putCharEx(x, y, '*', TCODColor::red, TCODColor::black);
+    updateScreen();
+}
+
+void indicateMiss(int x, int y)
+{
+    TCODConsole::root->putCharEx(x, y, '*', TCODColor::yellow, TCODColor::black);
+    updateScreen();
+}
+
 void drawVerticalLine(int x, int y, int height, TCODColor color)
 {
     for (int i = y; i < y + height - 1 ; i++)

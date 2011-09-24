@@ -39,10 +39,10 @@ Player::Player(World *world)
     att_wis_ = random(ATT_AVERAGE, ATT_GOOD);
     att_vit_ = random(ATT_AVERAGE, ATT_GOOD);
 
-    max_health_points_ = current_health_points_ = att_vit_ + random(1, 10);
-    max_energy_points_ = current_energy_points_ = att_int_ + random(1, 10);
+    max_health_points_ = current_health_points_ = att_vit_ + die_roll(1, 10);
+    max_energy_points_ = current_energy_points_ = att_int_ + die_roll(1, 10);
 
-    active_weapon_ = new Item(weapon_db[TYPE_WOODEN_CLUB], world);
+    active_weapon_ = new Item(weapon_db[TYPE_DAGGER], world);
     active_body_armour_ = new Item(armour_db[ TYPE_SILK_TUNIC], world);
     inventory_->add(active_weapon_);
     inventory_->add(active_body_armour_);
@@ -256,7 +256,7 @@ void Player::moveAction(int x, int y, int z)
         if (items.size() == 1)
         {
             std::stringstream ground_stream;
-            ground_stream << "You see a " << items[0]->getName() << " here.";
+            ground_stream << "You see a " << items[0]->getName() << " here";
             message(ground_stream.str());
             updateScreen();
         }

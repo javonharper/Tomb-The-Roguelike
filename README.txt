@@ -2,6 +2,7 @@ Tomb: The Rogue-like
 Tomb is a fantasy roguelike game set in the ancient burial ground of a long deceased ruler.
 Your goal as an adventurer is to brave the depths of the labyrinths and corridors and retrieve
 the icon of the Weedaula so that peace can be restored in your nearby village.
+Tomb is designed to be a coffeebreak roguelike where the player can experiment with character classes into powerful combinations.
 
 In Tomb, the maps, items, and enemies are randomly generated so no game is ever the same.
 

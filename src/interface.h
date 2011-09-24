@@ -52,6 +52,9 @@ char prompt(std::string message);
 void message(std::string message);
 void displayMessages();
 
+void indicateHit(int x, int y);
+void indicateMiss(int x, int y);
+
 void drawVerticalLine(int x, int y, int height, TCODColor color);
 void drawHorizontalLine(int x, int y, int width, TCODColor color);
 #endif

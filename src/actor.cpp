@@ -150,9 +150,9 @@ void Actor::ascendStairs()
     tile_t tile = world_->getTile(x_, y_, map_level_);
     if (tile.tile_type == TILE_UPSTAIR)
     {
-            world_->setCurrentLevel(world_->getCurrentLevel() - 1);
-            position_t stair_pos = world_->getMapLevel(world_->getCurrentLevel())->getDownStairPos();
-            setPosition(stair_pos.x, stair_pos.y, world_->getCurrentLevel());
+        world_->setCurrentLevel(world_->getCurrentLevel() - 1);
+        position_t stair_pos = world_->getMapLevel(world_->getCurrentLevel())->getDownStairPos();
+        setPosition(stair_pos.x, stair_pos.y, world_->getCurrentLevel());
     }
 }
 
@@ -178,47 +178,38 @@ bool Actor::hasVictoryItem()
 //DND style melee attack.
 void Actor::meleeAttack(Actor *actor)
 {
-    std::cout << "atk=" << name_ << ",def=" << actor->getName() << ",";
+    std::stringstream attack_stream;
+    attack_stream << capitalize(name_) << " attacks " << actor->getName();
+    message(attack_stream.str());
+
     int die_roll = random(1, 20);
     int attack_roll =  die_roll + calcAtt(att_str_) + calcSize();
     int opponent_ac = actor->calcArmourClass();
-    std::cout << "atkroll=" << attack_roll << ",defac=" << opponent_ac;
     int damage_roll = 0;
 
-    std::stringstream action_stream;
-    if (attack_roll >= opponent_ac || attack_roll >= 20)
+    if (attack_roll >= opponent_ac || die_roll == 20)
     {
         damage_roll = calcMeleeDamage() + calcAtt(att_str_);
         damage_roll = setBoundedValue(damage_roll, 1, damage_roll);
 
-        //if critical hit, roll again to see if actor can hit again.
         bool critical_hit = false;
         if (die_roll == 20)
         {
             critical_hit = true;
             damage_roll = damage_roll + calcMeleeDamage() + calcAtt(att_str_);
             damage_roll = setBoundedValue(damage_roll, 1, damage_roll);
-            action_stream << " critically ";
         }
-
-        std::cout << ",crit=" << critical_hit <<  ",rawdmg=" << damage_roll << ",mult=" << (double)damage_multiplier_;
         damage_roll = setBoundedValue(damage_roll * damage_multiplier_, 1, damage_roll * damage_multiplier_);
-        std::cout << ",dmg=" << damage_roll << std::endl;
     }
     else
     {
-        std::cout << ",MISS" << std::endl;
+        indicateMiss(actor->getXPosition(),actor->getYPosition());
+        std::stringstream miss_stream;
+        miss_stream << capitalize(name_) << " misses";
+        message(miss_stream.str());
     }
 
-    //check if the actor is dead.
-    if (damage_roll >= actor->getCurrentHealth())
-    {
-        actor->kill();
-        std::stringstream  kill_stream;
-        kill_stream << actor->getName() << " dies!";
-        message(kill_stream.str());
-    }
-    else
+    if (damage_roll > 0)
     {
         actor->takeDamage(damage_roll);
     }
@@ -228,14 +219,23 @@ void Actor::meleeAttack(Actor *actor)
 
 void Actor::takeDamage(int damage)
 {
+    indicateHit(x_, y_);
+    std::stringstream damage_stream;
+    damage_stream << capitalize(name_) << " takes " << damage << " damage";
+
     int health = current_health_points_;
     current_health_points_ = current_health_points_ - damage;
-    if (current_health_points_ < (double) 0.25 * max_health_points_ && health >= (double) 0.25 * max_health_points_)
+
+    if (current_health_points_ <= 0)
     {
-        std::stringstream hurt_stream;
-        hurt_stream << name_ << " is badly hurt";
-        message(hurt_stream.str());
+        damage_stream << " and dies";
+        kill();
     }
+    else if (current_health_points_ < (double) 0.25 * max_health_points_ && health >= (double) 0.25 * max_health_points_)
+    {
+        damage_stream << " and is badly wounded";
+    }
+    message(damage_stream.str());
 }
 
 void Actor::rangedAttack(Actor *actor){}
@@ -622,7 +622,7 @@ Item* Actor::getBodyArmour()
 
 bool Actor::getIsPlayer()
 {
-  return is_player_;
+    return is_player_;
 }
 
 
