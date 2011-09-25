@@ -26,6 +26,7 @@ class Actor
 protected:
     //location attributes
     World *world_;
+    std::vector<TCODMap*> vision_map_;
 
     int x_;
     int y_;
@@ -73,6 +74,7 @@ public:
     Actor();
     ~Actor();
     void initProperties(enemy_data_t data, World *world);
+    void initVisionMap();
     void move(int x, int y, int level);
     void moveTowards(int x, int y);
     void wander();

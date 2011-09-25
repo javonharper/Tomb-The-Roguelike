@@ -644,7 +644,7 @@ void indicateHit(int x, int y)
 
 void indicateMiss(int x, int y)
 {
-    TCODConsole::root->putCharEx(x, y, '*', TCODColor::yellow, TCODColor::black);
+    TCODConsole::root->putCharEx(x, y, '*', TCODColor::blue, TCODColor::black);
     updateScreen();
 }
 

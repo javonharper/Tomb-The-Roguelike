@@ -20,38 +20,7 @@ World::World(int world_width, int world_height, int world_levels)
     levels_ = world_levels;
     current_level_ = START_LEVEL;
     time_step_ = 0;
-
-    //Create a Map for each level
-    for (int i = START_LEVEL; i < world_levels; i++)
-    {
-        level_list_.push_back(new Map(world_width, world_height));
-    }
-
-    //remove the stairs from the last level of the tomb
-    position_t pos = getMapLevel(world_levels - 1)->getDownStairPos();
-    getMapLevel(world_levels - 1)->setTile(pos.x, pos.y, TILE_WALL);
-
-
-    for (int z = 0; z < this->getLevels(); z++)
-    {
-        TCODMap *map = new TCODMap(this->getWidth(), this->getHeight());
-
-        for (int y = 0; y < this->getHeight(); y++)
-        {
-            for (int x = 0; x < this->getWidth(); x++)
-            {
-                tile_t tile = this->getTile(x,y,z);
-                map->setProperties(x, y, tile.is_passable, tile.is_passable);
-            }
-        }
-        vision_map_.push_back(map);
-    }
-
-    //places the victory item at the last level of the tomb
-    Item *item = new Item(victory_item, this);
-    position_t position = findPosition(levels_ - 1);
-    item->setPosition(position.x, position.y, levels_ - 1);
-    item->setOnGround(true);
+    initMapLevels();
 }
 
 World::~World()
@@ -60,6 +29,18 @@ World::~World()
     enemy_list_.clear();
     item_list_.clear();
     delete player_;
+}
+
+void World::initMapLevels()
+{
+    for (int i = START_LEVEL; i < levels_; i++)
+    {
+        level_list_.push_back(new Map(width_, height_));
+    }
+
+    //remove the stairs from the last level of the tomb
+    position_t pos = getMapLevel(levels_ - 1)->getDownStairPos();
+    getMapLevel(levels_ - 1)->setTile(pos.x, pos.y, TILE_WALL);
 }
 
 //Creates the player and finds a position on the start level for it.
@@ -118,6 +99,13 @@ std::vector<Item*> World::generateItems(int min, int max)
         item->setPosition(position.x, position.y, level);
         item->setOnGround(true);
     }
+
+    //places the victory item at the last level of the tomb
+    Item *item = new Item(victory_item, this);
+    position_t position = findPosition(levels_ - 1);
+    item->setPosition(position.x, position.y, levels_ - 1);
+    item->setOnGround(true);
+
     return item_list_;
 }
 
@@ -129,11 +117,10 @@ position_t World::findPosition(int level)
     new_position.x = -1;
     new_position.y = -1;
 
-    //for (int trials = 0; trials < 1000 && !found_spot; trials++)
     while (!found_spot)
     {
-        int x = random(0, this->getWidth() - 1);
-        int y = random(0, this->getHeight() - 1);
+        int x = random(0, width_ - 1);
+        int y = random(0, height_ - 1);
 
         if (this->getTile(x, y, level).is_passable)
         {
@@ -203,10 +190,7 @@ std::vector<Item*>& World::getItemList()
 {
     return item_list_;
 }
-std::vector<TCODMap*> World::getVisionMap()
-{
-    return vision_map_;
-}
+
 tile_t World::getTile(int x, int y, int z)
 {
     return level_list_[z]->getTile(x, y);

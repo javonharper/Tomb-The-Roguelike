@@ -23,7 +23,9 @@ void Actor::initProperties(enemy_data_t data, World *world)
 {
     x_ = -1;
     y_ = -1;
+		world_ = world;
     map_level_ = -1;
+    initVisionMap();
 
     name_ = data.name;
     face_tile_ = data.face_tile;
@@ -58,11 +60,27 @@ void Actor::initProperties(enemy_data_t data, World *world)
     att_wis_ = data.att_wis;
     att_vit_ = data.att_vit;
 
-    world_ = world;
     is_player_ = false;
 
     turn_finished_ = true;
     next_turn_ = calcSpeed();
+}
+
+void Actor::initVisionMap()
+{
+        for (int z = 0; z < world_->getLevels(); z++)
+    {
+        TCODMap *map = new TCODMap(world_->getWidth(), world_->getHeight());
+        for (int y = 0; y < world_->getHeight(); y++)
+        {
+            for (int x = 0; x < world_->getWidth(); x++)
+            {
+                tile_t tile = world_->getTile(x,y,z);
+                map->setProperties(x, y, tile.is_passable, tile.is_passable);
+            }
+        }
+        vision_map_.push_back(map);
+    }
 }
 
 void Actor::move(int x, int y, int level)
@@ -89,8 +107,8 @@ void Actor::move(int x, int y, int level)
 
 void Actor::moveTowards(int x, int y)
 {
-    world_->getVisionMap()[map_level_]->setProperties(x_, y_, true, true);
-    TCODPath *path = new TCODPath(world_->getVisionMap()[map_level_]);
+    vision_map_[map_level_]->setProperties(x_, y_, true, true);
+    TCODPath *path = new TCODPath(vision_map_[map_level_]);
     path->compute(x_, y_, x, y);
     if (! path->isEmpty())
     {
@@ -426,19 +444,18 @@ int Actor::calcAtt(int attribute)
 
 bool Actor::canSee(int level, int x, int y)
 {
-    return world_->getVisionMap()[level]->isInFov(x,y);
+    return vision_map_[level]->isInFov(x,y);
 }
 
 void Actor::FOV(int level)
 {
-    world_->getVisionMap()[level]->computeFov(x_, y_, calcSight());//FOV_DIAMOND
+    vision_map_[level]->computeFov(x_, y_, calcSight());
 }
 
 void Actor::setVisionProperties(int x, int y, int z, int transparent, int walkable)
 {
-    world_->getVisionMap()[z]->setProperties(x, y, transparent, walkable);
+    vision_map_[z]->setProperties(x, y, transparent, walkable);
 }
-
 
 //returns the sum of the base ac, armour(if any), dex modifier and size modifier
 int Actor::calcArmourClass()
@@ -624,5 +641,10 @@ bool Actor::getIsPlayer()
 {
     return is_player_;
 }
+
+//vector<TCODMap*> Actor::getVisionMap()
+//{
+//    return vision_map_;
+//}
 
 

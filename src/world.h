@@ -21,7 +21,6 @@ private:
     int height_;
     int levels_;
     std::vector<Map*> level_list_;
-    std::vector<TCODMap*> vision_map_;
     std::vector<Enemy*> enemy_list_;
     std::vector<Item*> item_list_;
 
@@ -32,6 +31,7 @@ private:
 public:
     World(int world_width, int world_height, int world_levels);
     ~World();
+    void initMapLevels();
     Player* generatePlayer();
     std::vector<Enemy*> generateEnemies(int min, int max);
     std::vector<Item*> generateItems(int min, int max);
@@ -54,7 +54,6 @@ public:
     Player *getPlayer();
     std::vector<Enemy*> &getEnemyList();
     std::vector<Item*> &getItemList();
-    std::vector<TCODMap*> getVisionMap();
     Map *getMapLevel(int level);
 };
 
