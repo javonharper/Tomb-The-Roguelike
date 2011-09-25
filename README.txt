@@ -4,6 +4,20 @@ Your goal as an adventurer is to brave the depths of the labyrinths and corridor
 the icon of the Weedaula so that peace can be restored in your nearby village.
 Tomb is designed to be a coffeebreak roguelike where the player can experiment with character classes into powerful combinations.
 
+Class Mechanics:
+The player starts as a level 1 Adventurer and gains experience for killing enemies. On level up,
+they get 1 point in an attribute of their choice and 1 point in your current player class.
+
+Some weapons are special in that some classes can utilize their special abilities. For example,
+level 2 paladins could use a Sword of Retribution to use the Smite ability, which uses 4 energy.
+
+An important aspect of the game would be finding these weapons that help you specialize into your class.
+
+Classes can be upgraded to other classes. For example, a level 3 Adventurer can become
+a Magician, Priest, Fighter, or Rogue. Similarly, classes can be combined to create hybrid-classes.
+For example, a player with experience at a level 2 Magician and a level 2 Figter can have the oppurtunity
+to become a Psychic Warrior.
+
 In Tomb, the maps, items, and enemies are randomly generated so no game is ever the same.
 
 Playing Tomb:
