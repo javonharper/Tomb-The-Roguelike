@@ -49,7 +49,7 @@ int Class::levelUp()
 
     for (int i = 0; i < NUM_CLASS_TYPES; i++)
     {
-        if (hasRequirementsForClass(i) && getClassLevel(i) == 0)
+        if (hasClassRequirements(class_data[i].class_requirements) && getClassLevel(i) == 0)
         {
             class_levels_[i] = 1;
         }
@@ -60,7 +60,7 @@ int Class::levelUp()
 
 void Class::changeClass(int class_type)
 {
-    if (hasRequirementsForClass(class_type))
+    if (hasClassRequirements(class_data[class_type].class_requirements))
     {
         active_class_ = class_type;
     }
@@ -71,11 +71,11 @@ void Class::changeClass(int class_type)
     }
 }
 
-bool Class::hasRequirementsForClass(int class_type)
+bool Class::hasClassRequirements(const int class_requirements[NUM_CLASS_TYPES])
 {
     for (int i = 0; i < NUM_CLASS_TYPES; i++)
     {
-        if (class_data[class_type].class_requirements[i] > getClassLevel(i))
+        if (class_requirements[i] > getClassLevel(i))
         {
             return false;
         }

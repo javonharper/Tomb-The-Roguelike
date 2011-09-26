@@ -268,7 +268,7 @@
 	"libtcod.hpp"
 	"item.h"
 
-1316887648 source:/home/javon/programming/projects/tomb-the-roguelike/src/actor.cpp
+1316999411 source:/home/javon/programming/projects/tomb-the-roguelike/src/actor.cpp
 	<cmath>
 	<iostream>
 	<sstream>
@@ -282,7 +282,7 @@
 	"random.h"
 	"world.h"
 
-1315616533 /home/javon/programming/projects/tomb-the-roguelike/src/actor.h
+1316976402 /home/javon/programming/projects/tomb-the-roguelike/src/actor.h
 	<string>
 	<vector>
 	"libtcod.hpp"
@@ -446,16 +446,17 @@
 1315611745 /home/javon/programming/projects/tomb-the-roguelike/src/player.h
 	"actor.h"
 
-1314836010 /home/javon/programming/projects/tomb-the-roguelike/src/world.h
+1316987819 /home/javon/programming/projects/tomb-the-roguelike/src/world.h
 	<vector>
 	"map.h"
 
 1314836023 /home/javon/programming/projects/tomb-the-roguelike/src/map.h
 	"libtcod.hpp"
 
-1314836028 /home/javon/programming/projects/tomb-the-roguelike/src/item.h
+1317000178 /home/javon/programming/projects/tomb-the-roguelike/src/item.h
 	<string>
 	"libtcod.hpp"
+	"class.h"
 
 1314836031 /home/javon/programming/projects/tomb-the-roguelike/src/inventory.h
 	<map>
@@ -514,7 +515,7 @@
 	"world.h"
 	"random.h"
 
-1314847224 /home/javon/programming/projects/tomb-the-roguelike/src/item_db.h
+1316999894 /home/javon/programming/projects/tomb-the-roguelike/src/item_db.h
 	"libtcod.hpp"
 	"item.h"
 
@@ -573,6 +574,6 @@
 	"class.h"
 	"interface.h"
 
-1314836080 /home/javon/programming/projects/tomb-the-roguelike/src/class.h
+1317000395 /home/javon/programming/projects/tomb-the-roguelike/src/class.h
 	<string>
 

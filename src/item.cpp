@@ -99,6 +99,11 @@ void Item::init(item_data_t item_data)
         item_values_[i] = item_data.item_values[i];
     }
 
+    for (int i = 0; i < NUM_CLASS_TYPES; i++)
+    {
+        class_requirements_[i] = item_data.class_requirements[i];
+    }
+
     setFaceTile(item_data.category);
     color_ = item_data.color;
 }
@@ -167,44 +172,59 @@ int Item::getXPosition()
 {
     return x_;
 }
+
 int Item::getYPosition()
 {
     return y_;
 }
+
 int Item::getMapLevel()
 {
     return map_level_;
 }
+
 char Item::getFaceTile()
 {
     return face_tile_;
 }
+
 TCODColor Item::getColor()
 {
     return color_;
 }
+
 std::string Item::getName()
 {
     return name_;
 }
+
 bool Item::isOnGround()
 {
     return on_ground_;
 }
+
 void Item::setOnGround(bool on_ground)
 {
     on_ground_ = on_ground;
 }
+
 int Item::getCategory()
 {
     return category_;
 }
+
 int Item::getValue(int i)
 {
     return item_values_[i];
 }
+
 int Item::getType()
 {
     return type_;
+}
+
+int* Item::getClassRequirements()
+{
+    return class_requirements_;
 }
 

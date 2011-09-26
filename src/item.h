@@ -8,6 +8,7 @@
 
 #include <string>
 #include "libtcod.hpp"
+#include "class.h"
 
 const static int NUM_ITEM_VALUES = 5;
 
@@ -18,6 +19,7 @@ struct item_data_t
     int type;
     TCODColor color;
     int item_values[NUM_ITEM_VALUES];
+    int class_requirements[NUM_CLASS_TYPES];
 };
 
 class World;
@@ -35,6 +37,7 @@ private:
     int category_;
     int type_;
     int item_values_[NUM_ITEM_VALUES];
+    int class_requirements_[NUM_CLASS_TYPES];
 
     char face_tile_;
     TCODColor color_;
@@ -64,6 +67,7 @@ public:
     int getType();
     std::string getEquippedString();
     int getValue(int i);
+    int* getClassRequirements();
 };
 
 #endif

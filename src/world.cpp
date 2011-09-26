@@ -88,6 +88,7 @@ std::vector<Enemy*> World::generateEnemies(int min, int max)
     return enemy_list_;
 }
 
+//TODO unlike generateEnemies(), min/max applies per world, not per map level.
 std::vector<Item*> World::generateItems(int min, int max)
 {
     int num_items = random(min, max);

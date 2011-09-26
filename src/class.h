@@ -24,7 +24,7 @@ struct class_data_t
     int class_type;
     std::string class_letter;
     std::string class_string;
-    int class_requirements[NUM_CLASS_TYPES];
+    const int class_requirements[NUM_CLASS_TYPES];
 };
 
 const static class_data_t class_data [NUM_CLASS_TYPES] =
@@ -49,8 +49,7 @@ public:
     int getClassLevel(int class_type);
     int levelUp();
     void changeClass(int class_type);
-    bool hasRequirementsForClass(int class_type);
-
+    bool hasClassRequirements(const int class_requirements[NUM_CLASS_TYPES]);
 };
 
-#endif // CLASS_H
+#endif

@@ -157,8 +157,7 @@ void Actor::descendStairs()
     {
         world_->setCurrentLevel(world_->getCurrentLevel() + 1);
         position_t stair_pos = world_->getMapLevel(world_->getCurrentLevel())->getUpStairPos();
-        int level = world_->getCurrentLevel();
-        setPosition(stair_pos.x, stair_pos.y, level);
+        setPosition(stair_pos.x, stair_pos.y, world_->getCurrentLevel());
         turn_finished_ = true;
     }
 }
@@ -171,6 +170,7 @@ void Actor::ascendStairs()
         world_->setCurrentLevel(world_->getCurrentLevel() - 1);
         position_t stair_pos = world_->getMapLevel(world_->getCurrentLevel())->getDownStairPos();
         setPosition(stair_pos.x, stair_pos.y, world_->getCurrentLevel());
+        turn_finished_ = true;
     }
 }
 
@@ -198,7 +198,7 @@ void Actor::meleeAttack(Actor *actor)
 {
     std::stringstream attack_stream;
     attack_stream << capitalize(name_) << " attacks " << actor->getName();
-    message(attack_stream.str());
+    //message(attack_stream.str());
 
     int die_roll = random(1, 20);
     int attack_roll =  die_roll + calcAtt(att_str_) + calcSize();

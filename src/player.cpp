@@ -221,22 +221,29 @@ void Player::useItemAction(Item *item)
     if (item != NULL)
     {
         std::stringstream use_stream;
+        bool canUseItem = class_->hasClassRequirements(item->getClassRequirements());
         use_stream << "you ";
-
-        switch (item->getCategory())
+        if (canUseItem)
         {
-        case CATEGORY_WEAPON:
-            use_stream << "wield";
-            break;
-        case CATEGORY_BODY_ARMOUR:
-            use_stream << "put on";
-            break;
-        case CATEGORY_POTION:
-            use_stream << "drink the";
-            break;
-        default:
-            use_stream << "ERROR: malformed item category on use";
-            break;
+            switch (item->getCategory())
+            {
+            case CATEGORY_WEAPON:
+                use_stream << "wield";
+                break;
+            case CATEGORY_BODY_ARMOUR:
+                use_stream << "put on";
+                break;
+            case CATEGORY_POTION:
+                use_stream << "drink";
+                break;
+            default:
+                use_stream << "ERROR: malformed item category on use";
+                break;
+            }
+        }
+        else
+        {
+            use_stream << " do not have the sufficient experience to use";
         }
 
         use_stream << " the " << item->getName();
@@ -335,7 +342,7 @@ void Player::levelUp()
             break;
         case WISDOM:
             att_wis_++;
-            message("You feel wise");
+            message("You feel more wise");
             made_selection = true;
             break;
         case VITALITY:
