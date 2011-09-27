@@ -354,7 +354,7 @@ void Player::levelUp()
     }
 
     current_health_points_ = max_health_points_ = max_health_points_ + random(1, att_vit_);
-    current_energy_points_ = max_energy_points_ = max_energy_points_ + random(1, att_wis_);
+    current_energy_points_ = max_energy_points_ = max_energy_points_ + random(1, att_int_);
 }
 
 int Player::findLevelByExp(int exp)

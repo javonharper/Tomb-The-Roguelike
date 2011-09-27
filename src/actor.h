@@ -101,7 +101,10 @@ public:
     void regenerateEnergy();
     virtual void kill()=0;
     void bleed();
-    void takeDamage(int damage);
+    void loseHealth(int points);
+    void gainHealth(int points);
+    void loseEnergy(int points);
+    void gainEnergy(int points);
 
     void FOV(int level);
     bool canSee(int level, int x, int y);

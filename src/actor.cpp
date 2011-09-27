@@ -23,7 +23,7 @@ void Actor::initProperties(enemy_data_t data, World *world)
 {
     x_ = -1;
     y_ = -1;
-		world_ = world;
+    world_ = world;
     map_level_ = -1;
     initVisionMap();
 
@@ -68,7 +68,7 @@ void Actor::initProperties(enemy_data_t data, World *world)
 
 void Actor::initVisionMap()
 {
-        for (int z = 0; z < world_->getLevels(); z++)
+    for (int z = 0; z < world_->getLevels(); z++)
     {
         TCODMap *map = new TCODMap(world_->getWidth(), world_->getHeight());
         for (int y = 0; y < world_->getHeight(); y++)
@@ -229,31 +229,58 @@ void Actor::meleeAttack(Actor *actor)
 
     if (damage_roll > 0)
     {
-        actor->takeDamage(damage_roll);
+        actor->loseHealth(damage_roll);
     }
 
     turn_finished_ = true;
 }
 
-void Actor::takeDamage(int damage)
+void Actor::loseHealth(int points)
 {
-    indicateHit(x_, y_);
-    std::stringstream damage_stream;
-    damage_stream << capitalize(name_) << " takes " << damage << " damage";
-
-    int health = current_health_points_;
-    current_health_points_ = current_health_points_ - damage;
-
-    if (current_health_points_ <= 0)
+    if (points >= 1)
     {
-        damage_stream << " and dies";
-        kill();
+        indicateHit(x_, y_);
+        std::stringstream damage_stream;
+        damage_stream << capitalize(name_) << " takes " << points << " damage";
+
+        int health = current_health_points_;
+        current_health_points_ = current_health_points_ - points;
+
+        if (current_health_points_ <= 0)
+        {
+            damage_stream << " and dies";
+            kill();
+        }
+        else if (current_health_points_ < (double) 0.25 * max_health_points_ && health >= (double) 0.25 * max_health_points_)
+        {
+            damage_stream << " and is badly wounded";
+        }
+        message(damage_stream.str());
     }
-    else if (current_health_points_ < (double) 0.25 * max_health_points_ && health >= (double) 0.25 * max_health_points_)
+}
+
+void Actor::gainHealth(int points)
+{
+    if (points >= 1)
     {
-        damage_stream << " and is badly wounded";
+        current_health_points_ = setBoundedValue(current_health_points_ + points, 0, max_health_points_);
     }
-    message(damage_stream.str());
+}
+
+void Actor::loseEnergy(int points)
+{
+    if (points >= 1)
+    {
+        current_energy_points_ = setBoundedValue(current_energy_points_ - points, 0, current_energy_points_);
+    }
+}
+
+void Actor::gainEnergy(int points)
+{
+    if (points >= 1)
+    {
+        current_energy_points_ = setBoundedValue(current_energy_points_ + points, 0, max_energy_points_);
+    }
 }
 
 void Actor::rangedAttack(Actor *actor){}
@@ -335,16 +362,16 @@ void Actor::drinkPotion(Item *item)
     switch (item->getType())
     {
     case TYPE_CURE_LIGHT_WOUNDS:
-        current_health_points_ = setBoundedValue(current_health_points_ + die_roll(item->getValue(PTNV_DIE_SIDES), item->getValue(PTNV_DIE_SIDES)), 0, max_health_points_);
+        gainHealth(die_roll(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
         break;
     case TYPE_CURE_MODERATE_WOUNDS:
-        current_health_points_ = setBoundedValue(current_health_points_ + die_roll(item->getValue(PTNV_DIE_SIDES), item->getValue(PTNV_DIE_SIDES)), 0, max_health_points_);
+        gainHealth(die_roll(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
         break;
     case TYPE_LIGHT_ENERGY_RESTORE:
-        current_energy_points_ = setBoundedValue(current_energy_points_ + die_roll(item->getValue(PTNV_DIE_SIDES), item->getValue(PTNV_DIE_SIDES)), 0, max_energy_points_);
+        gainEnergy(die_roll(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
         break;
     case TYPE_MODERATE_ENERGY_RESTORE:
-        current_energy_points_ = setBoundedValue(current_energy_points_ + die_roll(item->getValue(PTNV_DIE_SIDES), item->getValue(PTNV_DIE_SIDES)), 0, max_energy_points_);
+        gainEnergy(die_roll(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
         break;
     default:
         message("ERROR actor tried to quaff potion with bad type");
@@ -405,7 +432,7 @@ void Actor::regenerateHealth()
     {
         if (current_health_points_ < max_health_points_)
         {
-            current_health_points_ = current_health_points_ + 1;
+            gainHealth(1);
         }
     }
 }
@@ -417,7 +444,7 @@ void Actor::regenerateEnergy()
     {
         if (current_energy_points_ < max_energy_points_)
         {
-            current_energy_points_ = current_energy_points_ + 1;
+            gainEnergy(1);
         }
     }
 }
