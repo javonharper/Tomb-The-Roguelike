@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="src/actor.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="11202" topLine="12" />
+	<File name="lib/include/bresenham.h" open="0" top="0" tabpos="0">
+		<Cursor position="1536" topLine="2" />
 	</File>
-	<File name="src/actor.h" open="0" top="0" tabpos="0">
-		<Cursor position="489" topLine="124" />
+	<File name="lib/include/bresenham.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="1538" topLine="2" />
 	</File>
-	<File name="src/enemy.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="0" topLine="0" />
+	<File name="lib/include/bsp.h" open="0" top="0" tabpos="0">
+		<Cursor position="1530" topLine="2" />
 	</File>
-	<File name="src/main.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="51" />
+	<File name="src/controller.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="0" topLine="46" />
 	</File>
-	<File name="src/player.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="41" />
-	</File>
-	<File name="src/world.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="573" topLine="9" />
-	</File>
-	<File name="src/world.h" open="1" top="0" tabpos="3">
-		<Cursor position="551" topLine="15" />
+	<File name="src/controller.h" open="1" top="1" tabpos="2">
+		<Cursor position="246" topLine="8" />
 	</File>
 </CodeBlocks_layout_file>

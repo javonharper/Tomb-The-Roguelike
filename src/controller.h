@@ -1,44 +1,44 @@
 /*
- *  File:       controller.h
- *  Summary:    Handles user input and converts into objects the game can use
- *  Written by: Javon Harper
+ * File:    controller.h
+ * Summary:  Handles user input and converts into objects the game can use
+ * Written by: Javon Harper
  */
 
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#define MOVE_NORTH      'k'
-#define MOVE_SOUTH      'j'
-#define MOVE_EAST       'l'
-#define MOVE_WEST       'h'
-#define MOVE_NORTHEAST  'u'
-#define MOVE_NORTHWEST  'y'
-#define MOVE_SOUTHEAST  'n'
-#define MOVE_SOUTHWEST  'b'
-#define REST            '.'
-#define MOVE_UPSTAIRS   '<'
-#define MOVE_DOWNSTAIRS '>'
-#define CLOSE_DOOR      'c'
-#define OPEN_DOOR       'o'
-#define PICKUP          'g'
-#define SHOW_INVENTORY  'i'
-#define USE_ITEM        'a'
-#define DROP_ITEM       'd'
-#define INSPECT_ITEM    'i'
-#define CHANGE_CLASS    'C'
-#define HELP            '?'
+const static char MOVE_NORTH = 'k';
+const static char MOVE_SOUTH = 'j';
+const static char MOVE_EAST = 'l';
+const static char MOVE_WEST = 'h';
+const static char MOVE_NORTHEAST = 'u';
+const static char MOVE_NORTHWEST = 'y';
+const static char MOVE_SOUTHEAST = 'n';
+const static char MOVE_SOUTHWEST = 'b';
+const static char REST = '.';
+const static char MOVE_UPSTAIRS = '<';
+const static char MOVE_DOWNSTAIRS = '>';
+const static char CLOSE_DOOR  = 'c';
+const static char OPEN_DOOR = 'o';
+const static char PICKUP = 'g';
+const static char SHOW_INVENTORY = 'i';
+const static char USE_ITEM = 'a';
+const static char DROP_ITEM =  'd';
+const static char INSPECT_ITEM = 'i';
+const static char CHANGE_CLASS = 'C';
+const static char HELP = '?';
 
-#define YES 'y'
-#define NO  'n'
+const static char YES = 'y';
+const static char NO = 'n';
 
-#define STRENGTH      's'
-#define DEXTERITY     'd'
-#define INTELLIGENCE  'i'
-#define WISDOM        'w'
-#define VITALITY      'v'
+const static char STRENGTH   = 's';
+const static char DEXTERITY  = 'd';
+const static char INTELLIGENCE = 'i';
+const static char WISDOM   = 'w';
+const static char VITALITY =  'v';
 
-#define ESC 27
-#define QUIT 'Q'
+const static char ESC = 27;
+const static char QUIT = 'Q';
 
 struct direction_t
 {

@@ -42,7 +42,6 @@
 			<Add directory="../libtcod-1.5.1/include" />
 		</Compiler>
 		<Unit filename="LICENSE.txt" />
-		<Unit filename="MANUAL.txt" />
 		<Unit filename="README.txt" />
 		<Unit filename="The_Tomb.depend" />
 		<Unit filename="The_Tomb.layout" />
