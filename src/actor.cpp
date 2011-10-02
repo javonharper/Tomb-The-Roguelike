@@ -177,10 +177,9 @@ void Actor::ascendStairs()
 bool Actor::hasVictoryItem()
 {
     std::map<char, Item*> item_map = inventory_->getMap();
-    std::string slots("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    for (unsigned int i = 0; i < slots.size(); i++)
+    for (unsigned int i = 0; i < inventory_slots.size(); i++)
     {
-        char slot = slots.at(i);
+        char slot = inventory_slots.at(i);
         Item* item = inventory_->get(slot);
         if (item != NULL)
         {

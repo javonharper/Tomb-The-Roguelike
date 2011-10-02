@@ -406,12 +406,11 @@ void showInventoryContents()
 {
     Inventory *inventory = _world_->getPlayer()->getInventory();
     std::map<char, Item*> item_map = inventory->getMap();
-    std::string slots("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
     int offset = 5;
     int count = 0;
-    for (unsigned int i = 0; i < slots.size(); i++)
+    for (unsigned int i = 0; i < inventory_slots.size(); i++)
     {
-        char slot = slots.at(i);
+        char slot = inventory_slots.at(i);
         Item* item = inventory->get(slot);
         if (item != NULL)
         {

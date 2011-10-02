@@ -10,10 +10,9 @@
 
 Inventory::Inventory()
 {
-    std::string slots("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    for (unsigned int i = 0; i < slots.size(); i ++)
+    for (unsigned int i = 0; i < inventory_slots.size(); i ++)
     {
-        char new_slot = slots.at(i);
+        char new_slot = inventory_slots.at(i);
         item_map_[new_slot] = NULL;
     }
 }
@@ -64,10 +63,9 @@ Item* Inventory::get(char slot)
 
 char Inventory::findFreeSlot()
 {
-    std::string slots("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    for (unsigned int i = 0; i < slots.size(); i ++)
+    for (unsigned int i = 0; i < inventory_slots.size(); i ++)
     {
-        char slot = slots.at(i);
+        char slot = inventory_slots.at(i);
         if (get(slot) == NULL)
         {
             return slot;

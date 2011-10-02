@@ -3,9 +3,15 @@
  *  Summary:    container of the list of actor's items
  *  Written by: Javon Harper
  */
+
 #ifndef INVENTORY_H
 #define INVENTORY_H
+
+#include <string>
 #include <map>
+
+
+const static std::string inventory_slots = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 class Item;
 class Inventory
