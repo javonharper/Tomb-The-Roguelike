@@ -55,20 +55,20 @@ enum PotionTypes
 
 enum WeaponValues
 {
-    WPNV_ROLLS = 0,
-    WPNV_DIE_SIDES
+    VALUES_WEAPON_ROLLS = 0,
+    VALUES_WEAPON_DIE_SIDES
 };
 
 enum ArmourValues
 {
-    ARMV_AC = 0,
-    ARMV_DEX_PEN
+    VALUES_ARMOUR_AC = 0,
+    VALUES_ARMOUR_DEX_PEN
 };
 
 enum PotionValues
 {
-    PTNV_ROLLS = 0,
-    PTNV_DIE_SIDES
+    VALUES_POTION_ROLLS = 0,
+    VALUES_POTION_DIE_SIDES
 };
 
 const static item_data_t erroneous_item = {"item error", -1, -1, TCODColor::red, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};

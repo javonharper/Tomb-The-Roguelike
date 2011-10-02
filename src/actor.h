@@ -98,6 +98,9 @@ public:
     bool hasVictoryItem();
     bool hasEquipped(Item *item);
 
+    void setBodyArmour(Item *item);
+    void setWeapon(Item *item);
+
     void startTurn();
     void endTurn();
     void regenerateHealth();

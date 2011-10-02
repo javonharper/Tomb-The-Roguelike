@@ -18,7 +18,8 @@ enum AttributeTypes
     ATT_DEX,
     ATT_INT,
     ATT_WIS,
-    ATT_VIT
+    ATT_VIT,
+    TOTAL_ATT_TYPES
 };
 
 const static int ATT_MAX           = 20;

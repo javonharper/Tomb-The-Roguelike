@@ -334,7 +334,7 @@ void Actor::useItem(Item *item)
 
 void Actor::wieldWeapon(Item *item)
 {
-    equipped_items_[ACTIVE_WEAPON_SLOT] = item;
+    setWeapon(item);
     turn_finished_ = true;
 }
 
@@ -343,7 +343,7 @@ void Actor::wearItem(Item *item)
     switch (item->getCategory())
     {
     case CATEGORY_BODY_ARMOUR:
-        equipped_items_[ACTIVE_ARMOUR_SLOT] = item;
+        setBodyArmour(item);
         turn_finished_ = true;
         break;
     default:
@@ -357,16 +357,16 @@ void Actor::drinkPotion(Item *item)
     switch (item->getType())
     {
     case TYPE_CURE_LIGHT_WOUNDS:
-        gainHealth(roll_die(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
+        gainHealth(roll_die(item->getValue(VALUES_POTION_ROLLS), item->getValue(VALUES_POTION_DIE_SIDES)));
         break;
     case TYPE_CURE_MODERATE_WOUNDS:
-        gainHealth(roll_die(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
+        gainHealth(roll_die(item->getValue(VALUES_POTION_ROLLS), item->getValue(VALUES_POTION_DIE_SIDES)));
         break;
     case TYPE_LIGHT_ENERGY_RESTORE:
-        gainEnergy(roll_die(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
+        gainEnergy(roll_die(item->getValue(VALUES_POTION_ROLLS), item->getValue(VALUES_POTION_DIE_SIDES)));
         break;
     case TYPE_MODERATE_ENERGY_RESTORE:
-        gainEnergy(roll_die(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
+        gainEnergy(roll_die(item->getValue(VALUES_POTION_ROLLS), item->getValue(VALUES_POTION_DIE_SIDES)));
         break;
     default:
         message("ERROR actor tried to quaff potion with bad type");
@@ -485,7 +485,7 @@ int Actor::calcArmourClass()
 
     if (hasBodyArmour())
     {
-        armour_bonus = equipped_items_[ACTIVE_ARMOUR_SLOT]->getValue(ARMV_AC);
+        armour_bonus = getBodyArmour()->getValue(VALUES_ARMOUR_AC);
 
         //armour_bonus += active_shield_->getArmourBonus();
     }
@@ -500,8 +500,8 @@ int Actor::calcMeleeDamage()
 
     if (hasWeapon())
     {
-        rolls = equipped_items_[ACTIVE_WEAPON_SLOT]->getValue(WPNV_ROLLS);
-        die_sides = equipped_items_[ACTIVE_WEAPON_SLOT]->getValue(WPNV_DIE_SIDES);
+        rolls = getWeapon()->getValue(VALUES_WEAPON_ROLLS);
+        die_sides = getWeapon()->getValue(VALUES_WEAPON_DIE_SIDES);
     }
     else
     {
@@ -522,7 +522,7 @@ int Actor::getAttribute(int att_type)
         int armour_penalty = 0;
         if (hasBodyArmour())
         {
-            armour_penalty = equipped_items_[ACTIVE_ARMOUR_SLOT]->getValue(ARMV_DEX_PEN);
+            armour_penalty = getBodyArmour()->getValue(VALUES_ARMOUR_DEX_PEN);
             //armour_bonus += active_shield_->getArmourBonus();
         }
 
@@ -635,12 +635,12 @@ int Actor::getMaxEnergy()
 
 bool Actor::hasWeapon()
 {
-    return equipped_items_[ACTIVE_WEAPON_SLOT] != NULL;
+    return getWeapon() != NULL;
 }
 
 bool Actor::hasBodyArmour()
 {
-    return equipped_items_[ACTIVE_ARMOUR_SLOT] != NULL;
+    return getBodyArmour() != NULL;
 }
 
 Inventory* Actor::getInventory()
@@ -656,4 +656,14 @@ Item* Actor::getWeapon()
 Item* Actor::getBodyArmour()
 {
     return equipped_items_[ACTIVE_ARMOUR_SLOT];
+}
+
+void Actor::setWeapon(Item * item)
+{
+    equipped_items_[ACTIVE_WEAPON_SLOT] = item;
+}
+
+void Actor::setBodyArmour(Item *item)
+{
+    equipped_items_[ACTIVE_ARMOUR_SLOT] = item;
 }

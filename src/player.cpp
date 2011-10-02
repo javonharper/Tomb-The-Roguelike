@@ -41,10 +41,10 @@ Player::Player(World *world)
     max_health_points_ = current_health_points_ = att_vit_ + roll_die(1, 10);
     max_energy_points_ = current_energy_points_ = att_int_ + roll_die(1, 10);
 
-    equipped_items_[ACTIVE_WEAPON_SLOT] = new Item(weapon_db[TYPE_DAGGER], world);
-    equipped_items_[ACTIVE_ARMOUR_SLOT] = new Item(armour_db[ TYPE_SILK_TUNIC], world);
-    inventory_->add(equipped_items_[ACTIVE_WEAPON_SLOT]);
-    inventory_->add(equipped_items_[ACTIVE_ARMOUR_SLOT]);
+    setWeapon(new Item(weapon_db[TYPE_DAGGER], world));
+    setBodyArmour(new Item(armour_db[ TYPE_SILK_TUNIC], world));
+    inventory_->add(getWeapon());
+    inventory_->add(getBodyArmour());
     inventory_->add(new Item(potion_db[TYPE_CURE_LIGHT_WOUNDS], world));
     inventory_->add(new Item(potion_db[TYPE_CURE_LIGHT_WOUNDS], world));
     inventory_->add(new Item(potion_db[TYPE_CURE_LIGHT_WOUNDS], world));
