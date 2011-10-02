@@ -70,6 +70,7 @@ enum PotionValues
     PTNV_ROLLS = 0,
     PTNV_DIE_SIDES
 };
+
 const static item_data_t erroneous_item = {"item error", -1, -1, TCODColor::red, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
 
 const static item_data_t weapon_db[] =

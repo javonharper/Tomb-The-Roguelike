@@ -48,8 +48,10 @@ void Actor::initProperties(enemy_data_t data, World *world)
     //std::cout << damage_multiplier_ << std::endl;
 
     inventory_ = new Inventory();
-    active_weapon_ = NULL;
-    active_body_armour_ = NULL;
+    for (int i = 0; i < NUM_EQUIPPED_SLOTS; i++)
+    {
+        equipped_items_[i] = NULL;
+    }
 
     current_health_points_ = max_health_points_ = data.base_health;
     current_energy_points_ = max_energy_points_ = data.base_energy;
@@ -59,8 +61,6 @@ void Actor::initProperties(enemy_data_t data, World *world)
     att_int_ = data.att_int;
     att_wis_ = data.att_wis;
     att_vit_ = data.att_vit;
-
-    is_player_ = false;
 
     turn_finished_ = true;
     next_turn_ = calcSpeed();
@@ -198,7 +198,7 @@ void Actor::meleeAttack(Actor *actor)
 {
     std::stringstream attack_stream;
     attack_stream << capitalize(name_) << " attacks " << actor->getName();
-    //message(attack_stream.str());
+    message(attack_stream.str());
 
     int die_roll = random(1, 20);
     int attack_roll =  die_roll + calcAtt(att_str_) + calcSize();
@@ -221,7 +221,6 @@ void Actor::meleeAttack(Actor *actor)
     }
     else
     {
-        indicateMiss(actor->getXPosition(),actor->getYPosition());
         std::stringstream miss_stream;
         miss_stream << capitalize(name_) << " misses";
         message(miss_stream.str());
@@ -239,7 +238,6 @@ void Actor::loseHealth(int points)
 {
     if (points >= 1)
     {
-        indicateHit(x_, y_);
         std::stringstream damage_stream;
         damage_stream << capitalize(name_) << " takes " << points << " damage";
 
@@ -283,20 +281,17 @@ void Actor::gainEnergy(int points)
     }
 }
 
-void Actor::rangedAttack(Actor *actor){}
-
 void Actor::dropItem(Item *item)
 {
     inventory_->remove(item);
 
     //unequip if it is being worn
-    if (item == active_body_armour_)
+    for (int i = 0; i < NUM_EQUIPPED_SLOTS; i++)
     {
-        active_body_armour_ = NULL;
-    }
-    else if (item == active_weapon_)
-    {
-        active_weapon_ = NULL;
+        if (equipped_items_[i] == item)
+        {
+            equipped_items_[i] = NULL;
+        }
     }
 
     item->setPosition(x_, y_, map_level_);
@@ -339,7 +334,7 @@ void Actor::useItem(Item *item)
 
 void Actor::wieldWeapon(Item *item)
 {
-    active_weapon_ = item;
+    equipped_items_[ACTIVE_WEAPON_SLOT] = item;
     turn_finished_ = true;
 }
 
@@ -348,7 +343,7 @@ void Actor::wearItem(Item *item)
     switch (item->getCategory())
     {
     case CATEGORY_BODY_ARMOUR:
-        active_body_armour_ = item;
+        equipped_items_[ACTIVE_ARMOUR_SLOT] = item;
         turn_finished_ = true;
         break;
     default:
@@ -362,16 +357,16 @@ void Actor::drinkPotion(Item *item)
     switch (item->getType())
     {
     case TYPE_CURE_LIGHT_WOUNDS:
-        gainHealth(die_roll(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
+        gainHealth(roll_die(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
         break;
     case TYPE_CURE_MODERATE_WOUNDS:
-        gainHealth(die_roll(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
+        gainHealth(roll_die(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
         break;
     case TYPE_LIGHT_ENERGY_RESTORE:
-        gainEnergy(die_roll(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
+        gainEnergy(roll_die(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
         break;
     case TYPE_MODERATE_ENERGY_RESTORE:
-        gainEnergy(die_roll(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
+        gainEnergy(roll_die(item->getValue(PTNV_ROLLS), item->getValue(PTNV_DIE_SIDES)));
         break;
     default:
         message("ERROR actor tried to quaff potion with bad type");
@@ -382,13 +377,12 @@ void Actor::drinkPotion(Item *item)
 
 bool Actor::hasEquipped(Item *item)
 {
-    if (active_body_armour_ == item)
+    for (int i = 0; i < NUM_EQUIPPED_SLOTS; i++)
     {
-        return true;
-    }
-    else if (active_weapon_ == item)
-    {
-        return true;
+        if (item == equipped_items_[i])
+        {
+            return true;
+        }
     }
     return false;
 }
@@ -491,7 +485,7 @@ int Actor::calcArmourClass()
 
     if (hasBodyArmour())
     {
-        armour_bonus = active_body_armour_->getValue(ARMV_AC);
+        armour_bonus = equipped_items_[ACTIVE_ARMOUR_SLOT]->getValue(ARMV_AC);
 
         //armour_bonus += active_shield_->getArmourBonus();
     }
@@ -504,17 +498,17 @@ int Actor::calcMeleeDamage()
     int rolls;
     int die_sides;
 
-    if (this->hasWeapon())
+    if (hasWeapon())
     {
-        rolls = active_weapon_->getValue(WPNV_ROLLS);
-        die_sides = active_weapon_->getValue(WPNV_DIE_SIDES);
+        rolls = equipped_items_[ACTIVE_WEAPON_SLOT]->getValue(WPNV_ROLLS);
+        die_sides = equipped_items_[ACTIVE_WEAPON_SLOT]->getValue(WPNV_DIE_SIDES);
     }
     else
     {
         rolls = unarmed_damage_[0];
         die_sides = unarmed_damage_[1];
     }
-    return die_roll(rolls, die_sides);
+    return roll_die(rolls, die_sides);
 }
 
 int Actor::getAttribute(int att_type)
@@ -528,7 +522,7 @@ int Actor::getAttribute(int att_type)
         int armour_penalty = 0;
         if (hasBodyArmour())
         {
-            armour_penalty = active_body_armour_->getValue(ARMV_DEX_PEN);
+            armour_penalty = equipped_items_[ACTIVE_ARMOUR_SLOT]->getValue(ARMV_DEX_PEN);
             //armour_bonus += active_shield_->getArmourBonus();
         }
 
@@ -641,12 +635,12 @@ int Actor::getMaxEnergy()
 
 bool Actor::hasWeapon()
 {
-    return active_weapon_ != NULL;
+    return equipped_items_[ACTIVE_WEAPON_SLOT] != NULL;
 }
 
 bool Actor::hasBodyArmour()
 {
-    return active_body_armour_ != NULL;
+    return equipped_items_[ACTIVE_ARMOUR_SLOT] != NULL;
 }
 
 Inventory* Actor::getInventory()
@@ -656,22 +650,10 @@ Inventory* Actor::getInventory()
 
 Item* Actor::getWeapon()
 {
-    return active_weapon_;
+    return equipped_items_[ACTIVE_WEAPON_SLOT];
 }
 
 Item* Actor::getBodyArmour()
 {
-    return active_body_armour_;
+    return equipped_items_[ACTIVE_ARMOUR_SLOT];
 }
-
-bool Actor::getIsPlayer()
-{
-    return is_player_;
-}
-
-//vector<TCODMap*> Actor::getVisionMap()
-//{
-//    return vision_map_;
-//}
-
-

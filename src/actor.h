@@ -21,6 +21,13 @@ class Scroll;
 class Spell;
 class Map;
 
+enum EquippedSlots
+{
+    ACTIVE_WEAPON_SLOT = 0,
+    ACTIVE_ARMOUR_SLOT,
+    NUM_EQUIPPED_SLOTS
+};
+
 class Actor
 {
 protected:
@@ -36,7 +43,6 @@ protected:
     std::string name_;
     int face_tile_;
     TCODColor color_;
-    bool is_player_;
 
     //sense attributes
     int sight_range_;
@@ -67,8 +73,7 @@ protected:
 
     //inventory attributes
     Inventory *inventory_;
-    Item* active_weapon_;
-    Item* active_body_armour_;
+    Item* equipped_items_[NUM_EQUIPPED_SLOTS];
 
 public:
     Actor();
@@ -84,8 +89,6 @@ public:
     void descendStairs();
     void ascendStairs();
     void meleeAttack(Actor *actor);
-    //    void castSpell(Spell *spell);
-    void rangedAttack(Actor *actor);
     void dropItem(Item *item);
     char pickUpItem(Item *item);
     void useItem(Item *item);

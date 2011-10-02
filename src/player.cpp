@@ -25,7 +25,6 @@ Player::Player(World *world)
     level_ = 1;
     experience_ = 0;
     is_alive_ = true;
-    is_player_ = true;
 
     TCODNamegen::parse("data/names.txt");
     name_ = TCODNamegen::generate((char*)"player", false);
@@ -39,13 +38,13 @@ Player::Player(World *world)
     att_wis_ = random(ATT_AVERAGE, ATT_GOOD);
     att_vit_ = random(ATT_AVERAGE, ATT_GOOD);
 
-    max_health_points_ = current_health_points_ = att_vit_ + die_roll(1, 10);
-    max_energy_points_ = current_energy_points_ = att_int_ + die_roll(1, 10);
+    max_health_points_ = current_health_points_ = att_vit_ + roll_die(1, 10);
+    max_energy_points_ = current_energy_points_ = att_int_ + roll_die(1, 10);
 
-    active_weapon_ = new Item(weapon_db[TYPE_DAGGER], world);
-    active_body_armour_ = new Item(armour_db[ TYPE_SILK_TUNIC], world);
-    inventory_->add(active_weapon_);
-    inventory_->add(active_body_armour_);
+    equipped_items_[ACTIVE_WEAPON_SLOT] = new Item(weapon_db[TYPE_DAGGER], world);
+    equipped_items_[ACTIVE_ARMOUR_SLOT] = new Item(armour_db[ TYPE_SILK_TUNIC], world);
+    inventory_->add(equipped_items_[ACTIVE_WEAPON_SLOT]);
+    inventory_->add(equipped_items_[ACTIVE_ARMOUR_SLOT]);
     inventory_->add(new Item(potion_db[TYPE_CURE_LIGHT_WOUNDS], world));
     inventory_->add(new Item(potion_db[TYPE_CURE_LIGHT_WOUNDS], world));
     inventory_->add(new Item(potion_db[TYPE_CURE_LIGHT_WOUNDS], world));
@@ -149,7 +148,7 @@ void Player::ascendStairsAction()
     tile_t tile = world_->getTile(x_, y_, map_level_);
     if (tile.tile_type == TILE_UPSTAIR)
     {
-        if (map_level_ == 0)
+        if (map_level_ == START_LEVEL)
         {
             if (!hasVictoryItem())
             {
