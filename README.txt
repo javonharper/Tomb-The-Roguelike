@@ -16,7 +16,7 @@ An important aspect of the game would be finding these weapons that help you spe
 Classes can be upgraded to other classes. For example, a level 3 Adventurer can become
 a Magician, Priest, Fighter, or Rogue. Similarly, classes can be combined to create hybrid-classes.
 For example, a player with experience at a level 2 Magician and a level 2 Figter can have the oppurtunity
-to become a Psychic Warrior.
+to become a Psychic Warrior(not implemented yet).
 
 In Tomb, the maps, items, and enemies are randomly generated so no game is ever the same.
 
